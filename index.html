@@ -5,180 +5,209 @@
 <title>MLA Coaching Desk</title>
 <style>
 :root{
-  --ink:#1b1f1d;
-  --paper:#f6f3ea;
-  --line:#d8d2c0;
-  --panel:#ffffff;
-  --rust:#b3502b;
-  --rust-dark:#8c3c1f;
-  --green:#3c5a45;
-  --green-pale:#e7ede4;
-  --amber:#c08a2e;
-  --muted:#6b6a5e;
-  font-size:16px;
+  --ink:#1b1f1d; --paper:#f6f3ea; --line:#d8d2c0; --panel:#ffffff;
+  --rust:#b3502b; --rust-dark:#8c3c1f; --green:#3c5a45;
+  --green-pale:#e7ede4; --amber:#c08a2e; --muted:#6b6a5e;
 }
 *{box-sizing:border-box;}
-body{
-  margin:0;
-  background:var(--paper);
-  color:var(--ink);
-  font-family:'Iowan Old Style','Georgia',serif;
-  -webkit-font-smoothing:antialiased;
-}
-.utility{font-family:'Courier New',monospace; letter-spacing:.04em;}
-header{padding:28px 32px 18px;border-bottom:3px solid var(--ink);display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;}
-header .title-block .eyebrow{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--rust);margin-bottom:4px;}
-header h1{margin:0;font-size:30px;font-weight:700;letter-spacing:-0.01em;}
-header .sub{font-family:'Courier New',monospace;font-size:11.5px;color:var(--muted);margin-top:4px;}
-nav.tabs{display:flex;gap:0;margin:0 32px;margin-top:-1px;}
-nav.tabs button{font-family:'Courier New',monospace;font-size:12.5px;letter-spacing:.08em;text-transform:uppercase;background:none;border:none;border-bottom:3px solid transparent;padding:14px 18px 11px;cursor:pointer;color:var(--muted);}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Georgia',serif;-webkit-font-smoothing:antialiased;}
+.mono{font-family:'Courier New',monospace;letter-spacing:.04em;}
+header{padding:22px 28px 16px;border-bottom:3px solid var(--ink);display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;}
+.eyebrow{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--rust);margin-bottom:3px;}
+header h1{margin:0;font-size:26px;font-weight:700;}
+header .sub{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);margin-top:3px;}
+.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+nav.tabs{display:flex;margin:0 28px;}
+nav.tabs button{font-family:'Courier New',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:none;border:none;border-bottom:3px solid transparent;padding:12px 16px 10px;cursor:pointer;color:var(--muted);}
 nav.tabs button.active{color:var(--ink);border-bottom-color:var(--rust);font-weight:700;}
 nav.tabs button:hover{color:var(--ink);}
-main{padding:26px 32px 60px;max-width:1180px;margin:0 auto;}
+main{padding:22px 28px 60px;max-width:1160px;margin:0 auto;}
 section.view{display:none;}
 section.view.active{display:block;}
-.guide-intro{color:var(--muted);font-size:14.5px;max-width:640px;margin-bottom:26px;line-height:1.5;}
-.cat{background:var(--panel);border:1px solid var(--line);border-radius:3px;margin-bottom:18px;overflow:hidden;}
-.cat-head{display:flex;align-items:center;gap:12px;padding:14px 18px;cursor:pointer;border-left:5px solid var(--rust);background:linear-gradient(to right, var(--green-pale), transparent 60%);}
-.cat-head .num{font-family:'Courier New',monospace;font-size:12px;color:var(--rust-dark);font-weight:700;width:24px;}
-.cat-head h2{margin:0;font-size:17px;font-weight:700;flex:1;}
-.cat-head .count{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
-.cat-head .arrow{font-size:13px;color:var(--muted);transition:transform .15s;}
+
+/* GUIDE */
+.guide-intro{color:var(--muted);font-size:14px;max-width:620px;margin-bottom:22px;line-height:1.5;}
+.cat{background:var(--panel);border:1px solid var(--line);border-radius:3px;margin-bottom:14px;overflow:hidden;}
+.cat-head{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;border-left:5px solid var(--rust);background:linear-gradient(to right,var(--green-pale),transparent 60%);}
+.cat-head .num{font-family:'Courier New',monospace;font-size:11px;color:var(--rust-dark);font-weight:700;width:22px;}
+.cat-head h2{margin:0;font-size:16px;font-weight:700;flex:1;}
+.cat-head .count{font-family:'Courier New',monospace;font-size:10px;color:var(--muted);}
+.cat-head .arrow{font-size:12px;color:var(--muted);transition:transform .15s;}
 .cat.open .cat-head .arrow{transform:rotate(90deg);}
-.cat-body{display:none;padding:4px 18px 16px;}
+.cat-body{display:none;padding:4px 16px 14px;}
 .cat.open .cat-body{display:block;}
-.item{display:grid;grid-template-columns:1fr 1fr;gap:18px;padding:12px 0;border-top:1px solid var(--line);}
+.item{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:10px 0;border-top:1px solid var(--line);}
 .item:first-child{border-top:none;}
-.item .issue,.item .fix{font-size:14px;line-height:1.45;}
-.item .label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:3px;}
-.item .issue .label{color:var(--rust-dark);}
-.item .fix .label{color:var(--green);}
-@media(max-width:760px){.item{grid-template-columns:1fr;}}
-.tracker-toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
-.tracker-toolbar .hint{font-size:13px;color:var(--muted);}
-.btn{font-family:'Courier New',monospace;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;background:var(--ink);color:var(--paper);border:none;padding:9px 14px;border-radius:3px;cursor:pointer;}
-.btn:hover{background:var(--rust-dark);}
-.agent-grid{display:flex;flex-direction:column;gap:10px;}
-.agent-card{background:var(--panel);border:1px solid var(--line);border-radius:3px;}
-.agent-row{display:flex;align-items:center;gap:14px;padding:12px 16px;cursor:pointer;}
-.agent-row .name-edit{font-weight:700;font-size:15.5px;border:none;background:none;font-family:inherit;color:var(--ink);width:150px;border-bottom:1px dashed transparent;}
-.agent-row .name-edit:focus{border-bottom-color:var(--rust);outline:none;}
-.agent-row .dates{display:flex;gap:18px;align-items:center;font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
-.agent-row .dates label{display:flex;flex-direction:column;gap:3px;}
-.agent-row .dates input[type=date]{font-family:'Courier New',monospace;font-size:12px;border:1px solid var(--line);border-radius:2px;padding:3px 4px;background:var(--paper);}
-.agent-row .progress{margin-left:auto;display:flex;align-items:center;gap:8px;font-family:'Courier New',monospace;font-size:11.5px;}
-.agent-row .bar{width:90px;height:6px;background:var(--line);border-radius:3px;overflow:hidden;}
-.agent-row .bar .fill{height:100%;background:var(--green);}
-.agent-row .followup-flag{font-size:10.5px;font-family:'Courier New',monospace;padding:3px 7px;border-radius:10px;background:var(--amber);color:#fff;}
-.agent-row .arrow{color:var(--muted);font-size:13px;}
-.checklist-panel{display:none;border-top:1px solid var(--line);padding:14px 16px 16px;}
-.agent-card.open .checklist-panel{display:block;}
-.checklist-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 22px;}
-@media(max-width:700px){.checklist-grid{grid-template-columns:1fr;}}
-.chk{display:flex;align-items:flex-start;gap:9px;font-size:13.5px;padding:5px 0;border-bottom:1px solid #efece2;}
-.chk input{margin-top:3px;accent-color:var(--green);}
-.chk.checked label{color:var(--muted);text-decoration:line-through;}
-.notes-box{margin-top:14px;}
-.notes-box label{font-family:'Courier New',monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
-.notes-box textarea{width:100%;min-height:60px;font-family:inherit;font-size:13.5px;border:1px solid var(--line);border-radius:3px;padding:8px 10px;background:var(--paper);resize:vertical;}
-.remove-agent{font-size:11px;color:var(--rust-dark);background:none;border:none;cursor:pointer;font-family:'Courier New',monospace;margin-top:10px;}
+.item .issue,.item .fix{font-size:13.5px;line-height:1.45;}
+.lbl{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px;}
+.item .issue .lbl{color:var(--rust-dark);}
+.item .fix .lbl{color:var(--green);}
+@media(max-width:700px){.item{grid-template-columns:1fr;}}
+
+/* TRACKER */
+.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
+.toolbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.btn{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:none;padding:9px 14px;border-radius:3px;cursor:pointer;}
+.btn-primary{background:var(--ink);color:var(--paper);}
+.btn-primary:hover{background:var(--rust-dark);}
+.btn-save{background:var(--green);color:#fff;}
+.btn-save:hover{background:#2d4434;}
+.btn-save:disabled{background:#aaa;cursor:not-allowed;}
+.btn-ghost{background:none;color:var(--ink);border:1px solid var(--line);}
+.btn-ghost:hover{background:var(--panel);}
 #saveStatus{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
-#setupBanner{background:#fff3cd;border:1px solid #ffc107;border-radius:4px;padding:14px 18px;font-size:13.5px;margin-bottom:18px;line-height:1.7;}
-#setupBanner strong{color:var(--rust-dark);}
-#setupBanner code{background:#f0ead5;padding:2px 5px;border-radius:3px;font-family:'Courier New',monospace;font-size:12px;}
-#setupBanner.hidden{display:none;}
+
+.empty-state{
+  text-align:center;padding:60px 20px;color:var(--muted);
+  border:2px dashed var(--line);border-radius:6px;margin-top:10px;
+}
+.empty-state .big{font-size:40px;margin-bottom:12px;}
+.empty-state p{font-size:14px;margin:0 0 18px;}
+
+.agent-grid{display:flex;flex-direction:column;gap:8px;}
+.agent-card{background:var(--panel);border:1px solid var(--line);border-radius:3px;}
+.agent-row{display:flex;align-items:center;gap:12px;padding:11px 14px;cursor:pointer;user-select:none;}
+.agent-row .name-edit{font-weight:700;font-size:15px;border:none;background:none;font-family:inherit;color:var(--ink);width:140px;border-bottom:1px dashed transparent;}
+.agent-row .name-edit:focus{border-bottom-color:var(--rust);outline:none;}
+.agent-row .dates{display:flex;gap:16px;align-items:center;font-family:'Courier New',monospace;font-size:10.5px;color:var(--muted);}
+.agent-row .dates label{display:flex;flex-direction:column;gap:2px;}
+.agent-row .dates input[type=date]{font-family:'Courier New',monospace;font-size:11px;border:1px solid var(--line);border-radius:2px;padding:3px 4px;background:var(--paper);}
+.agent-row .progress{margin-left:auto;display:flex;align-items:center;gap:7px;font-family:'Courier New',monospace;font-size:11px;}
+.agent-row .bar{width:80px;height:5px;background:var(--line);border-radius:3px;overflow:hidden;}
+.agent-row .bar .fill{height:100%;background:var(--green);transition:width .3s;}
+.flag{font-size:10px;font-family:'Courier New',monospace;padding:2px 6px;border-radius:8px;background:var(--amber);color:#fff;white-space:nowrap;}
+.agent-row .tog{color:var(--muted);font-size:12px;transition:transform .15s;}
+.agent-card.open .tog{transform:rotate(90deg);}
+
+.checklist-panel{display:none;border-top:1px solid var(--line);padding:12px 14px 14px;}
+.agent-card.open .checklist-panel{display:block;}
+.checklist-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 20px;}
+@media(max-width:650px){.checklist-grid{grid-template-columns:1fr;}}
+.chk{display:flex;align-items:flex-start;gap:8px;font-size:13px;padding:4px 0;border-bottom:1px solid #efece2;}
+.chk input{margin-top:2px;accent-color:var(--green);}
+.chk.checked label{color:var(--muted);text-decoration:line-through;}
+.notes-row{display:flex;align-items:flex-start;gap:14px;margin-top:12px;}
+.notes-box{flex:1;}
+.notes-box label{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;}
+.notes-box textarea{width:100%;min-height:54px;font-family:inherit;font-size:13px;border:1px solid var(--line);border-radius:3px;padding:7px 9px;background:var(--paper);resize:vertical;}
+.remove-agent{font-size:10.5px;color:var(--rust-dark);background:none;border:none;cursor:pointer;font-family:'Courier New',monospace;white-space:nowrap;align-self:flex-end;margin-bottom:2px;}
+
+/* ADD AGENT MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center;}
+.overlay.open{display:flex;}
+.modal{background:var(--panel);border:2px solid var(--ink);border-radius:4px;padding:28px 26px;width:340px;max-width:94vw;}
+.modal h3{margin:0 0 18px;font-size:18px;}
+.field{margin-bottom:14px;}
+.field label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;}
+.field input,.field textarea{width:100%;font-family:inherit;font-size:14px;border:1px solid var(--line);border-radius:3px;padding:8px 10px;background:var(--paper);}
+.field input:focus,.field textarea:focus{outline:2px solid var(--rust);border-color:transparent;}
+.modal-actions{display:flex;gap:8px;margin-top:20px;}
 </style>
 </head>
 <body>
+
 <header>
-  <div class="title-block">
+  <div>
     <div class="eyebrow">Medical Alert Sales — Internal</div>
     <h1>Coaching Desk</h1>
-    <div class="sub">Reference guide + per-agent session tracker</div>
+    <div class="sub mono">Reference guide + agent session tracker</div>
   </div>
-  <div id="saveStatus" class="utility">loading…</div>
+  <div class="header-right">
+    <div id="saveStatus" class="mono">ready</div>
+  </div>
 </header>
+
 <nav class="tabs">
   <button class="tab-btn active" data-view="guide">Coaching Guide</button>
   <button class="tab-btn" data-view="tracker">Agent Tracker</button>
 </nav>
+
 <main>
   <section class="view active" id="view-guide">
-    <p class="guide-intro">Organized from call monitoring notes. Click a category to expand. Use this during monitoring — match what you hear to an issue, give the fix straight from here.</p>
+    <p class="guide-intro">Click a category to expand. Use while monitoring calls — match what you hear to an issue, read the fix out loud or share it directly.</p>
     <div id="categories"></div>
   </section>
+
   <section class="view" id="view-tracker">
-    <div id="setupBanner">
-      <strong>⚙️ One-time setup required:</strong><br>
-      Open this HTML file in a text editor and replace the placeholder at the top of the &lt;script&gt; section:<br>
-      <code>const API_URL = 'https://script.google.com/macros/s/AKfycbwA7NkX_L7jAo8WWFRgmFBHm20fG0-dTMbFc7sVGLoWJIidBtryZsbS74y0HZlA3lwsdg/exec';</code><br><br>
-      <strong>How to get that URL:</strong><br>
-      1. Open Google Sheets → Extensions → Apps Script<br>
-      2. Paste the <code>Code.gs</code> file content → Save<br>
-      3. Run <code>setupSheets()</code> once (it will ask for permission)<br>
-      4. Deploy → New deployment → Type: Web App → Execute as: Me → Who has access: Anyone<br>
-      5. Copy the Web App URL → paste it in this file
-    </div>
-    <div class="tracker-toolbar">
-      <div class="hint">Click an agent row to open their session checklist. Tick what you covered, set follow-up date, add notes.</div>
-      <button class="btn" id="addAgentBtn">+ Add agent</button>
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <button class="btn btn-primary" id="addAgentBtn">+ Add Agent</button>
+        <button class="btn btn-save" id="saveBtn">💾 Save to Google Sheets</button>
+      </div>
+      <div id="saveStatus2" class="mono" style="font-size:11px;color:var(--muted);"></div>
     </div>
     <div class="agent-grid" id="agentGrid"></div>
   </section>
 </main>
-<script>
-// ============================================================
-//  PASTE YOUR GOOGLE APPS SCRIPT WEB APP URL BELOW
-// ============================================================
-const API_URL = 'PASTE_YOUR_WEB_APP_URL_HERE';
-// ============================================================
 
-const CONFIGURED = API_URL !== 'PASTE_YOUR_WEB_APP_URL_HERE';
-if (CONFIGURED) document.getElementById('setupBanner').classList.add('hidden');
+<!-- Add Agent Modal -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h3>Add Agent</h3>
+    <div class="field">
+      <label>Agent Name *</label>
+      <input type="text" id="inp-name" placeholder="e.g. Madison">
+    </div>
+    <div class="field">
+      <label>Last Session Date</label>
+      <input type="date" id="inp-session">
+    </div>
+    <div class="field">
+      <label>Next Follow-up Date</label>
+      <input type="date" id="inp-followup">
+    </div>
+    <div class="field">
+      <label>Initial Notes</label>
+      <textarea id="inp-notes" rows="2" placeholder="First things to work on…"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-primary" id="confirmAdd">Add Agent</button>
+      <button class="btn btn-ghost" id="cancelAdd">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── API ──────────────────────────────────────────────────────
+const API_URL = 'https://script.google.com/macros/s/AKfycbwA7NkX_L7jAo8WWFRgmFBHm20fG0-dTMbFc7sVGLoWJIidBtryZsbS74y0HZlA3lwsdg/exec';
 
 async function apiLoad(){
-  if(!CONFIGURED) return {};
   const res = await fetch(API_URL, {redirect:'follow'});
   return await res.json();
 }
-
 async function apiSave(data){
-  if(!CONFIGURED) return;
-  await fetch(API_URL, {
-    method:'POST', redirect:'follow',
-    headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify(data)
-  });
+  await fetch(API_URL, {method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(data)});
 }
 
+// ── Guide data ───────────────────────────────────────────────
 const CATEGORIES=[
   {name:"Opening / Introduction",items:[
-    {issue:"Intro sounds salesy — \"I'm from Medical Alert Specialist\".",fix:"Use: \"This is [Name], a Medical Alert Specialist.\" Say it casual, like the patient already knows you."},
-    {issue:"Mentioning morning/night, or letting the patient talk first.",fix:"Say \"Hey, can you hear me?\" + patient's name. Cut them off early: \"Do you even know why we're calling you today?\""},
-    {issue:"Wasting energy repeating \"Hello\" multiple times.",fix:"Say \"Can you hear me?\" once, wait, and listen for the hang-up tone."},
+    {issue:"Intro sounds salesy — \"I'm from Medical Alert Specialist\".",fix:"Use: \"This is [Name], a Medical Alert Specialist.\" Casual, like the patient already knows you."},
+    {issue:"Letting the patient talk first, or mentioning morning/night.",fix:"Say \"Hey, can you hear me?\" + patient name. Cut them off early: \"Do you even know why we're calling you today?\""},
+    {issue:"Repeating \"Hello\" multiple times.",fix:"Say \"Can you hear me?\" once, wait, and listen for the hang-up tone."},
     {issue:"POA on the line — unclear how to proceed.",fix:"Ask if they can speak on the patient's behalf — you can close from the POA too."}
   ]},
   {name:"Script Adherence",items:[
     {issue:"Sounds scripted / clearly reading.",fix:"Practice until it sounds natural, not recited."},
-    {issue:"Improvising rebuttals instead of using the proven ones.",fix:"Trust the script. Stick to the built rebuttals — don't rely on whatever comes to mind."},
-    {issue:"Drifting off-script after a rebuttal.",fix:"Deliver the rebuttal, then snap straight back to the script. Don't wait for a reply."},
-    {issue:"Patient asks \"what is this?\" and rep gets thrown off.",fix:"\"We call people insured under Medicare to update their covered benefits\" — then back to script immediately."}
+    {issue:"Improvising rebuttals instead of using the proven ones.",fix:"Trust the script. Stick to the built rebuttals."},
+    {issue:"Drifting off-script after a rebuttal, waiting for a reply.",fix:"Deliver the rebuttal, snap straight back to the script. Don't wait."},
+    {issue:"Patient asks \"what is this?\" and rep gets thrown off.",fix:"\"We call people insured under Medicare to update their covered benefits.\" Then back to script immediately."}
   ]},
   {name:"Pacing & Energy",items:[
-    {issue:"Talking too fast, no pauses — sounds rushed.",fix:"Add slight pauses after your name and throughout the script."},
+    {issue:"Talking too fast, no pauses.",fix:"Add slight pauses after your name and throughout the script."},
     {issue:"Low energy / sounds flat.",fix:"Keep energy up but controlled — energy does not mean rushing."},
-    {issue:"Not mirroring the patient's tone (especially morning calls).",fix:"Match their tone, pace, and energy — slow down, let it flow."},
+    {issue:"Not mirroring the patient's tone (especially morning calls).",fix:"Match their tone, pace, and energy. Slow down, let it flow."},
     {issue:"Mic too close to mouth — sounds like shouting.",fix:"Keep consistent mic distance at all times."}
   ]},
   {name:"Control & Authority",items:[
     {issue:"Too polite / sounds like customer service.",fix:"Be tougher — you're not here for customer service. Hold control of the call."},
-    {issue:"Overusing \"Sir\" / \"Ma'am\" — sounds like a salesman.",fix:"Use the patient's name instead. Keep it balanced."},
+    {issue:"Overusing \"Sir\" / \"Ma'am\".",fix:"Use the patient's name instead. Keep it balanced."},
     {issue:"Asking the patient to confirm interest (\"alright?\").",fix:"Skip the confirmation — go straight to the close-ended next step."},
     {issue:"Raising voice when patient says \"I can't understand\".",fix:"Don't raise your voice — slow down and clarify instead."},
-    {issue:"Asking straightforward questions (height, weight, etc.).",fix:"Assume it confidently, or frame it as an indirect statement instead of a question."}
+    {issue:"Asking straightforward questions (height, weight, etc.).",fix:"Assume it confidently, or frame it as an indirect statement."}
   ]},
   {name:"Rebuttals & Objections",items:[
-    {issue:"Getting shocked by an unexpected rebuttal mid-call.",fix:"Stay calm, confident, indifferent. Use a slow tone — nothing should surprise you."},
+    {issue:"Getting shocked by an unexpected rebuttal.",fix:"Stay calm, confident, indifferent. Use a slow tone — nothing should surprise you."},
     {issue:"Hanging up too early on an uninterested patient.",fix:"A patient's mindset can flip on a single word. Use the 1st / 2nd / 3rd rebuttal rule before ending."},
     {issue:"Used all 3 rebuttals and still not landing.",fix:"After the 3rd rebuttal it's fine to hang up — save the energy for the next call."},
     {issue:"Patient asks \"how much is it?\" too early.",fix:"Don't answer the price directly — introduce it gradually."}
@@ -198,83 +227,112 @@ const CATEGORIES=[
 
 const catWrap=document.getElementById('categories');
 CATEGORIES.forEach((cat,i)=>{
-  const div=document.createElement('div');
-  div.className='cat';
-  div.innerHTML=`<div class="cat-head"><span class="num utility">${String(i+1).padStart(2,'0')}</span><h2>${cat.name}</h2><span class="count utility">${cat.items.length} items</span><span class="arrow">▸</span></div><div class="cat-body">${cat.items.map(it=>`<div class="item"><div class="issue"><span class="label utility">Issue</span>${it.issue}</div><div class="fix"><span class="label utility">Fix</span>${it.fix}</div></div>`).join('')}</div>`;
+  const div=document.createElement('div');div.className='cat';
+  div.innerHTML=`<div class="cat-head"><span class="num mono">${String(i+1).padStart(2,'0')}</span><h2>${cat.name}</h2><span class="count mono">${cat.items.length} items</span><span class="arrow">▸</span></div><div class="cat-body">${cat.items.map(it=>`<div class="item"><div class="issue"><span class="lbl">Issue</span>${it.issue}</div><div class="fix"><span class="lbl">Fix</span>${it.fix}</div></div>`).join('')}</div>`;
   div.querySelector('.cat-head').addEventListener('click',()=>div.classList.toggle('open'));
   catWrap.appendChild(div);
 });
 catWrap.firstElementChild&&catWrap.firstElementChild.classList.add('open');
 
+// ── Tracker ──────────────────────────────────────────────────
 const CHECK_ITEMS=[
   "Opening / intro phrasing","Pacing & pauses","Mirroring tone & pace","Energy level",
   "Sticking to script","Rebuttal order (1st–2nd–3rd)","Control / authority (not too polite)",
   "Close-ended vs straightforward Qs","Dispo speed","Wrong number handling",
   "Mic distance / volume","Active listening post-presentation","Price introduced gradually",
-  "\"Are you following me\" check-in","PT care explanation","Delivery wording (doorstep, no timeframe)"
+  '"Are you following me" check-in',"PT care explanation","Delivery wording (doorstep, no timeframe)"
 ];
 
-const DEFAULT_AGENTS=["Madison","Ashley","Agent 3","Agent 4","Agent 5","Agent 6","Agent 7","Agent 8","Agent 9","Agent 10","Agent 11","Agent 12","Agent 13","Agent 14","Agent 15"];
 let state={agents:{}};
 
-function blankAgent(name){return{name,lastSession:'',nextFollowup:'',notes:'',checks:{}};}
-
-function ensureAgents(){
-  if(Object.keys(state.agents).length===0){
-    DEFAULT_AGENTS.forEach(n=>{
-      const id='a_'+Math.random().toString(36).slice(2,9);
-      state.agents[id]=blankAgent(n);
-    });
-  }
-}
-
-async function loadState(){
-  document.getElementById('saveStatus').textContent=CONFIGURED?'loading from Google Sheets…':'configure API URL to enable saving';
-  try{const data=await apiLoad();if(data&&data.agents)state=data;}
-  catch(e){document.getElementById('saveStatus').textContent='load failed — check API URL';}
-  ensureAgents();
-  renderAgents();
-  if(CONFIGURED)document.getElementById('saveStatus').textContent='loaded ✓';
-}
-
-let saveTimer=null;
-function saveState(){
-  if(!CONFIGURED){document.getElementById('saveStatus').textContent='not saved — no API URL';return;}
-  document.getElementById('saveStatus').textContent='saving…';
-  clearTimeout(saveTimer);
-  saveTimer=setTimeout(async()=>{
-    try{
-      await apiSave(state);
-      document.getElementById('saveStatus').textContent='saved to Google Sheets ✓ '+new Date().toLocaleTimeString();
-    }catch(e){document.getElementById('saveStatus').textContent='save failed';}
-  },500);
+function blankAgent(name,lastSession,nextFollowup,notes){
+  return{name:name||'',lastSession:lastSession||'',nextFollowup:nextFollowup||'',notes:notes||'',checks:{}};
 }
 
 function progressFor(agent){
-  const total=CHECK_ITEMS.length;
   const done=CHECK_ITEMS.filter(it=>agent.checks[it]).length;
-  return{done,total};
+  return{done,total:CHECK_ITEMS.length};
 }
 
-function isOverdue(d){if(!d)return false;const t=new Date();t.setHours(0,0,0,0);return new Date(d+'T00:00:00')<t;}
+function isOverdue(d){
+  if(!d)return false;
+  const t=new Date();t.setHours(0,0,0,0);
+  return new Date(d+'T00:00:00')<t;
+}
 
+function setStatus(msg){
+  document.getElementById('saveStatus2').textContent=msg;
+}
+
+// ── Save button ──────────────────────────────────────────────
+document.getElementById('saveBtn').addEventListener('click', async()=>{
+  const btn=document.getElementById('saveBtn');
+  btn.disabled=true; btn.textContent='Saving…';
+  setStatus('Saving to Google Sheets…');
+  try{
+    await apiSave(state);
+    setStatus('Saved to Google Sheets ✓  '+new Date().toLocaleTimeString());
+    btn.textContent='💾 Save to Google Sheets';
+  }catch(e){
+    setStatus('Save failed — check connection');
+    btn.textContent='💾 Save to Google Sheets';
+  }
+  btn.disabled=false;
+});
+
+// ── Render ───────────────────────────────────────────────────
 function renderAgents(){
   const grid=document.getElementById('agentGrid');
   grid.innerHTML='';
-  Object.entries(state.agents).forEach(([id,agent])=>{
+  const entries=Object.entries(state.agents);
+
+  if(entries.length===0){
+    grid.innerHTML=`<div class="empty-state"><div class="big">👥</div><p>No agents yet — add your first agent to get started.</p><button class="btn btn-primary" onclick="document.getElementById('addAgentBtn').click()">+ Add Agent</button></div>`;
+    return;
+  }
+
+  entries.forEach(([id,agent])=>{
     const{done,total}=progressFor(agent);
     const pct=Math.round((done/total)*100);
     const card=document.createElement('div');
     card.className='agent-card';
-    card.innerHTML=`<div class="agent-row"><input class="name-edit" data-id="${id}" data-field="name" value="${agent.name}"><div class="dates"><label>Last session<input type="date" data-id="${id}" data-field="lastSession" value="${agent.lastSession}"></label><label>Next follow-up<input type="date" data-id="${id}" data-field="nextFollowup" value="${agent.nextFollowup}"></label></div>${isOverdue(agent.nextFollowup)?'<span class="followup-flag">follow-up due</span>':''}<div class="progress"><div class="bar"><div class="fill" style="width:${pct}%"></div></div><span class="utility">${done}/${total}</span></div><span class="arrow">▸</span></div><div class="checklist-panel"><div class="checklist-grid">${CHECK_ITEMS.map(it=>`<div class="chk ${agent.checks[it]?'checked':''}"><input type="checkbox" data-id="${id}" data-item="${it}" ${agent.checks[it]?'checked':''}><label>${it}</label></div>`).join('')}</div><div class="notes-box"><label>Session notes</label><textarea data-id="${id}" data-field="notes" placeholder="What to work on next time…">${agent.notes}</textarea></div><button class="remove-agent" data-id="${id}">Remove agent</button></div>`;
-    card.querySelector('.agent-row').addEventListener('click',e=>{if(e.target.tagName==='INPUT')return;card.classList.toggle('open');});
+    card.innerHTML=`
+      <div class="agent-row">
+        <input class="name-edit" data-id="${id}" data-field="name" value="${agent.name}" title="Click to rename">
+        <div class="dates">
+          <label class="mono">Last session<input type="date" data-id="${id}" data-field="lastSession" value="${agent.lastSession}"></label>
+          <label class="mono">Next follow-up<input type="date" data-id="${id}" data-field="nextFollowup" value="${agent.nextFollowup}"></label>
+        </div>
+        ${isOverdue(agent.nextFollowup)?'<span class="flag">⚠ overdue</span>':''}
+        <div class="progress">
+          <div class="bar"><div class="fill" style="width:${pct}%"></div></div>
+          <span class="mono">${done}/${total}</span>
+        </div>
+        <span class="tog">▸</span>
+      </div>
+      <div class="checklist-panel">
+        <div class="checklist-grid">
+          ${CHECK_ITEMS.map(it=>`<div class="chk${agent.checks[it]?' checked':''}"><input type="checkbox" data-id="${id}" data-item="${it}"${agent.checks[it]?' checked':''}><label>${it}</label></div>`).join('')}
+        </div>
+        <div class="notes-row">
+          <div class="notes-box">
+            <label>Session notes</label>
+            <textarea data-id="${id}" data-field="notes" placeholder="What to work on next time…">${agent.notes}</textarea>
+          </div>
+          <button class="remove-agent" data-id="${id}">✕ Remove</button>
+        </div>
+      </div>`;
+    card.querySelector('.agent-row').addEventListener('click',e=>{
+      if(e.target.tagName==='INPUT')return;
+      card.classList.toggle('open');
+    });
     grid.appendChild(card);
   });
 }
 
 document.getElementById('agentGrid').addEventListener('input',e=>{
-  const id=e.target.dataset.id;if(!id)return;
-  const agent=state.agents[id];if(!agent)return;
+  const id=e.target.dataset.id; if(!id)return;
+  const agent=state.agents[id]; if(!agent)return;
   if(e.target.type==='checkbox'&&e.target.dataset.item){
     agent.checks[e.target.dataset.item]=e.target.checked;
     e.target.closest('.chk').classList.toggle('checked',e.target.checked);
@@ -282,30 +340,67 @@ document.getElementById('agentGrid').addEventListener('input',e=>{
     const{done,total}=progressFor(agent);
     const cards=document.querySelectorAll('.agent-card');
     cards[idx].querySelector('.bar .fill').style.width=Math.round((done/total)*100)+'%';
-    cards[idx].querySelector('.progress .utility').textContent=`${done}/${total}`;
+    cards[idx].querySelector('.progress .mono').textContent=`${done}/${total}`;
   }else if(e.target.dataset.field){
     agent[e.target.dataset.field]=e.target.value;
     if(e.target.dataset.field==='nextFollowup'){
-      const open=[...document.querySelectorAll('.agent-card.open')].map(c=>c.querySelector('[data-id]').dataset.id);
+      const open=[...document.querySelectorAll('.agent-card.open')].map(c=>c.querySelector('[data-id]')?.dataset.id);
       renderAgents();
-      document.querySelectorAll('.agent-card').forEach(c=>{const cid=c.querySelector('[data-id]')?.dataset.id;if(open.includes(cid))c.classList.add('open');});
+      document.querySelectorAll('.agent-card').forEach(c=>{
+        const cid=c.querySelector('[data-id]')?.dataset.id;
+        if(open.includes(cid))c.classList.add('open');
+      });
     }
   }
-  saveState();
+  setStatus('Unsaved changes — press Save to Google Sheets');
 });
 
 document.getElementById('agentGrid').addEventListener('click',e=>{
   if(e.target.classList.contains('remove-agent')){
-    if(confirm('Remove this agent?')){delete state.agents[e.target.dataset.id];saveState();renderAgents();}
+    if(confirm('Remove this agent?')){
+      delete state.agents[e.target.dataset.id];
+      renderAgents();
+      setStatus('Unsaved changes — press Save to Google Sheets');
+    }
   }
 });
 
+// ── Add Agent Modal ──────────────────────────────────────────
+const overlay=document.getElementById('overlay');
 document.getElementById('addAgentBtn').addEventListener('click',()=>{
-  const name=prompt('Agent name:');if(!name)return;
+  document.getElementById('inp-name').value='';
+  document.getElementById('inp-session').value='';
+  document.getElementById('inp-followup').value='';
+  document.getElementById('inp-notes').value='';
+  overlay.classList.add('open');
+  setTimeout(()=>document.getElementById('inp-name').focus(),80);
+});
+document.getElementById('cancelAdd').addEventListener('click',()=>overlay.classList.remove('open'));
+overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.classList.remove('open');});
+
+document.getElementById('confirmAdd').addEventListener('click',()=>{
+  const name=document.getElementById('inp-name').value.trim();
+  if(!name){document.getElementById('inp-name').focus();return;}
   const id='a_'+Math.random().toString(36).slice(2,9);
-  state.agents[id]=blankAgent(name);saveState();renderAgents();
+  state.agents[id]=blankAgent(
+    name,
+    document.getElementById('inp-session').value,
+    document.getElementById('inp-followup').value,
+    document.getElementById('inp-notes').value
+  );
+  overlay.classList.remove('open');
+  renderAgents();
+  setStatus('Unsaved changes — press Save to Google Sheets');
+  // auto-open the new card
+  const cards=document.querySelectorAll('.agent-card');
+  if(cards.length)cards[cards.length-1].classList.add('open');
 });
 
+document.getElementById('inp-name').addEventListener('keydown',e=>{
+  if(e.key==='Enter')document.getElementById('confirmAdd').click();
+});
+
+// ── Tabs ─────────────────────────────────────────────────────
 document.querySelectorAll('.tab-btn').forEach(btn=>{
   btn.addEventListener('click',()=>{
     document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
@@ -315,7 +410,18 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
   });
 });
 
-loadState();
+// ── Load on start ────────────────────────────────────────────
+(async()=>{
+  setStatus('Loading from Google Sheets…');
+  try{
+    const data=await apiLoad();
+    if(data&&data.agents)state=data;
+    setStatus('Loaded ✓');
+  }catch(e){
+    setStatus('Could not load — working offline');
+  }
+  renderAgents();
+})();
 </script>
 </body>
 </html>
