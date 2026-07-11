@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>MLA Coaching Desk</title>
+<title>Coaching Desk</title>
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='18' fill='%231b1f1d'/><text y='68' x='50' text-anchor='middle' font-size='58' font-family='serif'>🎧</text></svg>">
 <style>
 :root{
@@ -11,19 +11,26 @@
   --green-pale:#e7ede4; --amber:#c08a2e; --muted:#6b6a5e;
 }
 *{box-sizing:border-box;}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:'Georgia',serif;-webkit-font-smoothing:antialiased;}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:'Georgia',serif;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;}
 .mono{font-family:'Courier New',monospace;letter-spacing:.04em;}
-header{padding:22px 28px 16px;border-bottom:3px solid var(--ink);display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:10px;}
-.eyebrow{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--rust);margin-bottom:3px;}
+header{padding:22px 28px 16px;border-bottom:3px solid var(--ink);}
 header h1{margin:0;font-size:26px;font-weight:700;}
-header .sub{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);margin-top:3px;}
-nav.tabs{display:flex;margin:0 28px;}
+nav.tabs{display:flex;margin:0 28px;flex-wrap:wrap;}
 nav.tabs button{font-family:'Courier New',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:none;border:none;border-bottom:3px solid transparent;padding:12px 16px 10px;cursor:pointer;color:var(--muted);}
 nav.tabs button.active{color:var(--ink);border-bottom-color:var(--rust);font-weight:700;}
 nav.tabs button:hover{color:var(--ink);}
-main{padding:22px 28px 60px;max-width:1160px;margin:0 auto;}
+main{padding:22px 28px 40px;max-width:1160px;margin:0 auto;flex:1;width:100%;}
 section.view{display:none;}
 section.view.active{display:block;}
+.section-title{font-size:18px;font-weight:700;margin:34px 0 6px;}
+footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(--muted);border-top:1px solid var(--line);}
+
+/* SUB-NAV inside Coaching Guide */
+.subnav{display:flex;gap:6px;margin-bottom:16px;}
+.subnav button{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--panel);border:1px solid var(--line);padding:8px 14px;border-radius:20px;cursor:pointer;color:var(--muted);}
+.subnav button.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
+.subview{display:none;}
+.subview.active{display:block;}
 
 /* TOOLBAR / SEARCH */
 .guide-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
@@ -32,6 +39,7 @@ section.view.active{display:block;}
 .btn{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:none;padding:9px 14px;border-radius:3px;cursor:pointer;white-space:nowrap;}
 .btn-outline{background:var(--panel);border:1px solid var(--line);color:var(--ink);}
 .btn-outline:hover{border-color:var(--rust);color:var(--rust-dark);}
+.btn-outline:disabled{opacity:.45;cursor:not-allowed;}
 .btn-save{background:var(--green);color:#fff;}
 .btn-save:hover{background:#2d4434;}
 .btn-save:disabled{background:#aaa;cursor:not-allowed;}
@@ -53,14 +61,10 @@ section.view.active{display:block;}
 .lbl{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px;}
 .item .issue .lbl{color:var(--rust-dark);}
 .item .fix .lbl{color:var(--green);}
-.item-actions{display:flex;flex-direction:column;gap:5px;align-items:flex-end;}
-.copy-btn{font-family:'Courier New',monospace;font-size:10.5px;letter-spacing:.04em;background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:6px 10px;cursor:pointer;color:var(--muted);white-space:nowrap;transition:background .15s,color .15s,border-color .15s;}
+.copy-btn{font-family:'Courier New',monospace;font-size:10.5px;letter-spacing:.04em;background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:6px 10px;cursor:pointer;color:var(--muted);white-space:nowrap;transition:background .15s,color .15s,border-color .15s;align-self:center;}
 .copy-btn:hover{background:var(--panel);border-color:var(--rust);color:var(--rust-dark);}
 .copy-btn.copied{background:var(--green);border-color:var(--green);color:#fff;}
-.flag-btn{font-family:'Courier New',monospace;font-size:10.5px;background:none;border:1px solid var(--line);border-radius:3px;padding:6px 10px;cursor:pointer;color:var(--muted);white-space:nowrap;}
-.flag-btn:hover{border-color:var(--amber);color:#8a611f;}
-.usage-badge{font-family:'Courier New',monospace;font-size:10px;color:var(--amber);margin-top:4px;grid-column:1/3;}
-@media(max-width:700px){.item{grid-template-columns:1fr;}.item-actions{flex-direction:row;align-items:center;}.usage-badge{grid-column:1;}}
+@media(max-width:700px){.item{grid-template-columns:1fr;}.copy-btn{justify-self:start;}}
 
 /* STRENGTHS */
 .strengths-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
@@ -68,8 +72,7 @@ section.view.active{display:block;}
 .strength-card{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--green);border-radius:3px;padding:13px 16px;display:flex;flex-direction:column;gap:6px;}
 .strength-card h3{margin:0;font-size:14.5px;font-weight:700;color:var(--ink);}
 .strength-card p{margin:0;font-size:13px;line-height:1.45;color:#3a3a34;flex:1;}
-.strength-card .card-actions{display:flex;gap:8px;margin-top:2px;}
-.strength-card .usage-badge{margin-top:0;}
+.strength-card .copy-btn{align-self:flex-start;margin-top:2px;}
 
 /* TRACKER */
 .qe-wrap{max-width:640px;}
@@ -79,13 +82,14 @@ section.view.active{display:block;}
 .qe-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:22px 24px 24px;}
 .qe-field{margin-bottom:16px;position:relative;}
 .qe-field label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
-.qe-field input,.qe-field textarea{width:100%;font-family:inherit;font-size:14.5px;border:1px solid var(--line);border-radius:3px;padding:9px 11px;background:var(--paper);color:var(--ink);}
-.qe-field input:focus,.qe-field textarea:focus{outline:2px solid var(--rust);border-color:transparent;}
-.qe-field textarea{min-height:200px;resize:vertical;line-height:1.5;}
+.qe-field input,.qe-field textarea,.qe-field select{width:100%;font-family:inherit;font-size:14.5px;border:1px solid var(--line);border-radius:3px;padding:9px 11px;background:var(--paper);color:var(--ink);}
+.qe-field input:focus,.qe-field textarea:focus,.qe-field select:focus{outline:2px solid var(--rust);border-color:transparent;}
+.qe-field textarea{min-height:180px;resize:vertical;line-height:1.5;}
 .qe-actions{display:flex;align-items:center;gap:14px;margin-top:6px;}
 #qeStatus{font-family:'Courier New',monospace;font-size:11.5px;color:var(--muted);}
 #qeStatus.ok{color:var(--green);font-weight:700;}
 #qeStatus.err{color:var(--rust-dark);font-weight:700;}
+.field-hint{font-family:'Courier New',monospace;font-size:9.5px;color:var(--muted);margin-top:4px;}
 
 .history-box{margin-top:8px;border:1px solid var(--line);border-radius:3px;background:var(--paper);overflow:hidden;}
 .history-box.empty{display:none;}
@@ -94,73 +98,121 @@ section.view.active{display:block;}
 .history-row .hdates{font-family:'Courier New',monospace;font-size:10.5px;color:var(--muted);margin-bottom:2px;}
 .history-row .hnotes{color:#3a3a34;}
 
-/* PRINT */
+.history-wrap{max-width:760px;margin-top:8px;}
+.history-empty-msg{color:var(--muted);font-size:13px;padding:16px;border:1px dashed var(--line);border-radius:4px;text-align:center;}
+.hist-item{background:var(--panel);border:1px solid var(--line);border-radius:3px;margin-bottom:8px;overflow:hidden;}
+.hist-item-head{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;border-left:4px solid var(--green);flex-wrap:wrap;}
+.hist-item-head .hnum{font-family:'Courier New',monospace;font-size:10.5px;color:var(--muted);width:64px;flex-shrink:0;}
+.hist-item-head .hmeta{font-family:'Courier New',monospace;font-size:11.5px;color:var(--ink);flex:1;}
+.hist-item-head .harrow{font-size:11px;color:var(--muted);transition:transform .15s;}
+.hist-item.open .harrow{transform:rotate(90deg);}
+.hist-item-body{display:none;padding:10px 16px 14px 78px;font-size:13.5px;line-height:1.55;white-space:pre-wrap;color:#3a3a34;}
+.hist-item.open .hist-item-body{display:block;}
+
+.status-pill{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.04em;border:1px solid;border-radius:20px;padding:4px 10px;cursor:pointer;white-space:nowrap;background:none;}
+.status-pill.pending{color:#8a611f;border-color:#c9a24d;background:#FBE7B2;}
+.status-pill.resolved{color:#276239;border-color:#4d9169;background:#D4EDDA;}
+.status-tag{font-family:'Courier New',monospace;font-size:9.5px;padding:2px 8px;border-radius:12px;display:inline-block;margin-left:6px;}
+.status-tag.pending{color:#8a611f;background:#FBE7B2;}
+.status-tag.resolved{color:#276239;background:#D4EDDA;}
+
+/* FOLLOW-UPS TAB */
+.fu-group{border-radius:4px;border:1px solid var(--line);margin-bottom:12px;overflow:hidden;background:var(--panel);}
+.fu-group.fu-today{border-color:#c9a24d;box-shadow:0 0 0 1px #c9a24d inset;}
+.fu-group.fu-overdue{border-color:#b95c5c;}
+.fu-date-head{display:flex;align-items:baseline;gap:10px;padding:10px 14px;background:#efece0;}
+.fu-group.fu-today .fu-date-head{background:#FBE7B2;}
+.fu-group.fu-overdue .fu-date-head{background:#F8C6C6;}
+.fu-date-head .fu-date{font-size:13px;font-weight:700;}
+.fu-date-head .fu-label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);}
+.fu-group.fu-today .fu-label{color:#6b4d10;}
+.fu-group.fu-overdue .fu-label{color:#7A1F1F;}
+.fu-agents{padding:6px 14px 10px;}
+.fu-agent{padding:7px 0;border-top:1px solid var(--line);font-size:13px;}
+.fu-agent:first-child{border-top:none;}
+.fu-agent strong{display:inline;}
+.fu-agent .fu-notes{color:#3a3a34;display:block;margin-top:2px;font-size:12.5px;}
+
+/* PRINT: agent history only */
+#printArea{display:none;}
 @media print{
-  nav.tabs,.guide-toolbar,.copy-btn,.flag-btn,.btn-outline,.qe-wrap,.due-banner{display:none !important;}
-  section.view{display:none !important;}
-  section.view.printing{display:block !important;}
-  .cat{break-inside:avoid;}
-  .cat-body{display:block !important;}
-  .cat-head .arrow{display:none;}
-  body{background:#fff;}
+  body *{visibility:hidden;}
+  #printArea, #printArea *{visibility:visible;}
+  #printArea{display:block !important;position:absolute;top:0;left:0;width:100%;padding:20px;}
+  .print-header h1{font-size:20px;margin:0 0 2px;}
+  .print-header .mono{font-size:11px;color:#555;margin-bottom:18px;display:block;}
+  .print-session{border-top:1px solid #ccc;padding:10px 0;break-inside:avoid;}
+  .print-session:first-of-type{border-top:none;}
+  .print-session-head{font-family:'Courier New',monospace;font-size:11px;font-weight:700;margin-bottom:4px;display:flex;gap:8px;align-items:center;}
+  .print-session-notes{font-size:13px;line-height:1.5;white-space:pre-wrap;}
 }
 </style>
 </head>
 <body>
 
 <header>
-  <div>
-    <div class="eyebrow">Medical Alert Sales — Internal</div>
-    <h1>Coaching Desk</h1>
-    <div class="sub mono">Reference guide + quick session log</div>
-  </div>
+  <h1>Coaching Desk</h1>
 </header>
 
 <nav class="tabs">
   <button class="tab-btn active" data-view="guide">Coaching Guide</button>
-  <button class="tab-btn" data-view="strengths">Strengths</button>
   <button class="tab-btn" data-view="tracker">Agent Tracker</button>
+  <button class="tab-btn" data-view="followups">Follow-ups</button>
 </nav>
 
 <main>
   <section class="view active" id="view-guide">
-    <p class="guide-intro">Click a category to expand. Use while monitoring calls — match what you hear to an issue, read the fix out loud or share it directly.</p>
-    <div class="guide-toolbar">
-      <input type="text" id="guideSearch" class="search-input" placeholder="Search issues or fixes… e.g. rebuttal, pacing, price">
-      <button class="btn btn-outline" id="printGuideBtn">🖨 Print Guide</button>
+    <div class="subnav">
+      <button class="subtab-btn active" data-subview="issues">Issues &amp; Fixes</button>
+      <button class="subtab-btn" data-subview="strengths">Strengths</button>
     </div>
-    <div id="categories"></div>
-  </section>
 
-  <section class="view" id="view-strengths">
-    <p class="guide-intro">Good, specific things to call out during coaching — not just "good job." Each one is a concrete behavior worth naming so the agent knows exactly what to keep doing.</p>
-    <div class="guide-toolbar">
-      <input type="text" id="strengthSearch" class="search-input" placeholder="Search strengths… e.g. closing, energy, rapport">
+    <div class="subview active" id="subview-issues">
+      <p class="guide-intro">Click a category to expand. Use while monitoring calls — match what you hear to an issue, read the fix out loud or share it directly.</p>
+      <div class="guide-toolbar">
+        <input type="text" id="guideSearch" class="search-input" placeholder="Search issues or fixes… e.g. rebuttal, pacing, price">
+      </div>
+      <div id="categories"></div>
     </div>
-    <div id="strengths" class="strengths-grid"></div>
+
+    <div class="subview" id="subview-strengths">
+      <p class="guide-intro">Good, specific things to call out during coaching — not just "good job." Each one is a concrete behavior worth naming so the agent knows exactly what to keep doing.</p>
+      <div class="guide-toolbar">
+        <input type="text" id="strengthSearch" class="search-input" placeholder="Search strengths… e.g. closing, energy, rapport">
+      </div>
+      <div id="strengths" class="strengths-grid"></div>
+    </div>
   </section>
 
   <section class="view" id="view-tracker">
     <div class="qe-wrap">
       <div id="dueBanner" class="due-banner" style="display:none;"></div>
-      <p class="qe-intro">Log a coaching session: agent name, session date, next follow-up date, and your notes. Press Save — it goes to the sheet and the form clears itself.</p>
+      <p class="qe-intro">Log a coaching session: agent name, session date, next follow-up date, notes, and whether it's resolved. Press Save — it goes to the sheet and the form clears itself.</p>
       <div class="qe-card">
         <div class="qe-field">
           <label>Agent Name</label>
-          <input type="text" id="qe-name" placeholder="e.g. Madison" autocomplete="off">
+          <input type="text" id="qe-name" list="agentNamesList" placeholder="e.g. Madison" autocomplete="off">
+          <div class="field-hint">Pick from the dropdown if this agent already has sessions logged — keeps the name spelling consistent.</div>
           <div class="history-box empty" id="historyBox"></div>
         </div>
         <div class="qe-field">
-          <label>Session Date</label>
+          <label>Session Date (month-day-year)</label>
           <input type="date" id="qe-date">
         </div>
         <div class="qe-field">
-          <label>Next Follow-up Date</label>
+          <label>Next Follow-up Date (month-day-year)</label>
           <input type="date" id="qe-followup">
         </div>
         <div class="qe-field">
           <label>Notes</label>
           <textarea id="qe-notes" placeholder="What you noticed, what to work on next time…"></textarea>
+        </div>
+        <div class="qe-field">
+          <label>Status</label>
+          <select id="qe-status">
+            <option value="Pending" selected>Pending — still needs work</option>
+            <option value="Resolved">Resolved — fixed already</option>
+          </select>
         </div>
         <div class="qe-actions">
           <button class="btn btn-save" id="qeSaveBtn">💾 Save</button>
@@ -168,20 +220,64 @@ section.view.active{display:block;}
         </div>
       </div>
     </div>
+
+    <div class="history-wrap">
+      <div class="section-title">Agent History</div>
+      <p class="qe-intro">Search an agent's name to see every session logged for them, oldest to newest. Tap the status pill on any session to mark it Resolved or Pending. Print to hand it to the agent and go over it together.</p>
+      <div class="guide-toolbar">
+        <input type="text" id="historySearch" class="search-input" list="agentNamesList" placeholder="Type an agent's name…" autocomplete="off">
+        <button class="btn btn-outline" id="printHistoryBtn" disabled>🖨 Print This Agent</button>
+      </div>
+      <div id="historyResults"></div>
+    </div>
+
+    <datalist id="agentNamesList"></datalist>
+  </section>
+
+  <section class="view" id="view-followups">
+    <p class="guide-intro">Every follow-up date across all agents, oldest to newest — so you always know who's due and when. Dates shown as month-day-year.</p>
+    <div id="followupGroups"></div>
   </section>
 </main>
 
+<footer class="footer-credit mono">Designed by Tony Iris</footer>
+
+<div id="printArea"></div>
+
 <script>
 // ── API ──────────────────────────────────────────────────────
-const API_URL = 'https://script.google.com/macros/s/AKfycbyjhDqmZpdl3cKb-D6wEB5r8Fh_-Gl42deyjczTeSgs78H7adSZMkpXQOlQd0pE9T1T1A/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbxGOHNrgGo0wMM1Ncfq_f9Pirg2Ek3uNKD5uKKjIuDFr6CWFmk3KNAFHbKTQ3RJS4__6g/exec';
 
 async function apiSave(data){
   await fetch(API_URL, {method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(data)});
+}
+async function apiUpdateStatus(id, newStatus){
+  await fetch(API_URL, {method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain'}, body:JSON.stringify({action:'updateStatus', id, newStatus})});
 }
 async function apiLoadLog(){
   const res = await fetch(API_URL, {redirect:'follow'});
   const data = await res.json();
   return Array.isArray(data) ? data : [];
+}
+
+// ── Date helpers — always display as month-day-year ────────────
+function todayStr(){
+  const d=new Date();
+  const mm=String(d.getMonth()+1).padStart(2,'0');
+  const dd=String(d.getDate()).padStart(2,'0');
+  return `${d.getFullYear()}-${mm}-${dd}`; // internal storage stays ISO (yyyy-mm-dd) for correct sorting
+}
+function mdy(iso){
+  if(!iso) return '—';
+  const parts=String(iso).split('-');
+  if(parts.length!==3) return iso;
+  const [y,m,d]=parts;
+  return `${m}-${d}-${y}`;
+}
+function daysDiff(iso){
+  const today=new Date(todayStr()+'T00:00:00');
+  const target=new Date(iso+'T00:00:00');
+  return Math.round((target-today)/86400000);
 }
 
 // ── Guide data ───────────────────────────────────────────────
@@ -271,38 +367,6 @@ const STRENGTHS=[
   {title:"Useful Session Notes",note:"Leaves specific, actionable notes on a call (not just \"no answer\") that actually help the next follow-up attempt."}
 ];
 
-// ── Usage tracking (per browser, stored locally) ──────────────
-function loadUsage(){
-  try{ return JSON.parse(localStorage.getItem('mlaUsageLog')||'{}'); }catch(e){ return {}; }
-}
-function saveUsage(u){
-  try{ localStorage.setItem('mlaUsageLog', JSON.stringify(u)); }catch(e){}
-}
-function logUsage(itemId, itemLabel){
-  const agent = window.prompt('Log "'+itemLabel+'" for which agent?');
-  if(!agent || !agent.trim()) return;
-  const name = agent.trim();
-  const usage = loadUsage();
-  if(!usage[itemId]) usage[itemId]={};
-  usage[itemId][name] = (usage[itemId][name]||0)+1;
-  saveUsage(usage);
-  renderUsageBadge(itemId);
-}
-function usageSummary(itemId){
-  const usage = loadUsage();
-  const entry = usage[itemId];
-  if(!entry) return '';
-  const parts = Object.entries(entry).map(([name,count])=>`${name} ×${count}`);
-  return parts.length ? 'Logged: '+parts.join(', ') : '';
-}
-function renderUsageBadge(itemId){
-  const badge=document.querySelector(`.usage-badge[data-item="${itemId}"]`);
-  if(!badge) return;
-  const text=usageSummary(itemId);
-  badge.textContent=text;
-  badge.style.display=text?'block':'none';
-}
-
 function copyToClipboard(text, btn){
   const doCopy=async()=>{
     try{ await navigator.clipboard.writeText(text); }
@@ -322,50 +386,33 @@ function copyToClipboard(text, btn){
 const catWrap=document.getElementById('categories');
 CATEGORIES.forEach((cat,ci)=>{
   const div=document.createElement('div');div.className='cat';
-  const bodyHtml = cat.items.map((it,ii)=>{
-    const itemId=`g-${ci}-${ii}`;
+  const bodyHtml = cat.items.map((it)=>{
     const searchBlob=(it.issue+' '+it.fix).toLowerCase();
     return `<div class="item" data-search="${searchBlob.replace(/"/g,'&quot;')}">
       <div class="issue"><span class="lbl">Issue</span>${it.issue}</div>
       <div class="fix"><span class="lbl">Fix</span>${it.fix}</div>
-      <div class="item-actions">
-        <button class="copy-btn" type="button" data-id="${itemId}">⧉ Copy</button>
-        <button class="flag-btn" type="button" data-id="${itemId}" data-label="${it.issue.replace(/"/g,'&quot;')}">🚩 Log</button>
-      </div>
-      <div class="usage-badge" data-item="${itemId}" style="display:none;"></div>
+      <button class="copy-btn" type="button">⧉ Copy</button>
     </div>`;
   }).join('');
   div.innerHTML=`<div class="cat-head"><span class="num mono">${String(ci+1).padStart(2,'0')}</span><h2>${cat.name}</h2><span class="count mono">${cat.items.length} items</span><span class="arrow">▸</span></div><div class="cat-body">${bodyHtml}</div>`;
   div.querySelector('.cat-head').addEventListener('click',()=>div.classList.toggle('open'));
   div.querySelectorAll('.item').forEach((itemEl,ii)=>{
     const {issue,fix}=cat.items[ii];
-    const copyBtn=itemEl.querySelector('.copy-btn');
-    const flagBtn=itemEl.querySelector('.flag-btn');
-    copyBtn.addEventListener('click',()=>copyToClipboard(`Issue: ${issue}\nFix: ${fix}`, copyBtn));
-    flagBtn.addEventListener('click',()=>logUsage(flagBtn.dataset.id, flagBtn.dataset.label));
+    itemEl.querySelector('.copy-btn').addEventListener('click',(e)=>copyToClipboard(`Issue: ${issue}\nFix: ${fix}`, e.currentTarget));
   });
   catWrap.appendChild(div);
 });
 catWrap.firstElementChild&&catWrap.firstElementChild.classList.add('open');
-CATEGORIES.forEach((cat,ci)=>cat.items.forEach((it,ii)=>renderUsageBadge(`g-${ci}-${ii}`)));
 
 // ── Render strengths ─────────────────────────────────────────
 const strWrap=document.getElementById('strengths');
-STRENGTHS.forEach((s,si)=>{
-  const itemId=`s-${si}`;
+STRENGTHS.forEach((s)=>{
   const card=document.createElement('div');
   card.className='strength-card';
   card.dataset.search=(s.title+' '+s.note).toLowerCase();
-  card.innerHTML=`<h3>${s.title}</h3><p>${s.note}</p>
-    <div class="card-actions">
-      <button class="copy-btn" type="button">⧉ Copy</button>
-      <button class="flag-btn" type="button">🚩 Log</button>
-    </div>
-    <div class="usage-badge" data-item="${itemId}" style="display:none;"></div>`;
+  card.innerHTML=`<h3>${s.title}</h3><p>${s.note}</p><button class="copy-btn" type="button">⧉ Copy</button>`;
   card.querySelector('.copy-btn').addEventListener('click',(e)=>copyToClipboard(`${s.title}: ${s.note}`, e.currentTarget));
-  card.querySelector('.flag-btn').addEventListener('click',()=>logUsage(itemId, s.title));
   strWrap.appendChild(card);
-  renderUsageBadge(itemId);
 });
 
 // ── Guide / Strengths search ───────────────────────────────────
@@ -398,31 +445,25 @@ function applyStrengthsSearch(term){
 }
 document.getElementById('strengthSearch').addEventListener('input',e=>applyStrengthsSearch(e.target.value));
 
-// ── Print guide ─────────────────────────────────────────────
-document.getElementById('printGuideBtn').addEventListener('click',()=>{
-  document.getElementById('guideSearch').value='';
-  applyGuideSearch('');
-  document.querySelectorAll('#categories .cat').forEach(c=>c.classList.add('open'));
-  const guideSection=document.getElementById('view-guide');
-  guideSection.classList.add('printing');
-  window.print();
-  setTimeout(()=>guideSection.classList.remove('printing'),500);
+// ── Sub-tabs inside Coaching Guide ─────────────────────────────
+document.querySelectorAll('.subtab-btn').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.subtab-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.subview').forEach(v=>v.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('subview-'+btn.dataset.subview).classList.add('active');
+  });
 });
 
 // ── Quick entry tracker ──────────────────────────────────────
 let logData=[];
 
-function todayStr(){
-  const d=new Date();
-  const mm=String(d.getMonth()+1).padStart(2,'0');
-  const dd=String(d.getDate()).padStart(2,'0');
-  return `${d.getFullYear()}-${mm}-${dd}`;
-}
 function resetForm(){
   document.getElementById('qe-name').value='';
   document.getElementById('qe-date').value=todayStr();
   document.getElementById('qe-followup').value='';
   document.getElementById('qe-notes').value='';
+  document.getElementById('qe-status').value='Pending';
   renderHistoryFor('');
 }
 resetForm();
@@ -439,6 +480,7 @@ function renderDueBanner(){
   banner.innerHTML=`<strong>⚠ Follow-ups due today (${dueNames.length})</strong>${dueNames.join(', ')}`;
 }
 
+// Small live preview under the Agent Name field while logging a new session
 function renderHistoryFor(nameQuery){
   const box=document.getElementById('historyBox');
   const q=nameQuery.trim().toLowerCase();
@@ -450,23 +492,172 @@ function renderHistoryFor(nameQuery){
   const matches=logData
     .filter(r=>(r.name||'').trim().toLowerCase()===q)
     .sort((a,b)=> new Date(b.savedAt||b.sessionDate||0) - new Date(a.savedAt||a.sessionDate||0))
-    .slice(0,5);
+    .slice(0,3);
   if(matches.length===0){
     box.classList.add('empty');
     box.innerHTML='';
     return;
   }
   box.classList.remove('empty');
-  box.innerHTML = `<div class="history-head">Last ${matches.length} session${matches.length>1?'s':''} for this agent</div>` +
+  box.innerHTML = `<div class="history-head">Most recent for this agent</div>` +
     matches.map(r=>{
       const notesPreview = r.notes ? (r.notes.length>90 ? r.notes.slice(0,90)+'…' : r.notes) : '(no notes)';
-      const fu = r.followUpDate ? ' · Follow-up: '+r.followUpDate : '';
-      return `<div class="history-row"><div class="hdates mono">${r.sessionDate||'—'}${fu}</div><div class="hnotes">${notesPreview}</div></div>`;
+      const fu = r.followUpDate ? ' · Follow-up: '+mdy(r.followUpDate) : '';
+      const st = r.status==='Resolved' ? '<span class="status-tag resolved">Resolved</span>' : '<span class="status-tag pending">Pending</span>';
+      return `<div class="history-row"><div class="hdates mono">${mdy(r.sessionDate)}${fu} ${st}</div><div class="hnotes">${notesPreview}</div></div>`;
     }).join('');
 }
-
 document.getElementById('qe-name').addEventListener('input', e=>renderHistoryFor(e.target.value));
 
+// ── Agent Name dropdown, sourced from names already saved in the sheet ──
+function refreshAgentNamesList(){
+  const seen=new Map();
+  logData.forEach(r=>{
+    const n=(r.name||'').trim();
+    if(!n) return;
+    const key=n.toLowerCase();
+    if(!seen.has(key)) seen.set(key, n);
+  });
+  const names=[...seen.values()].sort((a,b)=>a.localeCompare(b));
+  const list=document.getElementById('agentNamesList');
+  list.innerHTML=names.map(n=>`<option value="${n.replace(/"/g,'&quot;')}"></option>`).join('');
+}
+
+// ── Full searchable, printable Agent History with resolve/pending status ──
+let currentHistoryAgent=null;
+let currentHistoryMatches=[];
+
+function computeAgentMatches(query){
+  const q=query.trim().toLowerCase();
+  if(!q) return [];
+  const matches=logData.filter(r=>(r.name||'').trim().toLowerCase()===q);
+  const chrono=[...matches].sort((a,b)=> new Date(a.savedAt||a.sessionDate||0) - new Date(b.savedAt||b.sessionDate||0));
+  chrono.forEach((r,i)=>r._sessionNum=i+1);
+  return chrono.slice().reverse();
+}
+
+function renderHistoryResults(query){
+  const container=document.getElementById('historyResults');
+  const printBtn=document.getElementById('printHistoryBtn');
+  const q=query.trim();
+  if(!q){
+    container.innerHTML='';
+    printBtn.disabled=true;
+    currentHistoryAgent=null; currentHistoryMatches=[];
+    return;
+  }
+  const matches=computeAgentMatches(q);
+  currentHistoryMatches=matches;
+  currentHistoryAgent=matches.length ? matches[0].name : q;
+
+  if(matches.length===0){
+    container.innerHTML=`<div class="history-empty-msg">No sessions found for "${q}". Check the dropdown for the exact saved spelling.</div>`;
+    printBtn.disabled=true;
+    return;
+  }
+
+  printBtn.disabled=false;
+  container.innerHTML = matches.map(r=>{
+    const fu = r.followUpDate ? mdy(r.followUpDate) : 'not set';
+    const isResolved = r.status==='Resolved';
+    return `<div class="hist-item">
+      <div class="hist-item-head">
+        <span class="hnum mono">Session ${r._sessionNum}</span>
+        <span class="hmeta">${mdy(r.sessionDate)} · Follow-up: ${fu}</span>
+        <button type="button" class="status-pill ${isResolved?'resolved':'pending'}" data-id="${r.id||''}">${isResolved?'✓ Resolved':'◌ Pending'}</button>
+        <span class="harrow">▸</span>
+      </div>
+      <div class="hist-item-body">${(r.notes||'(no notes)').replace(/</g,'&lt;')}</div>
+    </div>`;
+  }).join('');
+
+  container.querySelectorAll('.hist-item').forEach(el=>{
+    el.querySelector('.hist-item-head').addEventListener('click',(e)=>{
+      if(e.target.classList.contains('status-pill')) return; // don't toggle open/close when clicking the pill
+      el.classList.toggle('open');
+    });
+  });
+
+  container.querySelectorAll('.status-pill').forEach(pill=>{
+    pill.addEventListener('click', async (e)=>{
+      e.stopPropagation();
+      const id=pill.dataset.id;
+      if(!id){ return; }
+      const wasResolved = pill.classList.contains('resolved');
+      const newStatus = wasResolved ? 'Pending' : 'Resolved';
+      pill.disabled=true;
+      pill.textContent='…';
+      try{
+        await apiUpdateStatus(id, newStatus);
+        pill.classList.toggle('resolved', !wasResolved);
+        pill.classList.toggle('pending', wasResolved);
+        pill.textContent = !wasResolved ? '✓ Resolved' : '◌ Pending';
+        const rec=logData.find(r=>r.id===id);
+        if(rec) rec.status=newStatus;
+      }catch(err){
+        pill.textContent = wasResolved ? '✓ Resolved' : '◌ Pending';
+      }
+      pill.disabled=false;
+    });
+  });
+}
+document.getElementById('historySearch').addEventListener('input', e=>renderHistoryResults(e.target.value));
+
+document.getElementById('printHistoryBtn').addEventListener('click',()=>{
+  if(!currentHistoryMatches.length) return;
+  const chrono=currentHistoryMatches.slice().sort((a,b)=>a._sessionNum-b._sessionNum);
+  const printArea=document.getElementById('printArea');
+  const printedOn=mdy(todayStr());
+  printArea.innerHTML = `
+    <div class="print-header">
+      <h1>Coaching History — ${currentHistoryAgent}</h1>
+      <span class="mono">Printed ${printedOn} · ${chrono.length} session${chrono.length>1?'s':''}</span>
+    </div>
+    ${chrono.map(r=>{
+      const fu = r.followUpDate ? mdy(r.followUpDate) : 'not set';
+      const st = r.status==='Resolved' ? 'Resolved' : 'Pending';
+      return `<div class="print-session">
+        <div class="print-session-head"><span>Session ${r._sessionNum} — ${mdy(r.sessionDate)} · Follow-up: ${fu}</span><span class="status-tag ${st.toLowerCase()}">${st}</span></div>
+        <div class="print-session-notes">${(r.notes||'(no notes)').replace(/</g,'&lt;')}</div>
+      </div>`;
+    }).join('')}
+  `;
+  window.print();
+});
+
+// ── Follow-ups tab ─────────────────────────────────────────────
+function renderFollowUpsTab(){
+  const container=document.getElementById('followupGroups');
+  const withFU = logData.filter(r=>r.followUpDate);
+  if(withFU.length===0){
+    container.innerHTML=`<div class="history-empty-msg">No follow-up dates logged yet.</div>`;
+    return;
+  }
+  const groups={};
+  withFU.forEach(r=>{ (groups[r.followUpDate]=groups[r.followUpDate]||[]).push(r); });
+  const dates=Object.keys(groups).sort();
+  const today=todayStr();
+
+  container.innerHTML = dates.map(date=>{
+    const diff=daysDiff(date);
+    let statusClass='fu-upcoming', label=`In ${diff} day${diff===1?'':'s'}`;
+    if(date===today){ statusClass='fu-today'; label='TODAY'; }
+    else if(diff<0){ statusClass='fu-overdue'; label=`OVERDUE by ${Math.abs(diff)} day${Math.abs(diff)===1?'':'s'}`; }
+
+    const agentsHtml = groups[date].map(r=>{
+      const notesPreview = r.notes ? (r.notes.length>110 ? r.notes.slice(0,110)+'…' : r.notes) : '';
+      const st = r.status==='Resolved' ? '<span class="status-tag resolved">Resolved</span>' : '<span class="status-tag pending">Pending</span>';
+      return `<div class="fu-agent"><strong>${r.name}</strong> ${st}${notesPreview?`<span class="fu-notes">${notesPreview}</span>`:''}</div>`;
+    }).join('');
+
+    return `<div class="fu-group ${statusClass}">
+      <div class="fu-date-head"><span class="fu-date mono">${mdy(date)}</span><span class="fu-label">${label}</span></div>
+      <div class="fu-agents">${agentsHtml}</div>
+    </div>`;
+  }).join('');
+}
+
+// ── Load / refresh log data from the sheet ─────────────────────
 async function refreshLog(){
   try{
     logData = await apiLoadLog();
@@ -474,6 +665,9 @@ async function refreshLog(){
     logData = [];
   }
   renderDueBanner();
+  refreshAgentNamesList();
+  renderHistoryResults(document.getElementById('historySearch').value);
+  renderFollowUpsTab();
 }
 refreshLog();
 
@@ -483,6 +677,7 @@ document.getElementById('qeSaveBtn').addEventListener('click', async()=>{
   const date=document.getElementById('qe-date').value;
   const followUpDate=document.getElementById('qe-followup').value;
   const notes=document.getElementById('qe-notes').value.trim();
+  const status=document.getElementById('qe-status').value;
 
   if(!name){
     qeStatus.className='mono err';
@@ -497,7 +692,7 @@ document.getElementById('qeSaveBtn').addEventListener('click', async()=>{
   qeStatus.textContent='Saving…';
 
   try{
-    await apiSave({name, date, followUpDate, notes, savedAt:new Date().toISOString()});
+    await apiSave({name, date, followUpDate, notes, status, savedAt:new Date().toISOString()});
     resetForm();
     qeStatus.className='mono ok';
     qeStatus.textContent='✓ Saved — '+new Date().toLocaleTimeString();
@@ -516,7 +711,7 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('view-'+btn.dataset.view).classList.add('active');
-    if(btn.dataset.view==='tracker') refreshLog();
+    if(btn.dataset.view==='tracker' || btn.dataset.view==='followups') refreshLog();
   });
 });
 </script>
