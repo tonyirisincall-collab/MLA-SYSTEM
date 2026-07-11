@@ -17,7 +17,6 @@ header{padding:22px 28px 16px;border-bottom:3px solid var(--ink);display:flex;ju
 .eyebrow{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--rust);margin-bottom:3px;}
 header h1{margin:0;font-size:26px;font-weight:700;}
 header .sub{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);margin-top:3px;}
-.header-right{display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
 nav.tabs{display:flex;margin:0 28px;}
 nav.tabs button{font-family:'Courier New',monospace;font-size:12px;letter-spacing:.08em;text-transform:uppercase;background:none;border:none;border-bottom:3px solid transparent;padding:12px 16px 10px;cursor:pointer;color:var(--muted);}
 nav.tabs button.active{color:var(--ink);border-bottom-color:var(--rust);font-weight:700;}
@@ -26,8 +25,19 @@ main{padding:22px 28px 60px;max-width:1160px;margin:0 auto;}
 section.view{display:none;}
 section.view.active{display:block;}
 
+/* TOOLBAR / SEARCH */
+.guide-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.search-input{flex:1;min-width:200px;font-family:inherit;font-size:14px;border:1px solid var(--line);border-radius:3px;padding:9px 12px;background:var(--panel);color:var(--ink);}
+.search-input:focus{outline:2px solid var(--rust);border-color:transparent;}
+.btn{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:none;padding:9px 14px;border-radius:3px;cursor:pointer;white-space:nowrap;}
+.btn-outline{background:var(--panel);border:1px solid var(--line);color:var(--ink);}
+.btn-outline:hover{border-color:var(--rust);color:var(--rust-dark);}
+.btn-save{background:var(--green);color:#fff;}
+.btn-save:hover{background:#2d4434;}
+.btn-save:disabled{background:#aaa;cursor:not-allowed;}
+
 /* GUIDE */
-.guide-intro{color:var(--muted);font-size:14px;max-width:620px;margin-bottom:22px;line-height:1.5;}
+.guide-intro{color:var(--muted);font-size:14px;max-width:680px;margin-bottom:14px;line-height:1.5;}
 .cat{background:var(--panel);border:1px solid var(--line);border-radius:3px;margin-bottom:14px;overflow:hidden;}
 .cat-head{display:flex;align-items:center;gap:12px;padding:13px 16px;cursor:pointer;border-left:5px solid var(--rust);background:linear-gradient(to right,var(--green-pale),transparent 60%);}
 .cat-head .num{font-family:'Courier New',monospace;font-size:11px;color:var(--rust-dark);font-weight:700;width:22px;}
@@ -37,72 +47,63 @@ section.view.active{display:block;}
 .cat.open .cat-head .arrow{transform:rotate(90deg);}
 .cat-body{display:none;padding:4px 16px 14px;}
 .cat.open .cat-body{display:block;}
-.item{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:10px 0;border-top:1px solid var(--line);}
+.item{display:grid;grid-template-columns:1fr 1fr auto;gap:16px;padding:10px 0;border-top:1px solid var(--line);align-items:start;}
 .item:first-child{border-top:none;}
 .item .issue,.item .fix{font-size:13.5px;line-height:1.45;}
 .lbl{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px;}
 .item .issue .lbl{color:var(--rust-dark);}
 .item .fix .lbl{color:var(--green);}
-@media(max-width:700px){.item{grid-template-columns:1fr;}}
+.item-actions{display:flex;flex-direction:column;gap:5px;align-items:flex-end;}
+.copy-btn{font-family:'Courier New',monospace;font-size:10.5px;letter-spacing:.04em;background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:6px 10px;cursor:pointer;color:var(--muted);white-space:nowrap;transition:background .15s,color .15s,border-color .15s;}
+.copy-btn:hover{background:var(--panel);border-color:var(--rust);color:var(--rust-dark);}
+.copy-btn.copied{background:var(--green);border-color:var(--green);color:#fff;}
+.flag-btn{font-family:'Courier New',monospace;font-size:10.5px;background:none;border:1px solid var(--line);border-radius:3px;padding:6px 10px;cursor:pointer;color:var(--muted);white-space:nowrap;}
+.flag-btn:hover{border-color:var(--amber);color:#8a611f;}
+.usage-badge{font-family:'Courier New',monospace;font-size:10px;color:var(--amber);margin-top:4px;grid-column:1/3;}
+@media(max-width:700px){.item{grid-template-columns:1fr;}.item-actions{flex-direction:row;align-items:center;}.usage-badge{grid-column:1;}}
+
+/* STRENGTHS */
+.strengths-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+@media(max-width:800px){.strengths-grid{grid-template-columns:1fr;}}
+.strength-card{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--green);border-radius:3px;padding:13px 16px;display:flex;flex-direction:column;gap:6px;}
+.strength-card h3{margin:0;font-size:14.5px;font-weight:700;color:var(--ink);}
+.strength-card p{margin:0;font-size:13px;line-height:1.45;color:#3a3a34;flex:1;}
+.strength-card .card-actions{display:flex;gap:8px;margin-top:2px;}
+.strength-card .usage-badge{margin-top:0;}
 
 /* TRACKER */
-.toolbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px;}
-.toolbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.btn{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;border:none;padding:9px 14px;border-radius:3px;cursor:pointer;}
-.btn-primary{background:var(--ink);color:var(--paper);}
-.btn-primary:hover{background:var(--rust-dark);}
-.btn-save{background:var(--green);color:#fff;}
-.btn-save:hover{background:#2d4434;}
-.btn-save:disabled{background:#aaa;cursor:not-allowed;}
-.btn-ghost{background:none;color:var(--ink);border:1px solid var(--line);}
-.btn-ghost:hover{background:var(--panel);}
-#saveStatus{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
+.qe-wrap{max-width:640px;}
+.qe-intro{color:var(--muted);font-size:13.5px;margin-bottom:16px;line-height:1.5;}
+.due-banner{background:#FBE7B2;border:1px solid #c9a24d;color:#6b4d10;border-radius:4px;padding:10px 14px;font-size:13px;margin-bottom:16px;line-height:1.5;}
+.due-banner strong{display:block;font-family:'Courier New',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
+.qe-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:22px 24px 24px;}
+.qe-field{margin-bottom:16px;position:relative;}
+.qe-field label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
+.qe-field input,.qe-field textarea{width:100%;font-family:inherit;font-size:14.5px;border:1px solid var(--line);border-radius:3px;padding:9px 11px;background:var(--paper);color:var(--ink);}
+.qe-field input:focus,.qe-field textarea:focus{outline:2px solid var(--rust);border-color:transparent;}
+.qe-field textarea{min-height:200px;resize:vertical;line-height:1.5;}
+.qe-actions{display:flex;align-items:center;gap:14px;margin-top:6px;}
+#qeStatus{font-family:'Courier New',monospace;font-size:11.5px;color:var(--muted);}
+#qeStatus.ok{color:var(--green);font-weight:700;}
+#qeStatus.err{color:var(--rust-dark);font-weight:700;}
 
-.empty-state{
-  text-align:center;padding:60px 20px;color:var(--muted);
-  border:2px dashed var(--line);border-radius:6px;margin-top:10px;
+.history-box{margin-top:8px;border:1px solid var(--line);border-radius:3px;background:var(--paper);overflow:hidden;}
+.history-box.empty{display:none;}
+.history-head{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 11px;background:#efece0;}
+.history-row{padding:8px 11px;font-size:12.5px;border-top:1px solid var(--line);line-height:1.4;}
+.history-row .hdates{font-family:'Courier New',monospace;font-size:10.5px;color:var(--muted);margin-bottom:2px;}
+.history-row .hnotes{color:#3a3a34;}
+
+/* PRINT */
+@media print{
+  nav.tabs,.guide-toolbar,.copy-btn,.flag-btn,.btn-outline,.qe-wrap,.due-banner{display:none !important;}
+  section.view{display:none !important;}
+  section.view.printing{display:block !important;}
+  .cat{break-inside:avoid;}
+  .cat-body{display:block !important;}
+  .cat-head .arrow{display:none;}
+  body{background:#fff;}
 }
-.empty-state .big{font-size:40px;margin-bottom:12px;}
-.empty-state p{font-size:14px;margin:0 0 18px;}
-
-.agent-grid{display:flex;flex-direction:column;gap:8px;}
-.agent-card{background:var(--panel);border:1px solid var(--line);border-radius:3px;}
-.agent-row{display:flex;align-items:center;gap:12px;padding:11px 14px;cursor:pointer;user-select:none;}
-.agent-row .name-edit{font-weight:700;font-size:15px;border:none;background:none;font-family:inherit;color:var(--ink);width:140px;border-bottom:1px dashed transparent;}
-.agent-row .name-edit:focus{border-bottom-color:var(--rust);outline:none;}
-.agent-row .dates{display:flex;gap:16px;align-items:center;font-family:'Courier New',monospace;font-size:10.5px;color:var(--muted);}
-.agent-row .dates label{display:flex;flex-direction:column;gap:2px;}
-.agent-row .dates input[type=date]{font-family:'Courier New',monospace;font-size:11px;border:1px solid var(--line);border-radius:2px;padding:3px 4px;background:var(--paper);}
-.agent-row .progress{margin-left:auto;display:flex;align-items:center;gap:7px;font-family:'Courier New',monospace;font-size:11px;}
-.agent-row .bar{width:80px;height:5px;background:var(--line);border-radius:3px;overflow:hidden;}
-.agent-row .bar .fill{height:100%;background:var(--green);transition:width .3s;}
-.flag{font-size:10px;font-family:'Courier New',monospace;padding:2px 6px;border-radius:8px;background:var(--amber);color:#fff;white-space:nowrap;}
-.agent-row .tog{color:var(--muted);font-size:12px;transition:transform .15s;}
-.agent-card.open .tog{transform:rotate(90deg);}
-
-.checklist-panel{display:none;border-top:1px solid var(--line);padding:12px 14px 14px;}
-.agent-card.open .checklist-panel{display:block;}
-.checklist-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px 20px;}
-@media(max-width:650px){.checklist-grid{grid-template-columns:1fr;}}
-.chk{display:flex;align-items:flex-start;gap:8px;font-size:13px;padding:4px 0;border-bottom:1px solid #efece2;}
-.chk input{margin-top:2px;accent-color:var(--green);}
-.chk.checked label{color:var(--muted);text-decoration:line-through;}
-.notes-row{display:flex;align-items:flex-start;gap:14px;margin-top:12px;}
-.notes-box{flex:1;}
-.notes-box label{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;}
-.notes-box textarea{width:100%;min-height:54px;font-family:inherit;font-size:13px;border:1px solid var(--line);border-radius:3px;padding:7px 9px;background:var(--paper);resize:vertical;}
-.remove-agent{font-size:10.5px;color:var(--rust-dark);background:none;border:none;cursor:pointer;font-family:'Courier New',monospace;white-space:nowrap;align-self:flex-end;margin-bottom:2px;}
-
-/* ADD AGENT MODAL */
-.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;align-items:center;justify-content:center;}
-.overlay.open{display:flex;}
-.modal{background:var(--panel);border:2px solid var(--ink);border-radius:4px;padding:28px 26px;width:340px;max-width:94vw;}
-.modal h3{margin:0 0 18px;font-size:18px;}
-.field{margin-bottom:14px;}
-.field label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px;}
-.field input,.field textarea{width:100%;font-family:inherit;font-size:14px;border:1px solid var(--line);border-radius:3px;padding:8px 10px;background:var(--paper);}
-.field input:focus,.field textarea:focus{outline:2px solid var(--rust);border-color:transparent;}
-.modal-actions{display:flex;gap:8px;margin-top:20px;}
 </style>
 </head>
 <body>
@@ -111,73 +112,76 @@ section.view.active{display:block;}
   <div>
     <div class="eyebrow">Medical Alert Sales — Internal</div>
     <h1>Coaching Desk</h1>
-    <div class="sub mono">Reference guide + agent session tracker</div>
-  </div>
-  <div class="header-right">
-    <div id="saveStatus" class="mono">ready</div>
+    <div class="sub mono">Reference guide + quick session log</div>
   </div>
 </header>
 
 <nav class="tabs">
   <button class="tab-btn active" data-view="guide">Coaching Guide</button>
+  <button class="tab-btn" data-view="strengths">Strengths</button>
   <button class="tab-btn" data-view="tracker">Agent Tracker</button>
 </nav>
 
 <main>
   <section class="view active" id="view-guide">
     <p class="guide-intro">Click a category to expand. Use while monitoring calls — match what you hear to an issue, read the fix out loud or share it directly.</p>
+    <div class="guide-toolbar">
+      <input type="text" id="guideSearch" class="search-input" placeholder="Search issues or fixes… e.g. rebuttal, pacing, price">
+      <button class="btn btn-outline" id="printGuideBtn">🖨 Print Guide</button>
+    </div>
     <div id="categories"></div>
   </section>
 
-  <section class="view" id="view-tracker">
-    <div class="toolbar">
-      <div class="toolbar-left">
-        <button class="btn btn-primary" id="addAgentBtn">+ Add Agent</button>
-        <button class="btn btn-save" id="saveBtn">💾 Save to Google Sheets</button>
-      </div>
-      <div id="saveStatus2" class="mono" style="font-size:11px;color:var(--muted);"></div>
+  <section class="view" id="view-strengths">
+    <p class="guide-intro">Good, specific things to call out during coaching — not just "good job." Each one is a concrete behavior worth naming so the agent knows exactly what to keep doing.</p>
+    <div class="guide-toolbar">
+      <input type="text" id="strengthSearch" class="search-input" placeholder="Search strengths… e.g. closing, energy, rapport">
     </div>
-    <div class="agent-grid" id="agentGrid"></div>
+    <div id="strengths" class="strengths-grid"></div>
+  </section>
+
+  <section class="view" id="view-tracker">
+    <div class="qe-wrap">
+      <div id="dueBanner" class="due-banner" style="display:none;"></div>
+      <p class="qe-intro">Log a coaching session: agent name, session date, next follow-up date, and your notes. Press Save — it goes to the sheet and the form clears itself.</p>
+      <div class="qe-card">
+        <div class="qe-field">
+          <label>Agent Name</label>
+          <input type="text" id="qe-name" placeholder="e.g. Madison" autocomplete="off">
+          <div class="history-box empty" id="historyBox"></div>
+        </div>
+        <div class="qe-field">
+          <label>Session Date</label>
+          <input type="date" id="qe-date">
+        </div>
+        <div class="qe-field">
+          <label>Next Follow-up Date</label>
+          <input type="date" id="qe-followup">
+        </div>
+        <div class="qe-field">
+          <label>Notes</label>
+          <textarea id="qe-notes" placeholder="What you noticed, what to work on next time…"></textarea>
+        </div>
+        <div class="qe-actions">
+          <button class="btn btn-save" id="qeSaveBtn">💾 Save</button>
+          <span id="qeStatus" class="mono"></span>
+        </div>
+      </div>
+    </div>
   </section>
 </main>
 
-<!-- Add Agent Modal -->
-<div class="overlay" id="overlay">
-  <div class="modal">
-    <h3>Add Agent</h3>
-    <div class="field">
-      <label>Agent Name *</label>
-      <input type="text" id="inp-name" placeholder="e.g. Madison">
-    </div>
-    <div class="field">
-      <label>Last Session Date</label>
-      <input type="date" id="inp-session">
-    </div>
-    <div class="field">
-      <label>Next Follow-up Date</label>
-      <input type="date" id="inp-followup">
-    </div>
-    <div class="field">
-      <label>Initial Notes</label>
-      <textarea id="inp-notes" rows="2" placeholder="First things to work on…"></textarea>
-    </div>
-    <div class="modal-actions">
-      <button class="btn btn-primary" id="confirmAdd">Add Agent</button>
-      <button class="btn btn-ghost" id="cancelAdd">Cancel</button>
-    </div>
-  </div>
-</div>
-
 <script>
 // ── API ──────────────────────────────────────────────────────
-const API_URL = 'https://script.google.com/macros/s/AKfycbwA7NkX_L7jAo8WWFRgmFBHm20fG0-dTMbFc7sVGLoWJIidBtryZsbS74y0HZlA3lwsdg/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyjhDqmZpdl3cKb-D6wEB5r8Fh_-Gl42deyjczTeSgs78H7adSZMkpXQOlQd0pE9T1T1A/exec';
 
-async function apiLoad(){
-  const res = await fetch(API_URL, {redirect:'follow'});
-  return await res.json();
-}
 async function apiSave(data){
   await fetch(API_URL, {method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(data)});
+}
+async function apiLoadLog(){
+  const res = await fetch(API_URL, {redirect:'follow'});
+  const data = await res.json();
+  return Array.isArray(data) ? data : [];
 }
 
 // ── Guide data ───────────────────────────────────────────────
@@ -186,219 +190,323 @@ const CATEGORIES=[
     {issue:"Intro sounds salesy — \"I'm from Medical Alert Specialist\".",fix:"Use: \"This is [Name], a Medical Alert Specialist.\" Casual, like the patient already knows you."},
     {issue:"Letting the patient talk first, or mentioning morning/night.",fix:"Say \"Hey, can you hear me?\" + patient name. Cut them off early: \"Do you even know why we're calling you today?\""},
     {issue:"Repeating \"Hello\" multiple times.",fix:"Say \"Can you hear me?\" once, wait, and listen for the hang-up tone."},
-    {issue:"POA on the line — unclear how to proceed.",fix:"Ask if they can speak on the patient's behalf — you can close from the POA too."}
+    {issue:"POA on the line — unclear how to proceed.",fix:"Ask if they can speak on the patient's behalf — you can close from the POA too."},
+    {issue:"Patient sounds confused or half-asleep right from hello.",fix:"Slow down immediately, repeat the name gently, give them a second before continuing — don't push the pace on them."},
+    {issue:"A family member or caregiver picks up instead of the patient.",fix:"Politely ask if the patient is available, or confirm the caregiver is authorized to discuss benefits on their behalf before continuing."},
+    {issue:"Dead air right after the greeting while rep checks the screen.",fix:"Have the patient's name and basic info ready before dialing — no silence right after they pick up."}
   ]},
   {name:"Script Adherence",items:[
     {issue:"Sounds scripted / clearly reading.",fix:"Practice until it sounds natural, not recited."},
     {issue:"Improvising rebuttals instead of using the proven ones.",fix:"Trust the script. Stick to the built rebuttals."},
     {issue:"Drifting off-script after a rebuttal, waiting for a reply.",fix:"Deliver the rebuttal, snap straight back to the script. Don't wait."},
-    {issue:"Patient asks \"what is this?\" and rep gets thrown off.",fix:"\"We call people insured under Medicare to update their covered benefits.\" Then back to script immediately."}
+    {issue:"Patient asks \"what is this?\" and rep gets thrown off.",fix:"\"We call people insured under Medicare to update their covered benefits.\" Then back to script immediately."},
+    {issue:"Patient says \"I already have one of these\" early on.",fix:"Don't argue or backpedal — acknowledge briefly, then pivot straight into the script's next step."},
+    {issue:"Skipping steps in the script to save time.",fix:"Every step exists for a reason — shortcuts lower close rate even when the call feels faster."},
+    {issue:"Reading the script in the same tone for every patient.",fix:"Same words, different delivery — adjust tone to the person, not the script."}
   ]},
   {name:"Pacing & Energy",items:[
     {issue:"Talking too fast, no pauses.",fix:"Add slight pauses after your name and throughout the script."},
     {issue:"Low energy / sounds flat.",fix:"Keep energy up but controlled — energy does not mean rushing."},
     {issue:"Not mirroring the patient's tone (especially morning calls).",fix:"Match their tone, pace, and energy. Slow down, let it flow."},
-    {issue:"Mic too close to mouth — sounds like shouting.",fix:"Keep consistent mic distance at all times."}
+    {issue:"Mic too close to mouth — sounds like shouting.",fix:"Keep consistent mic distance at all times."},
+    {issue:"Jumping into the opening line immediately after dialing.",fix:"Take one breath before the patient picks up — starting calm sets the tone for the whole call."},
+    {issue:"Energy drops noticeably in the back half of the shift.",fix:"Reset between calls — stand up, breathe, shake it off. Don't carry one bad call's energy into the next."},
+    {issue:"Tone goes monotone during the features/benefits section.",fix:"This is the part that sells — inject the most energy here, not the least."}
   ]},
   {name:"Control & Authority",items:[
     {issue:"Too polite / sounds like customer service.",fix:"Be tougher — you're not here for customer service. Hold control of the call."},
     {issue:"Overusing \"Sir\" / \"Ma'am\".",fix:"Use the patient's name instead. Keep it balanced."},
     {issue:"Asking the patient to confirm interest (\"alright?\").",fix:"Skip the confirmation — go straight to the close-ended next step."},
     {issue:"Raising voice when patient says \"I can't understand\".",fix:"Don't raise your voice — slow down and clarify instead."},
-    {issue:"Asking straightforward questions (height, weight, etc.).",fix:"Assume it confidently, or frame it as an indirect statement."}
+    {issue:"Asking straightforward questions (height, weight, etc.).",fix:"Assume it confidently, or frame it as an indirect statement."},
+    {issue:"Over-apologizing for the call or for asking questions.",fix:"Drop unnecessary \"sorry\" language — a confident tone doesn't need apologies to be polite."},
+    {issue:"Letting the patient steer the conversation off-topic.",fix:"Acknowledge briefly, then redirect back to the flow — you lead the call, not them."},
+    {issue:"Going quiet or hesitant when the patient pushes back hard.",fix:"Hold your tone steady — hesitation reads as uncertainty, and patients pick up on it fast."}
   ]},
   {name:"Rebuttals & Objections",items:[
     {issue:"Getting shocked by an unexpected rebuttal.",fix:"Stay calm, confident, indifferent. Use a slow tone — nothing should surprise you."},
     {issue:"Hanging up too early on an uninterested patient.",fix:"A patient's mindset can flip on a single word. Use the 1st / 2nd / 3rd rebuttal rule before ending."},
     {issue:"Used all 3 rebuttals and still not landing.",fix:"After the 3rd rebuttal it's fine to hang up — save the energy for the next call."},
-    {issue:"Patient asks \"how much is it?\" too early.",fix:"Don't answer the price directly — introduce it gradually."}
+    {issue:"Patient asks \"how much is it?\" too early.",fix:"Don't answer the price directly — introduce it gradually."},
+    {issue:"Patient says \"let me think about it\" / \"call me back later\".",fix:"Treat it as an objection, not a real answer — use a rebuttal to find out what's actually holding them back before offering a callback."},
+    {issue:"Patient brings up a bad experience with a similar product/company.",fix:"Acknowledge it without agreeing or arguing, then differentiate — don't get pulled into defending someone else's product."},
+    {issue:"Patient says a family member handles their decisions.",fix:"Ask if that person can join the call now, or find the best time to reach them — don't let the call just end."}
   ]},
   {name:"Active Listening & Closing",items:[
     {issue:"Rushing off right after the presentation.",fix:"Be an active listener post-presentation — never rush this part."},
     {issue:"Asking about a different pain area after the presentation.",fix:"Don't reopen new topics post-presentation — stick to the closing flow."},
     {issue:"Answering questions the patient never asked.",fix:"Only address what was actually asked — don't manufacture new concerns."},
-    {issue:"Mid-features check-in is missing.",fix:"Drop in \"Are you following me so far?\" mid-features to confirm engagement."}
+    {issue:"Mid-features check-in is missing.",fix:"Drop in \"Are you following me so far?\" mid-features to confirm engagement."},
+    {issue:"Rushing through address / shipping confirmation at the end.",fix:"Slow down and repeat it back clearly — this is the one detail that can't be fixed after the call ends."},
+    {issue:"Not picking up on hesitation in the patient's voice before closing.",fix:"If tone shifts or they go quiet, slow down and check in rather than pushing straight to close."},
+    {issue:"Ending the call abruptly once the close is done.",fix:"Wrap up warmly — thank them, confirm next steps — don't just hang up the second the sale is done."}
   ]},
   {name:"Delivery & Wording",items:[
     {issue:"Mentioning the 3–10 day delivery window.",fix:"Say it's delivered right to their doorstep — skip the timeframe."},
     {issue:"Saying \"Future\" instead of \"Features\".",fix:"Small word slip — say Features."},
-    {issue:"Wasting time chasing a clearly wrong number.",fix:"Read tone and age fast — confirm or bail quickly."}
+    {issue:"Wasting time chasing a clearly wrong number.",fix:"Read tone and age fast — confirm or bail quickly."},
+    {issue:"Making medical claims or promises the device can't guarantee.",fix:"Stick to what the device actually does — never promise medical outcomes or response times you can't back up."},
+    {issue:"Using jargon or plan terms the patient doesn't recognize.",fix:"Translate benefits into plain, everyday language — assume they've never heard the internal terms."},
+    {issue:"Mumbling or rushing the confirmation questions at the end.",fix:"Slow down and speak clearly here — this section holds up the whole sale if it's unclear."}
   ]}
 ];
 
+// ── Strengths data ───────────────────────────────────────────
+const STRENGTHS=[
+  {title:"Fast Disposition",note:"Marks the call outcome the moment it ends instead of sitting on it. Gets back into the dialer faster, which means more calls per hour and more shots at a sale."},
+  {title:"Hustler Pace",note:"Keeps moving from one call straight into the next with almost no dead time in between. Volume compounds — more dials, more chances."},
+  {title:"Beast Mode Day",note:"Holds a high call count for the whole shift without the quality dropping off in the back half. Consistency, not just a fast start."},
+  {title:"Clean Rebuttal Recovery",note:"Turns an early \"not interested\" into a patient who's actually listening, using the rebuttal chain smoothly instead of freezing up."},
+  {title:"Natural Script Delivery",note:"Hits every beat of the script but it doesn't sound read — flows like a real conversation. This is the difference between sounding scripted and sounding sharp."},
+  {title:"Fast Rapport Building",note:"Gets the patient comfortable and talking within the first 10–15 seconds. Makes everything after the opening easier."},
+  {title:"Confident Assumptive Language",note:"Uses assumptive statements instead of asking permission at every step — moves the call forward instead of stalling on confirmations."},
+  {title:"Sharp Tone Mirroring",note:"Matches the patient's energy and pace without being told to — slows down for a slow patient, picks up for an energetic one."},
+  {title:"Clear Confirmation Section",note:"Reads the address and details back slowly and clearly the first time, so there's no need to re-ask or re-confirm later."},
+  {title:"Natural Check-ins",note:"Drops in \"Are you following me so far?\" or similar at the right moment — sounds like genuine engagement, not a script checkbox."},
+  {title:"Quick Wrong-Number Read",note:"Identifies a wrong number or dead-end call fast and moves on without wasting time — protects call volume for the calls that matter."},
+  {title:"Steady Energy Across the Shift",note:"Sounds just as sharp on call 50 as on call 1 — doesn't let a rough call bleed into the next one."},
+  {title:"Composure Under Pushback",note:"Stays level and unshaken when a patient gets short or annoyed — doesn't get defensive or rattled."},
+  {title:"Ethical, Clean Closing",note:"Closes confidently without overpromising or bending the truth — sells hard within the lines, which protects the sale from cancellations later."},
+  {title:"Decisive Close",note:"Delivers the close with no hesitation or trailing off — sounds certain, which makes the patient certain too."},
+  {title:"Useful Session Notes",note:"Leaves specific, actionable notes on a call (not just \"no answer\") that actually help the next follow-up attempt."}
+];
+
+// ── Usage tracking (per browser, stored locally) ──────────────
+function loadUsage(){
+  try{ return JSON.parse(localStorage.getItem('mlaUsageLog')||'{}'); }catch(e){ return {}; }
+}
+function saveUsage(u){
+  try{ localStorage.setItem('mlaUsageLog', JSON.stringify(u)); }catch(e){}
+}
+function logUsage(itemId, itemLabel){
+  const agent = window.prompt('Log "'+itemLabel+'" for which agent?');
+  if(!agent || !agent.trim()) return;
+  const name = agent.trim();
+  const usage = loadUsage();
+  if(!usage[itemId]) usage[itemId]={};
+  usage[itemId][name] = (usage[itemId][name]||0)+1;
+  saveUsage(usage);
+  renderUsageBadge(itemId);
+}
+function usageSummary(itemId){
+  const usage = loadUsage();
+  const entry = usage[itemId];
+  if(!entry) return '';
+  const parts = Object.entries(entry).map(([name,count])=>`${name} ×${count}`);
+  return parts.length ? 'Logged: '+parts.join(', ') : '';
+}
+function renderUsageBadge(itemId){
+  const badge=document.querySelector(`.usage-badge[data-item="${itemId}"]`);
+  if(!badge) return;
+  const text=usageSummary(itemId);
+  badge.textContent=text;
+  badge.style.display=text?'block':'none';
+}
+
+function copyToClipboard(text, btn){
+  const doCopy=async()=>{
+    try{ await navigator.clipboard.writeText(text); }
+    catch(e){
+      const ta=document.createElement('textarea');
+      ta.value=text; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); document.body.removeChild(ta);
+    }
+    btn.classList.add('copied');
+    btn.textContent='✓ Copied';
+    setTimeout(()=>{btn.classList.remove('copied');btn.textContent='⧉ Copy';},1400);
+  };
+  doCopy();
+}
+
+// ── Render guide categories ────────────────────────────────────
 const catWrap=document.getElementById('categories');
-CATEGORIES.forEach((cat,i)=>{
+CATEGORIES.forEach((cat,ci)=>{
   const div=document.createElement('div');div.className='cat';
-  div.innerHTML=`<div class="cat-head"><span class="num mono">${String(i+1).padStart(2,'0')}</span><h2>${cat.name}</h2><span class="count mono">${cat.items.length} items</span><span class="arrow">▸</span></div><div class="cat-body">${cat.items.map(it=>`<div class="item"><div class="issue"><span class="lbl">Issue</span>${it.issue}</div><div class="fix"><span class="lbl">Fix</span>${it.fix}</div></div>`).join('')}</div>`;
+  const bodyHtml = cat.items.map((it,ii)=>{
+    const itemId=`g-${ci}-${ii}`;
+    const searchBlob=(it.issue+' '+it.fix).toLowerCase();
+    return `<div class="item" data-search="${searchBlob.replace(/"/g,'&quot;')}">
+      <div class="issue"><span class="lbl">Issue</span>${it.issue}</div>
+      <div class="fix"><span class="lbl">Fix</span>${it.fix}</div>
+      <div class="item-actions">
+        <button class="copy-btn" type="button" data-id="${itemId}">⧉ Copy</button>
+        <button class="flag-btn" type="button" data-id="${itemId}" data-label="${it.issue.replace(/"/g,'&quot;')}">🚩 Log</button>
+      </div>
+      <div class="usage-badge" data-item="${itemId}" style="display:none;"></div>
+    </div>`;
+  }).join('');
+  div.innerHTML=`<div class="cat-head"><span class="num mono">${String(ci+1).padStart(2,'0')}</span><h2>${cat.name}</h2><span class="count mono">${cat.items.length} items</span><span class="arrow">▸</span></div><div class="cat-body">${bodyHtml}</div>`;
   div.querySelector('.cat-head').addEventListener('click',()=>div.classList.toggle('open'));
+  div.querySelectorAll('.item').forEach((itemEl,ii)=>{
+    const {issue,fix}=cat.items[ii];
+    const copyBtn=itemEl.querySelector('.copy-btn');
+    const flagBtn=itemEl.querySelector('.flag-btn');
+    copyBtn.addEventListener('click',()=>copyToClipboard(`Issue: ${issue}\nFix: ${fix}`, copyBtn));
+    flagBtn.addEventListener('click',()=>logUsage(flagBtn.dataset.id, flagBtn.dataset.label));
+  });
   catWrap.appendChild(div);
 });
 catWrap.firstElementChild&&catWrap.firstElementChild.classList.add('open');
+CATEGORIES.forEach((cat,ci)=>cat.items.forEach((it,ii)=>renderUsageBadge(`g-${ci}-${ii}`)));
 
-// ── Tracker ──────────────────────────────────────────────────
-const CHECK_ITEMS=[
-  "Opening / intro phrasing","Pacing & pauses","Mirroring tone & pace","Energy level",
-  "Sticking to script","Rebuttal order (1st–2nd–3rd)","Control / authority (not too polite)",
-  "Close-ended vs straightforward Qs","Dispo speed","Wrong number handling",
-  "Mic distance / volume","Active listening post-presentation","Price introduced gradually",
-  '"Are you following me" check-in',"PT care explanation","Delivery wording (doorstep, no timeframe)"
-];
-
-let state={agents:{}};
-
-function blankAgent(name,lastSession,nextFollowup,notes){
-  return{name:name||'',lastSession:lastSession||'',nextFollowup:nextFollowup||'',notes:notes||'',checks:{}};
-}
-
-function progressFor(agent){
-  const done=CHECK_ITEMS.filter(it=>agent.checks[it]).length;
-  return{done,total:CHECK_ITEMS.length};
-}
-
-function isOverdue(d){
-  if(!d)return false;
-  const t=new Date();t.setHours(0,0,0,0);
-  return new Date(d+'T00:00:00')<t;
-}
-
-function setStatus(msg){
-  document.getElementById('saveStatus2').textContent=msg;
-}
-
-// ── Save button ──────────────────────────────────────────────
-document.getElementById('saveBtn').addEventListener('click', async()=>{
-  const btn=document.getElementById('saveBtn');
-  btn.disabled=true; btn.textContent='Saving…';
-  setStatus('Saving to Google Sheets…');
-  try{
-    await apiSave(state);
-    setStatus('Saved to Google Sheets ✓  '+new Date().toLocaleTimeString());
-    btn.textContent='💾 Save to Google Sheets';
-  }catch(e){
-    setStatus('Save failed — check connection');
-    btn.textContent='💾 Save to Google Sheets';
-  }
-  btn.disabled=false;
+// ── Render strengths ─────────────────────────────────────────
+const strWrap=document.getElementById('strengths');
+STRENGTHS.forEach((s,si)=>{
+  const itemId=`s-${si}`;
+  const card=document.createElement('div');
+  card.className='strength-card';
+  card.dataset.search=(s.title+' '+s.note).toLowerCase();
+  card.innerHTML=`<h3>${s.title}</h3><p>${s.note}</p>
+    <div class="card-actions">
+      <button class="copy-btn" type="button">⧉ Copy</button>
+      <button class="flag-btn" type="button">🚩 Log</button>
+    </div>
+    <div class="usage-badge" data-item="${itemId}" style="display:none;"></div>`;
+  card.querySelector('.copy-btn').addEventListener('click',(e)=>copyToClipboard(`${s.title}: ${s.note}`, e.currentTarget));
+  card.querySelector('.flag-btn').addEventListener('click',()=>logUsage(itemId, s.title));
+  strWrap.appendChild(card);
+  renderUsageBadge(itemId);
 });
 
-// ── Render ───────────────────────────────────────────────────
-function renderAgents(){
-  const grid=document.getElementById('agentGrid');
-  grid.innerHTML='';
-  const entries=Object.entries(state.agents);
+// ── Guide / Strengths search ───────────────────────────────────
+function applyGuideSearch(term){
+  term=term.trim().toLowerCase();
+  const cats=[...document.querySelectorAll('#categories .cat')];
+  cats.forEach(catEl=>{
+    let anyVisible=false;
+    catEl.querySelectorAll('.item').forEach(itemEl=>{
+      const match = !term || itemEl.dataset.search.includes(term);
+      itemEl.style.display = match ? '' : 'none';
+      if(match) anyVisible=true;
+    });
+    catEl.style.display = anyVisible ? '' : 'none';
+    if(term) catEl.classList.toggle('open', anyVisible);
+  });
+  if(!term){
+    cats.forEach(c=>c.classList.remove('open'));
+    if(cats[0]) cats[0].classList.add('open');
+  }
+}
+document.getElementById('guideSearch').addEventListener('input',e=>applyGuideSearch(e.target.value));
 
-  if(entries.length===0){
-    grid.innerHTML=`<div class="empty-state"><div class="big">👥</div><p>No agents yet — add your first agent to get started.</p><button class="btn btn-primary" onclick="document.getElementById('addAgentBtn').click()">+ Add Agent</button></div>`;
+function applyStrengthsSearch(term){
+  term=term.trim().toLowerCase();
+  document.querySelectorAll('#strengths .strength-card').forEach(cardEl=>{
+    const match = !term || cardEl.dataset.search.includes(term);
+    cardEl.style.display = match ? '' : 'none';
+  });
+}
+document.getElementById('strengthSearch').addEventListener('input',e=>applyStrengthsSearch(e.target.value));
+
+// ── Print guide ─────────────────────────────────────────────
+document.getElementById('printGuideBtn').addEventListener('click',()=>{
+  document.getElementById('guideSearch').value='';
+  applyGuideSearch('');
+  document.querySelectorAll('#categories .cat').forEach(c=>c.classList.add('open'));
+  const guideSection=document.getElementById('view-guide');
+  guideSection.classList.add('printing');
+  window.print();
+  setTimeout(()=>guideSection.classList.remove('printing'),500);
+});
+
+// ── Quick entry tracker ──────────────────────────────────────
+let logData=[];
+
+function todayStr(){
+  const d=new Date();
+  const mm=String(d.getMonth()+1).padStart(2,'0');
+  const dd=String(d.getDate()).padStart(2,'0');
+  return `${d.getFullYear()}-${mm}-${dd}`;
+}
+function resetForm(){
+  document.getElementById('qe-name').value='';
+  document.getElementById('qe-date').value=todayStr();
+  document.getElementById('qe-followup').value='';
+  document.getElementById('qe-notes').value='';
+  renderHistoryFor('');
+}
+resetForm();
+
+function renderDueBanner(){
+  const banner=document.getElementById('dueBanner');
+  const today=todayStr();
+  const dueNames=[...new Set(logData.filter(r=>r.followUpDate===today && r.name).map(r=>r.name))];
+  if(dueNames.length===0){
+    banner.style.display='none';
+    return;
+  }
+  banner.style.display='block';
+  banner.innerHTML=`<strong>⚠ Follow-ups due today (${dueNames.length})</strong>${dueNames.join(', ')}`;
+}
+
+function renderHistoryFor(nameQuery){
+  const box=document.getElementById('historyBox');
+  const q=nameQuery.trim().toLowerCase();
+  if(!q){
+    box.classList.add('empty');
+    box.innerHTML='';
+    return;
+  }
+  const matches=logData
+    .filter(r=>(r.name||'').trim().toLowerCase()===q)
+    .sort((a,b)=> new Date(b.savedAt||b.sessionDate||0) - new Date(a.savedAt||a.sessionDate||0))
+    .slice(0,5);
+  if(matches.length===0){
+    box.classList.add('empty');
+    box.innerHTML='';
+    return;
+  }
+  box.classList.remove('empty');
+  box.innerHTML = `<div class="history-head">Last ${matches.length} session${matches.length>1?'s':''} for this agent</div>` +
+    matches.map(r=>{
+      const notesPreview = r.notes ? (r.notes.length>90 ? r.notes.slice(0,90)+'…' : r.notes) : '(no notes)';
+      const fu = r.followUpDate ? ' · Follow-up: '+r.followUpDate : '';
+      return `<div class="history-row"><div class="hdates mono">${r.sessionDate||'—'}${fu}</div><div class="hnotes">${notesPreview}</div></div>`;
+    }).join('');
+}
+
+document.getElementById('qe-name').addEventListener('input', e=>renderHistoryFor(e.target.value));
+
+async function refreshLog(){
+  try{
+    logData = await apiLoadLog();
+  }catch(e){
+    logData = [];
+  }
+  renderDueBanner();
+}
+refreshLog();
+
+const qeStatus=document.getElementById('qeStatus');
+document.getElementById('qeSaveBtn').addEventListener('click', async()=>{
+  const name=document.getElementById('qe-name').value.trim();
+  const date=document.getElementById('qe-date').value;
+  const followUpDate=document.getElementById('qe-followup').value;
+  const notes=document.getElementById('qe-notes').value.trim();
+
+  if(!name){
+    qeStatus.className='mono err';
+    qeStatus.textContent='Enter the agent name first';
+    document.getElementById('qe-name').focus();
     return;
   }
 
-  entries.forEach(([id,agent])=>{
-    const{done,total}=progressFor(agent);
-    const pct=Math.round((done/total)*100);
-    const card=document.createElement('div');
-    card.className='agent-card';
-    card.innerHTML=`
-      <div class="agent-row">
-        <input class="name-edit" data-id="${id}" data-field="name" value="${agent.name}" title="Click to rename">
-        <div class="dates">
-          <label class="mono">Last session<input type="date" data-id="${id}" data-field="lastSession" value="${agent.lastSession}"></label>
-          <label class="mono">Next follow-up<input type="date" data-id="${id}" data-field="nextFollowup" value="${agent.nextFollowup}"></label>
-        </div>
-        ${isOverdue(agent.nextFollowup)?'<span class="flag">⚠ overdue</span>':''}
-        <div class="progress">
-          <div class="bar"><div class="fill" style="width:${pct}%"></div></div>
-          <span class="mono">${done}/${total}</span>
-        </div>
-        <span class="tog">▸</span>
-      </div>
-      <div class="checklist-panel">
-        <div class="checklist-grid">
-          ${CHECK_ITEMS.map(it=>`<div class="chk${agent.checks[it]?' checked':''}"><input type="checkbox" data-id="${id}" data-item="${it}"${agent.checks[it]?' checked':''}><label>${it}</label></div>`).join('')}
-        </div>
-        <div class="notes-row">
-          <div class="notes-box">
-            <label>Session notes</label>
-            <textarea data-id="${id}" data-field="notes" placeholder="What to work on next time…">${agent.notes}</textarea>
-          </div>
-          <button class="remove-agent" data-id="${id}">✕ Remove</button>
-        </div>
-      </div>`;
-    card.querySelector('.agent-row').addEventListener('click',e=>{
-      if(e.target.tagName==='INPUT')return;
-      card.classList.toggle('open');
-    });
-    grid.appendChild(card);
-  });
-}
+  const btn=document.getElementById('qeSaveBtn');
+  btn.disabled=true; btn.textContent='Saving…';
+  qeStatus.className='mono';
+  qeStatus.textContent='Saving…';
 
-document.getElementById('agentGrid').addEventListener('input',e=>{
-  const id=e.target.dataset.id; if(!id)return;
-  const agent=state.agents[id]; if(!agent)return;
-  if(e.target.type==='checkbox'&&e.target.dataset.item){
-    agent.checks[e.target.dataset.item]=e.target.checked;
-    e.target.closest('.chk').classList.toggle('checked',e.target.checked);
-    const idx=Object.keys(state.agents).indexOf(id);
-    const{done,total}=progressFor(agent);
-    const cards=document.querySelectorAll('.agent-card');
-    cards[idx].querySelector('.bar .fill').style.width=Math.round((done/total)*100)+'%';
-    cards[idx].querySelector('.progress .mono').textContent=`${done}/${total}`;
-  }else if(e.target.dataset.field){
-    agent[e.target.dataset.field]=e.target.value;
-    if(e.target.dataset.field==='nextFollowup'){
-      const open=[...document.querySelectorAll('.agent-card.open')].map(c=>c.querySelector('[data-id]')?.dataset.id);
-      renderAgents();
-      document.querySelectorAll('.agent-card').forEach(c=>{
-        const cid=c.querySelector('[data-id]')?.dataset.id;
-        if(open.includes(cid))c.classList.add('open');
-      });
-    }
+  try{
+    await apiSave({name, date, followUpDate, notes, savedAt:new Date().toISOString()});
+    resetForm();
+    qeStatus.className='mono ok';
+    qeStatus.textContent='✓ Saved — '+new Date().toLocaleTimeString();
+    refreshLog();
+  }catch(e){
+    qeStatus.className='mono err';
+    qeStatus.textContent='Save failed — check connection and try again';
   }
-  setStatus('Unsaved changes — press Save to Google Sheets');
-});
-
-document.getElementById('agentGrid').addEventListener('click',e=>{
-  if(e.target.classList.contains('remove-agent')){
-    if(confirm('Remove this agent?')){
-      delete state.agents[e.target.dataset.id];
-      renderAgents();
-      setStatus('Unsaved changes — press Save to Google Sheets');
-    }
-  }
-});
-
-// ── Add Agent Modal ──────────────────────────────────────────
-const overlay=document.getElementById('overlay');
-document.getElementById('addAgentBtn').addEventListener('click',()=>{
-  document.getElementById('inp-name').value='';
-  document.getElementById('inp-session').value='';
-  document.getElementById('inp-followup').value='';
-  document.getElementById('inp-notes').value='';
-  overlay.classList.add('open');
-  setTimeout(()=>document.getElementById('inp-name').focus(),80);
-});
-document.getElementById('cancelAdd').addEventListener('click',()=>overlay.classList.remove('open'));
-overlay.addEventListener('click',e=>{if(e.target===overlay)overlay.classList.remove('open');});
-
-document.getElementById('confirmAdd').addEventListener('click',()=>{
-  const name=document.getElementById('inp-name').value.trim();
-  if(!name){document.getElementById('inp-name').focus();return;}
-  const id='a_'+Math.random().toString(36).slice(2,9);
-  state.agents[id]=blankAgent(
-    name,
-    document.getElementById('inp-session').value,
-    document.getElementById('inp-followup').value,
-    document.getElementById('inp-notes').value
-  );
-  overlay.classList.remove('open');
-  renderAgents();
-  setStatus('Unsaved changes — press Save to Google Sheets');
-  // auto-open the new card
-  const cards=document.querySelectorAll('.agent-card');
-  if(cards.length)cards[cards.length-1].classList.add('open');
-});
-
-document.getElementById('inp-name').addEventListener('keydown',e=>{
-  if(e.key==='Enter')document.getElementById('confirmAdd').click();
+  btn.disabled=false; btn.textContent='💾 Save';
 });
 
 // ── Tabs ─────────────────────────────────────────────────────
@@ -408,21 +516,9 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('view-'+btn.dataset.view).classList.add('active');
+    if(btn.dataset.view==='tracker') refreshLog();
   });
 });
-
-// ── Load on start ────────────────────────────────────────────
-(async()=>{
-  setStatus('Loading from Google Sheets…');
-  try{
-    const data=await apiLoad();
-    if(data&&data.agents)state=data;
-    setStatus('Loaded ✓');
-  }catch(e){
-    setStatus('Could not load — working offline');
-  }
-  renderAgents();
-})();
 </script>
 </body>
 </html>
