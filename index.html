@@ -22,7 +22,7 @@ nav.tabs button:hover{color:var(--ink);}
 main{padding:22px 28px 40px;max-width:1160px;margin:0 auto;flex:1;width:100%;}
 section.view{display:none;}
 section.view.active{display:block;}
-.section-title{font-size:18px;font-weight:700;margin:34px 0 6px;}
+.section-title{font-size:17px;font-weight:700;margin:30px 0 8px;}
 footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(--muted);border-top:1px solid var(--line);}
 
 /* SUB-NAV inside Coaching Guide */
@@ -32,7 +32,7 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
 .subview{display:none;}
 .subview.active{display:block;}
 
-/* TOOLBAR / SEARCH */
+/* TOOLBAR / SEARCH / BUTTONS */
 .guide-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
 .search-input{flex:1;min-width:200px;font-family:inherit;font-size:14px;border:1px solid var(--line);border-radius:3px;padding:9px 12px;background:var(--panel);color:var(--ink);}
 .search-input:focus{outline:2px solid var(--rust);border-color:transparent;}
@@ -43,6 +43,7 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
 .btn-save{background:var(--green);color:#fff;}
 .btn-save:hover{background:#2d4434;}
 .btn-save:disabled{background:#aaa;cursor:not-allowed;}
+.btn-small{padding:5px 10px;font-size:10px;}
 
 /* GUIDE */
 .guide-intro{color:var(--muted);font-size:14px;max-width:680px;margin-bottom:14px;line-height:1.5;}
@@ -58,63 +59,73 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
 .item{display:grid;grid-template-columns:1fr 1fr auto;gap:16px;padding:10px 0;border-top:1px solid var(--line);align-items:start;}
 .item:first-child{border-top:none;}
 .item .issue,.item .fix{font-size:13.5px;line-height:1.45;}
-.lbl{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;display:block;margin-bottom:2px;}
+.lbl{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:6px;margin-bottom:2px;}
 .item .issue .lbl{color:var(--rust-dark);}
 .item .fix .lbl{color:var(--green);}
-.copy-btn{font-family:'Courier New',monospace;font-size:10.5px;letter-spacing:.04em;background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:6px 10px;cursor:pointer;color:var(--muted);white-space:nowrap;transition:background .15s,color .15s,border-color .15s;align-self:center;}
+.code-badge{font-family:'Courier New',monospace;font-size:9.5px;background:var(--ink);color:var(--paper);border-radius:3px;padding:1px 6px;letter-spacing:.03em;}
+.item-actions{display:flex;flex-direction:column;gap:5px;align-items:flex-end;}
+.copy-btn{font-family:'Courier New',monospace;font-size:10.5px;letter-spacing:.04em;background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:6px 10px;cursor:pointer;color:var(--muted);white-space:nowrap;transition:background .15s,color .15s,border-color .15s;}
 .copy-btn:hover{background:var(--panel);border-color:var(--rust);color:var(--rust-dark);}
 .copy-btn.copied{background:var(--green);border-color:var(--green);color:#fff;}
-@media(max-width:700px){.item{grid-template-columns:1fr;}.copy-btn{justify-self:start;}}
+.add-agent-btn{font-family:'Courier New',monospace;font-size:10.5px;background:none;border:1px solid var(--line);border-radius:3px;padding:6px 10px;cursor:pointer;color:var(--muted);white-space:nowrap;}
+.add-agent-btn:hover{border-color:var(--green);color:var(--green);}
+.add-agent-btn.added{background:var(--green);border-color:var(--green);color:#fff;}
+@media(max-width:700px){.item{grid-template-columns:1fr;}.item-actions{flex-direction:row;align-items:center;flex-wrap:wrap;}}
 
 /* STRENGTHS */
 .strengths-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media(max-width:800px){.strengths-grid{grid-template-columns:1fr;}}
 .strength-card{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--green);border-radius:3px;padding:13px 16px;display:flex;flex-direction:column;gap:6px;}
-.strength-card h3{margin:0;font-size:14.5px;font-weight:700;color:var(--ink);}
+.strength-card h3{margin:0;font-size:14.5px;font-weight:700;color:var(--ink);display:flex;align-items:center;gap:8px;}
 .strength-card p{margin:0;font-size:13px;line-height:1.45;color:#3a3a34;flex:1;}
-.strength-card .copy-btn{align-self:flex-start;margin-top:2px;}
+.strength-card .card-actions{display:flex;gap:8px;margin-top:2px;flex-wrap:wrap;}
 
-/* TRACKER */
-.qe-wrap{max-width:640px;}
-.qe-intro{color:var(--muted);font-size:13.5px;margin-bottom:16px;line-height:1.5;}
-.due-banner{background:#FBE7B2;border:1px solid #c9a24d;color:#6b4d10;border-radius:4px;padding:10px 14px;font-size:13px;margin-bottom:16px;line-height:1.5;}
-.due-banner strong{display:block;font-family:'Courier New',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;}
-.qe-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:22px 24px 24px;}
-.qe-field{margin-bottom:16px;position:relative;}
+/* TRACKER / AGENT PROFILE */
+.due-banner{background:#FBE7B2;border:1px solid #c9a24d;color:#6b4d10;border-radius:4px;padding:10px 14px;font-size:13px;margin-bottom:18px;line-height:1.6;max-width:760px;}
+.due-banner strong{display:block;font-family:'Courier New',monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:5px;}
+.due-banner .due-name{background:none;border:none;text-decoration:underline;color:#6b4d10;font-family:inherit;cursor:pointer;padding:0;font-size:13px;}
+
+.agent-select-wrap{max-width:500px;margin-bottom:6px;}
+.agent-select-wrap label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
+.agent-select-wrap input{width:100%;font-family:inherit;font-size:15px;border:1px solid var(--line);border-radius:3px;padding:10px 12px;background:var(--panel);color:var(--ink);}
+.agent-select-wrap input:focus{outline:2px solid var(--rust);border-color:transparent;}
+.agent-select-msg{font-size:13px;margin-top:8px;color:var(--muted);}
+.agent-select-msg .btn{margin-left:6px;}
+
+.profile-header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:22px 0 4px;}
+.profile-header h2{margin:0;font-size:21px;}
+.profile-stats{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
+
+.qe-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px 22px 22px;max-width:640px;}
+.qe-field{margin-bottom:15px;}
 .qe-field label{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
-.qe-field input,.qe-field textarea,.qe-field select{width:100%;font-family:inherit;font-size:14.5px;border:1px solid var(--line);border-radius:3px;padding:9px 11px;background:var(--paper);color:var(--ink);}
-.qe-field input:focus,.qe-field textarea:focus,.qe-field select:focus{outline:2px solid var(--rust);border-color:transparent;}
-.qe-field textarea{min-height:180px;resize:vertical;line-height:1.5;}
-.qe-actions{display:flex;align-items:center;gap:14px;margin-top:6px;}
-#qeStatus{font-family:'Courier New',monospace;font-size:11.5px;color:var(--muted);}
-#qeStatus.ok{color:var(--green);font-weight:700;}
-#qeStatus.err{color:var(--rust-dark);font-weight:700;}
-.field-hint{font-family:'Courier New',monospace;font-size:9.5px;color:var(--muted);margin-top:4px;}
+.qe-field input,.qe-field textarea{width:100%;font-family:inherit;font-size:14.5px;border:1px solid var(--line);border-radius:3px;padding:9px 11px;background:var(--paper);color:var(--ink);}
+.qe-field input:focus,.qe-field textarea:focus{outline:2px solid var(--rust);border-color:transparent;}
+.qe-field textarea{min-height:130px;resize:vertical;line-height:1.5;}
+.qe-actions{display:flex;align-items:center;gap:14px;margin-top:4px;}
+.qe-hint{font-family:'Courier New',monospace;font-size:9.5px;color:var(--muted);margin-top:4px;}
+#qeSaveStatus,#addIssueStatus{font-family:'Courier New',monospace;font-size:11.5px;color:var(--muted);}
+#qeSaveStatus.ok,#addIssueStatus.ok{color:var(--green);font-weight:700;}
+#qeSaveStatus.err,#addIssueStatus.err{color:var(--rust-dark);font-weight:700;}
 
-.history-box{margin-top:8px;border:1px solid var(--line);border-radius:3px;background:var(--paper);overflow:hidden;}
-.history-box.empty{display:none;}
-.history-head{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 11px;background:#efece0;}
-.history-row{padding:8px 11px;font-size:12.5px;border-top:1px solid var(--line);line-height:1.4;}
-.history-row .hdates{font-family:'Courier New',monospace;font-size:10.5px;color:var(--muted);margin-bottom:2px;}
-.history-row .hnotes{color:#3a3a34;}
+.session-row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:3px;padding:10px 14px;margin-bottom:7px;font-size:13px;}
+.session-row .sdates{font-family:'Courier New',monospace;font-size:11.5px;}
+.done-pill{font-family:'Courier New',monospace;font-size:10px;border:1px solid;border-radius:20px;padding:4px 10px;cursor:pointer;background:none;margin-left:auto;}
+.done-pill.pending{color:#8a611f;border-color:#c9a24d;background:#FBE7B2;}
+.done-pill.done{color:#276239;border-color:#4d9169;background:#D4EDDA;}
 
-.history-wrap{max-width:760px;margin-top:8px;}
-.history-empty-msg{color:var(--muted);font-size:13px;padding:16px;border:1px dashed var(--line);border-radius:4px;text-align:center;}
-.hist-item{background:var(--panel);border:1px solid var(--line);border-radius:3px;margin-bottom:8px;overflow:hidden;}
-.hist-item-head{display:flex;align-items:center;gap:10px;padding:11px 14px;cursor:pointer;border-left:4px solid var(--green);flex-wrap:wrap;}
-.hist-item-head .hnum{font-family:'Courier New',monospace;font-size:10.5px;color:var(--muted);width:64px;flex-shrink:0;}
-.hist-item-head .hmeta{font-family:'Courier New',monospace;font-size:11.5px;color:var(--ink);flex:1;}
-.hist-item-head .harrow{font-size:11px;color:var(--muted);transition:transform .15s;}
-.hist-item.open .harrow{transform:rotate(90deg);}
-.hist-item-body{display:none;padding:10px 16px 14px 78px;font-size:13.5px;line-height:1.55;white-space:pre-wrap;color:#3a3a34;}
-.hist-item.open .hist-item-body{display:block;}
-
+.issue-row{background:var(--panel);border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:3px;padding:11px 14px;margin-bottom:8px;}
+.issue-row.resolved{border-left-color:var(--green);}
+.issue-row .itext{font-size:13.5px;line-height:1.5;white-space:pre-wrap;margin-bottom:8px;}
+.issue-row .irow-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .status-pill{font-family:'Courier New',monospace;font-size:10px;letter-spacing:.04em;border:1px solid;border-radius:20px;padding:4px 10px;cursor:pointer;white-space:nowrap;background:none;}
 .status-pill.pending{color:#8a611f;border-color:#c9a24d;background:#FBE7B2;}
 .status-pill.resolved{color:#276239;border-color:#4d9169;background:#D4EDDA;}
-.status-tag{font-family:'Courier New',monospace;font-size:9.5px;padding:2px 8px;border-radius:12px;display:inline-block;margin-left:6px;}
-.status-tag.pending{color:#8a611f;background:#FBE7B2;}
-.status-tag.resolved{color:#276239;background:#D4EDDA;}
+.recur-badge{font-family:'Courier New',monospace;font-size:10px;color:var(--rust-dark);}
+.remove-btn{font-family:'Courier New',monospace;font-size:10px;background:none;border:none;color:var(--muted);cursor:pointer;margin-left:auto;}
+.remove-btn:hover{color:var(--rust-dark);}
+.iadded{font-family:'Courier New',monospace;font-size:10px;color:var(--muted);margin-left:4px;}
+.empty-msg{color:var(--muted);font-size:13px;padding:14px;border:1px dashed var(--line);border-radius:4px;text-align:center;}
 
 /* FOLLOW-UPS TAB */
 .fu-group{border-radius:4px;border:1px solid var(--line);margin-bottom:12px;overflow:hidden;background:var(--panel);}
@@ -128,23 +139,24 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
 .fu-group.fu-today .fu-label{color:#6b4d10;}
 .fu-group.fu-overdue .fu-label{color:#7A1F1F;}
 .fu-agents{padding:6px 14px 10px;}
-.fu-agent{padding:7px 0;border-top:1px solid var(--line);font-size:13px;}
+.fu-agent{padding:8px 0;border-top:1px solid var(--line);font-size:13px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
 .fu-agent:first-child{border-top:none;}
-.fu-agent strong{display:inline;}
-.fu-agent .fu-notes{color:#3a3a34;display:block;margin-top:2px;font-size:12.5px;}
+.fu-check-btn{font-family:'Courier New',monospace;font-size:10px;background:var(--green);color:#fff;border:none;border-radius:20px;padding:5px 11px;cursor:pointer;margin-left:auto;}
+.fu-check-btn:hover{background:#2d4434;}
 
-/* PRINT: agent history only */
+/* PRINT: agent profile only */
 #printArea{display:none;}
 @media print{
   body *{visibility:hidden;}
   #printArea, #printArea *{visibility:visible;}
   #printArea{display:block !important;position:absolute;top:0;left:0;width:100%;padding:20px;}
   .print-header h1{font-size:20px;margin:0 0 2px;}
-  .print-header .mono{font-size:11px;color:#555;margin-bottom:18px;display:block;}
-  .print-session{border-top:1px solid #ccc;padding:10px 0;break-inside:avoid;}
-  .print-session:first-of-type{border-top:none;}
-  .print-session-head{font-family:'Courier New',monospace;font-size:11px;font-weight:700;margin-bottom:4px;display:flex;gap:8px;align-items:center;}
-  .print-session-notes{font-size:13px;line-height:1.5;white-space:pre-wrap;}
+  .print-header .mono{font-size:11px;color:#555;margin-bottom:14px;display:block;}
+  .print-sub{font-family:'Courier New',monospace;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin:16px 0 8px;border-bottom:1px solid #999;padding-bottom:3px;}
+  .print-session,.print-issue{border-top:1px solid #ccc;padding:8px 0;break-inside:avoid;}
+  .print-session:first-of-type,.print-issue:first-of-type{border-top:none;}
+  .print-row-head{font-family:'Courier New',monospace;font-size:11px;font-weight:700;margin-bottom:3px;}
+  .print-text{font-size:13px;line-height:1.5;white-space:pre-wrap;}
 }
 </style>
 </head>
@@ -163,14 +175,14 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
 <main>
   <section class="view active" id="view-guide">
     <div class="subnav">
-      <button class="subtab-btn active" data-subview="issues">Issues &amp; Fixes</button>
+      <button class="subtab-btn active" data-subview="issues">Growth Areas</button>
       <button class="subtab-btn" data-subview="strengths">Strengths</button>
     </div>
 
     <div class="subview active" id="subview-issues">
-      <p class="guide-intro">Click a category to expand. Use while monitoring calls — match what you hear to an issue, read the fix out loud or share it directly.</p>
+      <p class="guide-intro">Click a category to expand. Each growth area has a short code (e.g. <span class="code-badge">OPEN-1</span>) — copy just the code and paste it into an agent's profile to log it fast without retyping.</p>
       <div class="guide-toolbar">
-        <input type="text" id="guideSearch" class="search-input" placeholder="Search issues or fixes… e.g. rebuttal, pacing, price">
+        <input type="text" id="guideSearch" class="search-input" placeholder="Search by code, wording, or fix… e.g. OPEN-1, rebuttal, pacing">
       </div>
       <div id="categories"></div>
     </div>
@@ -185,16 +197,25 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
   </section>
 
   <section class="view" id="view-tracker">
-    <div class="qe-wrap">
-      <div id="dueBanner" class="due-banner" style="display:none;"></div>
-      <p class="qe-intro">Log a coaching session: agent name, session date, next follow-up date, notes, and whether it's resolved. Press Save — it goes to the sheet and the form clears itself.</p>
+    <div id="dueBanner" class="due-banner" style="display:none;"></div>
+
+    <div class="agent-select-wrap">
+      <label>Agent</label>
+      <input type="text" id="agentSelect" list="agentNamesList" placeholder="Type an agent's name…" autocomplete="off">
+      <div class="agent-select-msg" id="agentSelectMsg"></div>
+    </div>
+    <datalist id="agentNamesList"></datalist>
+
+    <div id="agentProfile" style="display:none;">
+      <div class="profile-header">
+        <h2 id="profileName"></h2>
+        <span class="profile-stats" id="profileStats"></span>
+        <button class="btn btn-outline" id="printProfileBtn">🖨 Print Profile</button>
+      </div>
+
+      <div class="section-title">Log a Session / Follow-up</div>
+      <p class="qe-hint" style="margin-bottom:12px;">Paste a code like <span class="code-badge">OPEN-1</span> (or a few, separated by commas or blank lines) to pull in the full growth area automatically — or just type your own notes.</p>
       <div class="qe-card">
-        <div class="qe-field">
-          <label>Agent Name</label>
-          <input type="text" id="qe-name" list="agentNamesList" placeholder="e.g. Madison" autocomplete="off">
-          <div class="field-hint">Pick from the dropdown if this agent already has sessions logged — keeps the name spelling consistent.</div>
-          <div class="history-box empty" id="historyBox"></div>
-        </div>
         <div class="qe-field">
           <label>Session Date (month-day-year)</label>
           <input type="date" id="qe-date">
@@ -204,38 +225,35 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
           <input type="date" id="qe-followup">
         </div>
         <div class="qe-field">
-          <label>Notes</label>
-          <textarea id="qe-notes" placeholder="What you noticed, what to work on next time…"></textarea>
-        </div>
-        <div class="qe-field">
-          <label>Status</label>
-          <select id="qe-status">
-            <option value="Pending" selected>Pending — still needs work</option>
-            <option value="Resolved">Resolved — fixed already</option>
-          </select>
+          <label>Growth Areas Discussed</label>
+          <textarea id="qe-notes" placeholder="OPEN-1&#10;&#10;SCRIPT-3&#10;&#10;or type your own note…"></textarea>
         </div>
         <div class="qe-actions">
           <button class="btn btn-save" id="qeSaveBtn">💾 Save</button>
-          <span id="qeStatus" class="mono"></span>
+          <span id="qeSaveStatus" class="mono"></span>
         </div>
       </div>
-    </div>
 
-    <div class="history-wrap">
-      <div class="section-title">Agent History</div>
-      <p class="qe-intro">Search an agent's name to see every session logged for them, oldest to newest. Tap the status pill on any session to mark it Resolved or Pending. Print to hand it to the agent and go over it together.</p>
-      <div class="guide-toolbar">
-        <input type="text" id="historySearch" class="search-input" list="agentNamesList" placeholder="Type an agent's name…" autocomplete="off">
-        <button class="btn btn-outline" id="printHistoryBtn" disabled>🖨 Print This Agent</button>
+      <div class="section-title">Sessions &amp; Follow-ups</div>
+      <div id="profileSessions"></div>
+
+      <div class="section-title">Growth Areas</div>
+      <div class="qe-card">
+        <div class="qe-field">
+          <label>Add Growth Area(s)</label>
+          <textarea id="quickIssueInput" placeholder="Paste a code like OPEN-1, several codes separated by commas, or your own text…" style="min-height:80px;"></textarea>
+        </div>
+        <div class="qe-actions">
+          <button class="btn btn-save" id="addIssueBtn">+ Add to Profile</button>
+          <span id="addIssueStatus" class="mono"></span>
+        </div>
       </div>
-      <div id="historyResults"></div>
+      <div id="profileIssues"></div>
     </div>
-
-    <datalist id="agentNamesList"></datalist>
   </section>
 
   <section class="view" id="view-followups">
-    <p class="guide-intro">Every follow-up date across all agents, oldest to newest — so you always know who's due and when. Dates shown as month-day-year.</p>
+    <p class="guide-intro">Every open follow-up, oldest to newest. Check one off once you've had the session — it drops off the list. Dates shown as month-day-year.</p>
     <div id="followupGroups"></div>
   </section>
 </main>
@@ -246,18 +264,18 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
 
 <script>
 // ── API ──────────────────────────────────────────────────────
-const API_URL = 'https://script.google.com/macros/s/AKfycbxGOHNrgGo0wMM1Ncfq_f9Pirg2Ek3uNKD5uKKjIuDFr6CWFmk3KNAFHbKTQ3RJS4__6g/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbwOZtlBAgCdJ6bR5iEkLHX-b4V54wSr2ZfXIb4BtfPyi4TzeVj2JVQtwHyA32qV80HxiQ/exec';
 
-async function apiSave(data){
-  await fetch(API_URL, {method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(data)});
+async function apiPost(payload){
+  await fetch(API_URL, {method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(payload)});
 }
-async function apiUpdateStatus(id, newStatus){
-  await fetch(API_URL, {method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain'}, body:JSON.stringify({action:'updateStatus', id, newStatus})});
-}
-async function apiLoadLog(){
+async function apiLoadAll(){
   const res = await fetch(API_URL, {redirect:'follow'});
   const data = await res.json();
-  return Array.isArray(data) ? data : [];
+  return {
+    sessions: Array.isArray(data.sessions) ? data.sessions : [],
+    issues:   Array.isArray(data.issues)   ? data.issues   : []
+  };
 }
 
 // ── Date helpers — always display as month-day-year ────────────
@@ -265,7 +283,7 @@ function todayStr(){
   const d=new Date();
   const mm=String(d.getMonth()+1).padStart(2,'0');
   const dd=String(d.getDate()).padStart(2,'0');
-  return `${d.getFullYear()}-${mm}-${dd}`; // internal storage stays ISO (yyyy-mm-dd) for correct sorting
+  return `${d.getFullYear()}-${mm}-${dd}`;
 }
 function mdy(iso){
   if(!iso) return '—';
@@ -278,6 +296,9 @@ function daysDiff(iso){
   const today=new Date(todayStr()+'T00:00:00');
   const target=new Date(iso+'T00:00:00');
   return Math.round((target-today)/86400000);
+}
+function sameName(a,b){
+  return (a||'').trim().toLowerCase() === (b||'').trim().toLowerCase();
 }
 
 // ── Guide data ───────────────────────────────────────────────
@@ -367,6 +388,23 @@ const STRENGTHS=[
   {title:"Useful Session Notes",note:"Leaves specific, actionable notes on a call (not just \"no answer\") that actually help the next follow-up attempt."}
 ];
 
+// ── Codes: every growth area & strength gets a short reference code ──
+const CODE_PREFIXES=['OPEN','SCRIPT','PACE','CTRL','REBUT','CLOSE','WORD'];
+const CODE_MAP={};
+CATEGORIES.forEach((cat,ci)=>{
+  const prefix=CODE_PREFIXES[ci] || ('CAT'+(ci+1));
+  cat.items.forEach((it,ii)=>{
+    const code=`${prefix}-${ii+1}`;
+    it.code=code;
+    CODE_MAP[code]={code, full:`Growth Area: ${it.issue}\nFix: ${it.fix}`};
+  });
+});
+STRENGTHS.forEach((s,si)=>{
+  const code=`WIN-${si+1}`;
+  s.code=code;
+  CODE_MAP[code]={code, full:`${s.title}: ${s.note}`};
+});
+
 function copyToClipboard(text, btn){
   const doCopy=async()=>{
     try{ await navigator.clipboard.writeText(text); }
@@ -376,10 +414,29 @@ function copyToClipboard(text, btn){
       document.execCommand('copy'); document.body.removeChild(ta);
     }
     btn.classList.add('copied');
+    const original=btn.dataset.label||'⧉ Copy';
     btn.textContent='✓ Copied';
-    setTimeout(()=>{btn.classList.remove('copied');btn.textContent='⧉ Copy';},1400);
+    setTimeout(()=>{btn.classList.remove('copied');btn.textContent=original;},1400);
   };
   doCopy();
+}
+
+// ── "+ Add to Agent" straight from the guide ────────────────────
+async function addTextToAgent(text, btn){
+  const name = window.prompt('Add this to which agent\'s profile? (type the exact saved name)');
+  if(!name || !name.trim()) return;
+  const originalLabel = btn.textContent;
+  btn.textContent='Adding…';
+  btn.disabled=true;
+  try{
+    await apiPost({action:'addIssue', agentName:name.trim(), text});
+    btn.textContent='✓ Added';
+    btn.classList.add('added');
+    setTimeout(()=>{btn.textContent=originalLabel;btn.classList.remove('added');btn.disabled=false;},1600);
+  }catch(e){
+    btn.textContent='Failed';
+    setTimeout(()=>{btn.textContent=originalLabel;btn.disabled=false;},1600);
+  }
 }
 
 // ── Render guide categories ────────────────────────────────────
@@ -387,18 +444,26 @@ const catWrap=document.getElementById('categories');
 CATEGORIES.forEach((cat,ci)=>{
   const div=document.createElement('div');div.className='cat';
   const bodyHtml = cat.items.map((it)=>{
-    const searchBlob=(it.issue+' '+it.fix).toLowerCase();
+    const searchBlob=(it.code+' '+it.issue+' '+it.fix).toLowerCase();
     return `<div class="item" data-search="${searchBlob.replace(/"/g,'&quot;')}">
-      <div class="issue"><span class="lbl">Issue</span>${it.issue}</div>
+      <div class="issue"><span class="lbl">Growth Area <span class="code-badge">${it.code}</span></span>${it.issue}</div>
       <div class="fix"><span class="lbl">Fix</span>${it.fix}</div>
-      <button class="copy-btn" type="button">⧉ Copy</button>
+      <div class="item-actions">
+        <button class="copy-btn" type="button" data-copy="code" data-label="⧉ Copy Code">⧉ Copy Code</button>
+        <button class="copy-btn" type="button" data-copy="full" data-label="⧉ Copy Full">⧉ Copy Full</button>
+        <button class="add-agent-btn" type="button">+ Add to Agent</button>
+      </div>
     </div>`;
   }).join('');
   div.innerHTML=`<div class="cat-head"><span class="num mono">${String(ci+1).padStart(2,'0')}</span><h2>${cat.name}</h2><span class="count mono">${cat.items.length} items</span><span class="arrow">▸</span></div><div class="cat-body">${bodyHtml}</div>`;
   div.querySelector('.cat-head').addEventListener('click',()=>div.classList.toggle('open'));
   div.querySelectorAll('.item').forEach((itemEl,ii)=>{
-    const {issue,fix}=cat.items[ii];
-    itemEl.querySelector('.copy-btn').addEventListener('click',(e)=>copyToClipboard(`Issue: ${issue}\nFix: ${fix}`, e.currentTarget));
+    const it=cat.items[ii];
+    itemEl.querySelectorAll('.copy-btn').forEach(b=>{
+      const text = b.dataset.copy==='code' ? it.code : CODE_MAP[it.code].full;
+      b.addEventListener('click',(e)=>copyToClipboard(text, e.currentTarget));
+    });
+    itemEl.querySelector('.add-agent-btn').addEventListener('click',(e)=>addTextToAgent(CODE_MAP[it.code].full, e.currentTarget));
   });
   catWrap.appendChild(div);
 });
@@ -409,9 +474,18 @@ const strWrap=document.getElementById('strengths');
 STRENGTHS.forEach((s)=>{
   const card=document.createElement('div');
   card.className='strength-card';
-  card.dataset.search=(s.title+' '+s.note).toLowerCase();
-  card.innerHTML=`<h3>${s.title}</h3><p>${s.note}</p><button class="copy-btn" type="button">⧉ Copy</button>`;
-  card.querySelector('.copy-btn').addEventListener('click',(e)=>copyToClipboard(`${s.title}: ${s.note}`, e.currentTarget));
+  card.dataset.search=(s.code+' '+s.title+' '+s.note).toLowerCase();
+  card.innerHTML=`<h3>${s.title} <span class="code-badge">${s.code}</span></h3><p>${s.note}</p>
+    <div class="card-actions">
+      <button class="copy-btn" type="button" data-copy="code" data-label="⧉ Copy Code">⧉ Copy Code</button>
+      <button class="copy-btn" type="button" data-copy="full" data-label="⧉ Copy Full">⧉ Copy Full</button>
+      <button class="add-agent-btn" type="button">+ Add to Agent</button>
+    </div>`;
+  card.querySelectorAll('.copy-btn').forEach(b=>{
+    const text = b.dataset.copy==='code' ? s.code : CODE_MAP[s.code].full;
+    b.addEventListener('click',(e)=>copyToClipboard(text, e.currentTarget));
+  });
+  card.querySelector('.add-agent-btn').addEventListener('click',(e)=>addTextToAgent(CODE_MAP[s.code].full, e.currentTarget));
   strWrap.appendChild(card);
 });
 
@@ -455,172 +529,301 @@ document.querySelectorAll('.subtab-btn').forEach(btn=>{
   });
 });
 
-// ── Quick entry tracker ──────────────────────────────────────
-let logData=[];
+// ══════════════════════════════════════════════════════════════
+//  AGENT TRACKER — profile-based
+// ══════════════════════════════════════════════════════════════
+let sessions=[];
+let issues=[];
+let activeAgent=null;
 
-function resetForm(){
-  document.getElementById('qe-name').value='';
-  document.getElementById('qe-date').value=todayStr();
-  document.getElementById('qe-followup').value='';
-  document.getElementById('qe-notes').value='';
-  document.getElementById('qe-status').value='Pending';
-  renderHistoryFor('');
+function todayDefault(){ document.getElementById('qe-date').value=todayStr(); }
+
+// Expand raw pasted text into an array of final growth-area strings.
+// Recognizes:
+//  - a single code on its own ("OPEN-1")
+//  - several codes separated by commas/whitespace on one line ("OPEN-1, PACE-2")
+//  - blocks separated by a blank line (mix of codes and free text)
+function tryExpandCodeBlock(block){
+  const trimmed=block.trim();
+  const direct=CODE_MAP[trimmed.toUpperCase()];
+  if(direct) return [direct.full];
+  const tokens=trimmed.split(/[\s,]+/).filter(Boolean);
+  if(tokens.length>1 && tokens.every(t=>CODE_MAP[t.toUpperCase()])){
+    return tokens.map(t=>CODE_MAP[t.toUpperCase()].full);
+  }
+  return null;
 }
-resetForm();
+function expandBlocksForSubmission(rawText){
+  const blocks=rawText.split(/\n\s*\n+/).map(b=>b.trim()).filter(Boolean);
+  const result=[];
+  blocks.forEach(b=>{
+    const expanded=tryExpandCodeBlock(b);
+    if(expanded) result.push(...expanded);
+    else result.push(b);
+  });
+  return result;
+}
+
+function agentCanonicalMap(){
+  const map=new Map();
+  sessions.forEach(s=>{ const n=(s.name||'').trim(); if(n && !map.has(n.toLowerCase())) map.set(n.toLowerCase(), n); });
+  issues.forEach(i=>{ const n=(i.name||'').trim(); if(n && !map.has(n.toLowerCase())) map.set(n.toLowerCase(), n); });
+  return map;
+}
+function refreshAgentDatalist(){
+  const map=agentCanonicalMap();
+  const names=[...map.values()].sort((a,b)=>a.localeCompare(b));
+  document.getElementById('agentNamesList').innerHTML = names.map(n=>`<option value="${n.replace(/"/g,'&quot;')}"></option>`).join('');
+}
 
 function renderDueBanner(){
   const banner=document.getElementById('dueBanner');
   const today=todayStr();
-  const dueNames=[...new Set(logData.filter(r=>r.followUpDate===today && r.name).map(r=>r.name))];
-  if(dueNames.length===0){
-    banner.style.display='none';
-    return;
-  }
+  const due=sessions.filter(s=>s.followUpDate===today && !s.done && s.name);
+  const names=[...new Set(due.map(s=>s.name))];
+  if(names.length===0){ banner.style.display='none'; return; }
   banner.style.display='block';
-  banner.innerHTML=`<strong>⚠ Follow-ups due today (${dueNames.length})</strong>${dueNames.join(', ')}`;
+  banner.innerHTML=`<strong>⚠ Follow-ups due today (${names.length})</strong>` +
+    names.map(n=>`<button type="button" class="due-name">${n}</button>`).join(', ');
+  banner.querySelectorAll('.due-name').forEach(btn=>{
+    btn.addEventListener('click',()=>{
+      document.getElementById('agentSelect').value=btn.textContent;
+      handleAgentInput();
+    });
+  });
 }
 
-// Small live preview under the Agent Name field while logging a new session
-function renderHistoryFor(nameQuery){
-  const box=document.getElementById('historyBox');
-  const q=nameQuery.trim().toLowerCase();
-  if(!q){
-    box.classList.add('empty');
-    box.innerHTML='';
+function activateAgent(name){
+  activeAgent=name;
+  document.getElementById('agentSelectMsg').innerHTML='';
+  document.getElementById('agentProfile').style.display='block';
+  document.getElementById('profileName').textContent=name;
+  todayDefault();
+  document.getElementById('qe-followup').value='';
+  document.getElementById('qe-notes').value='';
+  document.getElementById('quickIssueInput').value='';
+  renderProfile();
+}
+
+function handleAgentInput(){
+  const val=document.getElementById('agentSelect').value;
+  const msg=document.getElementById('agentSelectMsg');
+  if(!val.trim()){
+    document.getElementById('agentProfile').style.display='none';
+    msg.innerHTML='';
+    activeAgent=null;
     return;
   }
-  const matches=logData
-    .filter(r=>(r.name||'').trim().toLowerCase()===q)
-    .sort((a,b)=> new Date(b.savedAt||b.sessionDate||0) - new Date(a.savedAt||a.sessionDate||0))
-    .slice(0,3);
-  if(matches.length===0){
-    box.classList.add('empty');
-    box.innerHTML='';
-    return;
+  const map=agentCanonicalMap();
+  const canon=map.get(val.trim().toLowerCase());
+  if(canon){
+    activateAgent(canon);
+  }else{
+    document.getElementById('agentProfile').style.display='none';
+    activeAgent=null;
+    msg.innerHTML=`No profile found for "${val.trim()}" yet.<button type="button" class="btn btn-outline btn-small" id="createAgentBtn">+ Create Profile</button>`;
+    document.getElementById('createAgentBtn').addEventListener('click',()=>activateAgent(val.trim()));
   }
-  box.classList.remove('empty');
-  box.innerHTML = `<div class="history-head">Most recent for this agent</div>` +
-    matches.map(r=>{
-      const notesPreview = r.notes ? (r.notes.length>90 ? r.notes.slice(0,90)+'…' : r.notes) : '(no notes)';
-      const fu = r.followUpDate ? ' · Follow-up: '+mdy(r.followUpDate) : '';
-      const st = r.status==='Resolved' ? '<span class="status-tag resolved">Resolved</span>' : '<span class="status-tag pending">Pending</span>';
-      return `<div class="history-row"><div class="hdates mono">${mdy(r.sessionDate)}${fu} ${st}</div><div class="hnotes">${notesPreview}</div></div>`;
+}
+document.getElementById('agentSelect').addEventListener('input', handleAgentInput);
+
+function renderProfile(){
+  if(!activeAgent) return;
+  const mySessions=sessions.filter(s=>sameName(s.name,activeAgent)).sort((a,b)=>new Date(b.savedAt||b.sessionDate||0)-new Date(a.savedAt||a.sessionDate||0));
+  const myIssues=issues.filter(i=>sameName(i.name,activeAgent));
+  const pendingCount=myIssues.filter(i=>i.status==='Pending').length;
+  const resolvedCount=myIssues.filter(i=>i.status==='Resolved').length;
+  const nextFU=mySessions.filter(s=>s.followUpDate && !s.done && s.followUpDate>=todayStr()).sort((a,b)=>a.followUpDate.localeCompare(b.followUpDate))[0];
+  document.getElementById('profileStats').textContent =
+    `${pendingCount} pending · ${resolvedCount} resolved` + (nextFU ? ` · next follow-up ${mdy(nextFU.followUpDate)}` : '');
+
+  const sessWrap=document.getElementById('profileSessions');
+  if(mySessions.length===0){
+    sessWrap.innerHTML=`<div class="empty-msg">No sessions logged yet for this agent.</div>`;
+  }else{
+    sessWrap.innerHTML=mySessions.map(s=>{
+      const fuPart = s.followUpDate
+        ? `<button type="button" class="done-pill ${s.done?'done':'pending'}" data-id="${s.id}">${s.done?'✓ Follow-up done':'◌ Follow-up pending'}</button>`
+        : '';
+      return `<div class="session-row">
+        <span class="sdates mono">Session: ${mdy(s.sessionDate)}${s.followUpDate?' · Follow-up: '+mdy(s.followUpDate):''}</span>
+        ${fuPart}
+      </div>`;
     }).join('');
-}
-document.getElementById('qe-name').addEventListener('input', e=>renderHistoryFor(e.target.value));
-
-// ── Agent Name dropdown, sourced from names already saved in the sheet ──
-function refreshAgentNamesList(){
-  const seen=new Map();
-  logData.forEach(r=>{
-    const n=(r.name||'').trim();
-    if(!n) return;
-    const key=n.toLowerCase();
-    if(!seen.has(key)) seen.set(key, n);
-  });
-  const names=[...seen.values()].sort((a,b)=>a.localeCompare(b));
-  const list=document.getElementById('agentNamesList');
-  list.innerHTML=names.map(n=>`<option value="${n.replace(/"/g,'&quot;')}"></option>`).join('');
-}
-
-// ── Full searchable, printable Agent History with resolve/pending status ──
-let currentHistoryAgent=null;
-let currentHistoryMatches=[];
-
-function computeAgentMatches(query){
-  const q=query.trim().toLowerCase();
-  if(!q) return [];
-  const matches=logData.filter(r=>(r.name||'').trim().toLowerCase()===q);
-  const chrono=[...matches].sort((a,b)=> new Date(a.savedAt||a.sessionDate||0) - new Date(b.savedAt||b.sessionDate||0));
-  chrono.forEach((r,i)=>r._sessionNum=i+1);
-  return chrono.slice().reverse();
-}
-
-function renderHistoryResults(query){
-  const container=document.getElementById('historyResults');
-  const printBtn=document.getElementById('printHistoryBtn');
-  const q=query.trim();
-  if(!q){
-    container.innerHTML='';
-    printBtn.disabled=true;
-    currentHistoryAgent=null; currentHistoryMatches=[];
-    return;
-  }
-  const matches=computeAgentMatches(q);
-  currentHistoryMatches=matches;
-  currentHistoryAgent=matches.length ? matches[0].name : q;
-
-  if(matches.length===0){
-    container.innerHTML=`<div class="history-empty-msg">No sessions found for "${q}". Check the dropdown for the exact saved spelling.</div>`;
-    printBtn.disabled=true;
-    return;
+    sessWrap.querySelectorAll('.done-pill').forEach(pill=>{
+      pill.addEventListener('click', async()=>{
+        const id=pill.dataset.id;
+        const wasDone=pill.classList.contains('done');
+        const newDone=!wasDone;
+        pill.disabled=true;
+        try{
+          await apiPost({action:'updateFollowUpDone', id, done:newDone});
+          const rec=sessions.find(s=>s.id===id);
+          if(rec) rec.done=newDone;
+          renderProfile();
+          renderDueBanner();
+        }catch(e){}
+        pill.disabled=false;
+      });
+    });
   }
 
-  printBtn.disabled=false;
-  container.innerHTML = matches.map(r=>{
-    const fu = r.followUpDate ? mdy(r.followUpDate) : 'not set';
-    const isResolved = r.status==='Resolved';
-    return `<div class="hist-item">
-      <div class="hist-item-head">
-        <span class="hnum mono">Session ${r._sessionNum}</span>
-        <span class="hmeta">${mdy(r.sessionDate)} · Follow-up: ${fu}</span>
-        <button type="button" class="status-pill ${isResolved?'resolved':'pending'}" data-id="${r.id||''}">${isResolved?'✓ Resolved':'◌ Pending'}</button>
-        <span class="harrow">▸</span>
-      </div>
-      <div class="hist-item-body">${(r.notes||'(no notes)').replace(/</g,'&lt;')}</div>
-    </div>`;
-  }).join('');
+  const issWrap=document.getElementById('profileIssues');
+  if(myIssues.length===0){
+    issWrap.innerHTML=`<div class="empty-msg">No growth areas logged yet. Add one below, or use "+ Add to Agent" from the Coaching Guide.</div>`;
+  }else{
+    const pending=myIssues.filter(i=>i.status==='Pending').sort((a,b)=>new Date(b.addedAt||0)-new Date(a.addedAt||0));
+    const resolved=myIssues.filter(i=>i.status==='Resolved').sort((a,b)=>new Date(b.updatedAt||b.addedAt||0)-new Date(a.updatedAt||a.addedAt||0));
+    issWrap.innerHTML = [...pending, ...resolved].map(i=>renderIssueRow(i)).join('');
+    attachIssueHandlers(issWrap);
+  }
+}
 
-  container.querySelectorAll('.hist-item').forEach(el=>{
-    el.querySelector('.hist-item-head').addEventListener('click',(e)=>{
-      if(e.target.classList.contains('status-pill')) return; // don't toggle open/close when clicking the pill
-      el.classList.toggle('open');
-    });
-  });
+function renderIssueRow(i){
+  const isResolved = i.status==='Resolved';
+  const recur = i.recurCount>0 ? `<span class="recur-badge">↺ recurred ×${i.recurCount}</span>` : '';
+  const addedDate = i.addedAt ? mdy(String(i.addedAt).slice(0,10)) : '';
+  return `<div class="issue-row ${isResolved?'resolved':''}" data-id="${i.id}">
+    <div class="itext">${(i.text||'').replace(/</g,'&lt;')}</div>
+    <div class="irow-actions">
+      ${isResolved
+        ? `<button type="button" class="status-pill resolved" data-act="recur">✓ Resolved — tap if it happened again</button>`
+        : `<button type="button" class="status-pill pending" data-act="resolve">◌ Pending — tap to resolve</button>`}
+      ${recur}
+      <span class="iadded">added ${addedDate}</span>
+      <button type="button" class="remove-btn" data-act="remove">🗑 Remove</button>
+    </div>
+  </div>`;
+}
 
-  container.querySelectorAll('.status-pill').forEach(pill=>{
-    pill.addEventListener('click', async (e)=>{
-      e.stopPropagation();
-      const id=pill.dataset.id;
-      if(!id){ return; }
-      const wasResolved = pill.classList.contains('resolved');
-      const newStatus = wasResolved ? 'Pending' : 'Resolved';
-      pill.disabled=true;
-      pill.textContent='…';
-      try{
-        await apiUpdateStatus(id, newStatus);
-        pill.classList.toggle('resolved', !wasResolved);
-        pill.classList.toggle('pending', wasResolved);
-        pill.textContent = !wasResolved ? '✓ Resolved' : '◌ Pending';
-        const rec=logData.find(r=>r.id===id);
-        if(rec) rec.status=newStatus;
-      }catch(err){
-        pill.textContent = wasResolved ? '✓ Resolved' : '◌ Pending';
-      }
-      pill.disabled=false;
-    });
+function attachIssueHandlers(container){
+  container.querySelectorAll('.issue-row').forEach(row=>{
+    const id=row.dataset.id;
+    const pill=row.querySelector('.status-pill');
+    if(pill){
+      pill.addEventListener('click', async()=>{
+        const act=pill.dataset.act;
+        pill.disabled=true;
+        const newStatus = act==='resolve' ? 'Resolved' : 'Pending';
+        const isRecur = act==='recur';
+        try{
+          await apiPost({action:'updateIssueStatus', id, newStatus, isRecur});
+          const rec=issues.find(x=>x.id===id);
+          if(rec){
+            rec.status=newStatus;
+            if(isRecur) rec.recurCount=(rec.recurCount||0)+1;
+            rec.updatedAt=new Date().toISOString();
+          }
+          renderProfile();
+        }catch(e){ pill.disabled=false; }
+      });
+    }
+    const removeBtn=row.querySelector('[data-act="remove"]');
+    if(removeBtn){
+      removeBtn.addEventListener('click', async()=>{
+        if(!confirm('Remove this growth area permanently?')) return;
+        removeBtn.disabled=true;
+        try{
+          await apiPost({action:'removeIssue', id});
+          issues=issues.filter(x=>x.id!==id);
+          renderProfile();
+        }catch(e){ removeBtn.disabled=false; }
+      });
+    }
   });
 }
-document.getElementById('historySearch').addEventListener('input', e=>renderHistoryResults(e.target.value));
 
-document.getElementById('printHistoryBtn').addEventListener('click',()=>{
-  if(!currentHistoryMatches.length) return;
-  const chrono=currentHistoryMatches.slice().sort((a,b)=>a._sessionNum-b._sessionNum);
+// ── Save a new session (expands codes / splits Notes into growth areas) ──
+document.getElementById('qeSaveBtn').addEventListener('click', async()=>{
+  if(!activeAgent) return;
+  const date=document.getElementById('qe-date').value;
+  const followUpDate=document.getElementById('qe-followup').value;
+  const notes=document.getElementById('qe-notes').value;
+  const statusEl=document.getElementById('qeSaveStatus');
+  const btn=document.getElementById('qeSaveBtn');
+
+  btn.disabled=true; btn.textContent='Saving…';
+  statusEl.className='mono'; statusEl.textContent='Saving…';
+  try{
+    const issueTexts = notes.trim() ? expandBlocksForSubmission(notes) : [];
+    await apiPost({action:'saveSession', name:activeAgent, date, followUpDate, issueTexts});
+    document.getElementById('qe-followup').value='';
+    document.getElementById('qe-notes').value='';
+    todayDefault();
+    statusEl.className='mono ok';
+    statusEl.textContent='✓ Saved — '+new Date().toLocaleTimeString();
+    await refreshData();
+    activateAgentQuiet();
+  }catch(e){
+    statusEl.className='mono err';
+    statusEl.textContent='Save failed — check connection';
+  }
+  btn.disabled=false; btn.textContent='💾 Save';
+});
+
+document.getElementById('addIssueBtn').addEventListener('click', async()=>{
+  if(!activeAgent) return;
+  const text=document.getElementById('quickIssueInput').value;
+  const statusEl=document.getElementById('addIssueStatus');
+  const btn=document.getElementById('addIssueBtn');
+  if(!text.trim()){
+    statusEl.className='mono err'; statusEl.textContent='Type something first';
+    return;
+  }
+  btn.disabled=true; btn.textContent='Adding…';
+  statusEl.className='mono'; statusEl.textContent='Adding…';
+  try{
+    const blocks=expandBlocksForSubmission(text);
+    for(const block of blocks){
+      await apiPost({action:'addIssue', agentName:activeAgent, text:block});
+    }
+    document.getElementById('quickIssueInput').value='';
+    statusEl.className='mono ok';
+    statusEl.textContent='✓ Added';
+    await refreshData();
+    activateAgentQuiet();
+  }catch(e){
+    statusEl.className='mono err';
+    statusEl.textContent='Failed — check connection';
+  }
+  btn.disabled=false; btn.textContent='+ Add to Profile';
+});
+
+function activateAgentQuiet(){
+  if(!activeAgent) return;
+  document.getElementById('profileName').textContent=activeAgent;
+  renderProfile();
+}
+
+// ── Print Agent Profile ────────────────────────────────────────
+document.getElementById('printProfileBtn').addEventListener('click',()=>{
+  if(!activeAgent) return;
+  const mySessions=sessions.filter(s=>sameName(s.name,activeAgent)).sort((a,b)=>new Date(a.savedAt||a.sessionDate||0)-new Date(b.savedAt||b.sessionDate||0));
+  const myIssues=issues.filter(i=>sameName(i.name,activeAgent));
+  const pending=myIssues.filter(i=>i.status==='Pending');
+  const resolved=myIssues.filter(i=>i.status==='Resolved');
   const printArea=document.getElementById('printArea');
-  const printedOn=mdy(todayStr());
+
+  const sessionsHtml = mySessions.map(s=>`<div class="print-session">
+      <div class="print-row-head">${mdy(s.sessionDate)}${s.followUpDate?' · Follow-up: '+mdy(s.followUpDate)+(s.done?' (done)':' (pending)'):''}</div>
+    </div>`).join('') || '<div class="print-text">No sessions logged.</div>';
+
+  const issueHtml = (list)=> list.map(i=>`<div class="print-issue">
+      <div class="print-row-head">Added ${i.addedAt?mdy(String(i.addedAt).slice(0,10)):''}${i.recurCount>0?' · recurred ×'+i.recurCount:''}</div>
+      <div class="print-text">${(i.text||'').replace(/</g,'&lt;')}</div>
+    </div>`).join('') || '<div class="print-text">None.</div>';
+
   printArea.innerHTML = `
     <div class="print-header">
-      <h1>Coaching History — ${currentHistoryAgent}</h1>
-      <span class="mono">Printed ${printedOn} · ${chrono.length} session${chrono.length>1?'s':''}</span>
+      <h1>Coaching Profile — ${activeAgent}</h1>
+      <span class="mono">Printed ${mdy(todayStr())}</span>
     </div>
-    ${chrono.map(r=>{
-      const fu = r.followUpDate ? mdy(r.followUpDate) : 'not set';
-      const st = r.status==='Resolved' ? 'Resolved' : 'Pending';
-      return `<div class="print-session">
-        <div class="print-session-head"><span>Session ${r._sessionNum} — ${mdy(r.sessionDate)} · Follow-up: ${fu}</span><span class="status-tag ${st.toLowerCase()}">${st}</span></div>
-        <div class="print-session-notes">${(r.notes||'(no notes)').replace(/</g,'&lt;')}</div>
-      </div>`;
-    }).join('')}
+    <div class="print-sub">Sessions &amp; Follow-ups</div>
+    ${sessionsHtml}
+    <div class="print-sub">Pending Growth Areas (${pending.length})</div>
+    ${issueHtml(pending)}
+    <div class="print-sub">Resolved Growth Areas (${resolved.length})</div>
+    ${issueHtml(resolved)}
   `;
   window.print();
 });
@@ -628,13 +831,13 @@ document.getElementById('printHistoryBtn').addEventListener('click',()=>{
 // ── Follow-ups tab ─────────────────────────────────────────────
 function renderFollowUpsTab(){
   const container=document.getElementById('followupGroups');
-  const withFU = logData.filter(r=>r.followUpDate);
-  if(withFU.length===0){
-    container.innerHTML=`<div class="history-empty-msg">No follow-up dates logged yet.</div>`;
+  const open=sessions.filter(s=>s.followUpDate && !s.done);
+  if(open.length===0){
+    container.innerHTML=`<div class="empty-msg">No open follow-ups. You're all caught up.</div>`;
     return;
   }
   const groups={};
-  withFU.forEach(r=>{ (groups[r.followUpDate]=groups[r.followUpDate]||[]).push(r); });
+  open.forEach(s=>{ (groups[s.followUpDate]=groups[s.followUpDate]||[]).push(s); });
   const dates=Object.keys(groups).sort();
   const today=todayStr();
 
@@ -644,10 +847,8 @@ function renderFollowUpsTab(){
     if(date===today){ statusClass='fu-today'; label='TODAY'; }
     else if(diff<0){ statusClass='fu-overdue'; label=`OVERDUE by ${Math.abs(diff)} day${Math.abs(diff)===1?'':'s'}`; }
 
-    const agentsHtml = groups[date].map(r=>{
-      const notesPreview = r.notes ? (r.notes.length>110 ? r.notes.slice(0,110)+'…' : r.notes) : '';
-      const st = r.status==='Resolved' ? '<span class="status-tag resolved">Resolved</span>' : '<span class="status-tag pending">Pending</span>';
-      return `<div class="fu-agent"><strong>${r.name}</strong> ${st}${notesPreview?`<span class="fu-notes">${notesPreview}</span>`:''}</div>`;
+    const agentsHtml = groups[date].map(s=>{
+      return `<div class="fu-agent"><strong>${s.name}</strong><button type="button" class="fu-check-btn" data-id="${s.id}">✓ Check — session held</button></div>`;
     }).join('');
 
     return `<div class="fu-group ${statusClass}">
@@ -655,54 +856,39 @@ function renderFollowUpsTab(){
       <div class="fu-agents">${agentsHtml}</div>
     </div>`;
   }).join('');
+
+  container.querySelectorAll('.fu-check-btn').forEach(btn=>{
+    btn.addEventListener('click', async()=>{
+      const id=btn.dataset.id;
+      btn.disabled=true; btn.textContent='…';
+      try{
+        await apiPost({action:'updateFollowUpDone', id, done:true});
+        const rec=sessions.find(s=>s.id===id);
+        if(rec) rec.done=true;
+        renderFollowUpsTab();
+        renderDueBanner();
+        if(activeAgent) renderProfile();
+      }catch(e){
+        btn.disabled=false; btn.textContent='✓ Check — session held';
+      }
+    });
+  });
 }
 
-// ── Load / refresh log data from the sheet ─────────────────────
-async function refreshLog(){
+// ── Load / refresh data from the sheet ──────────────────────────
+async function refreshData(){
   try{
-    logData = await apiLoadLog();
+    const data = await apiLoadAll();
+    sessions = data.sessions;
+    issues   = data.issues;
   }catch(e){
-    logData = [];
+    sessions=[]; issues=[];
   }
+  refreshAgentDatalist();
   renderDueBanner();
-  refreshAgentNamesList();
-  renderHistoryResults(document.getElementById('historySearch').value);
   renderFollowUpsTab();
 }
-refreshLog();
-
-const qeStatus=document.getElementById('qeStatus');
-document.getElementById('qeSaveBtn').addEventListener('click', async()=>{
-  const name=document.getElementById('qe-name').value.trim();
-  const date=document.getElementById('qe-date').value;
-  const followUpDate=document.getElementById('qe-followup').value;
-  const notes=document.getElementById('qe-notes').value.trim();
-  const status=document.getElementById('qe-status').value;
-
-  if(!name){
-    qeStatus.className='mono err';
-    qeStatus.textContent='Enter the agent name first';
-    document.getElementById('qe-name').focus();
-    return;
-  }
-
-  const btn=document.getElementById('qeSaveBtn');
-  btn.disabled=true; btn.textContent='Saving…';
-  qeStatus.className='mono';
-  qeStatus.textContent='Saving…';
-
-  try{
-    await apiSave({name, date, followUpDate, notes, status, savedAt:new Date().toISOString()});
-    resetForm();
-    qeStatus.className='mono ok';
-    qeStatus.textContent='✓ Saved — '+new Date().toLocaleTimeString();
-    refreshLog();
-  }catch(e){
-    qeStatus.className='mono err';
-    qeStatus.textContent='Save failed — check connection and try again';
-  }
-  btn.disabled=false; btn.textContent='💾 Save';
-});
+refreshData();
 
 // ── Tabs ─────────────────────────────────────────────────────
 document.querySelectorAll('.tab-btn').forEach(btn=>{
@@ -711,7 +897,7 @@ document.querySelectorAll('.tab-btn').forEach(btn=>{
     document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
     btn.classList.add('active');
     document.getElementById('view-'+btn.dataset.view).classList.add('active');
-    if(btn.dataset.view==='tracker' || btn.dataset.view==='followups') refreshLog();
+    if(btn.dataset.view==='tracker' || btn.dataset.view==='followups') refreshData();
   });
 });
 </script>
