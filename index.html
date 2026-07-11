@@ -180,9 +180,9 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
     </div>
 
     <div class="subview active" id="subview-issues">
-      <p class="guide-intro">Click a category to expand. Each growth area has a short code (e.g. <span class="code-badge">OPEN-1</span>) — copy just the code and paste it into an agent's profile to log it fast without retyping.</p>
+      <p class="guide-intro">Click a category to expand. Each growth area has a short code (e.g. <span class="code-badge">O1</span>) — copy just the code and paste it into an agent's profile to log it fast without retyping.</p>
       <div class="guide-toolbar">
-        <input type="text" id="guideSearch" class="search-input" placeholder="Search by code, wording, or fix… e.g. OPEN-1, rebuttal, pacing">
+        <input type="text" id="guideSearch" class="search-input" placeholder="Search by code, wording, or fix… e.g. O1, rebuttal, pacing">
       </div>
       <div id="categories"></div>
     </div>
@@ -214,7 +214,7 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
       </div>
 
       <div class="section-title">Log a Session / Follow-up</div>
-      <p class="qe-hint" style="margin-bottom:12px;">Paste a code like <span class="code-badge">OPEN-1</span> (or a few, separated by commas or blank lines) to pull in the full growth area automatically — or just type your own notes.</p>
+      <p class="qe-hint" style="margin-bottom:12px;">Paste a code like <span class="code-badge">O1</span> (or a few, separated by commas or blank lines) to pull in the full growth area automatically — or just type your own notes.</p>
       <div class="qe-card">
         <div class="qe-field">
           <label>Session Date (month-day-year)</label>
@@ -226,7 +226,7 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
         </div>
         <div class="qe-field">
           <label>Growth Areas Discussed</label>
-          <textarea id="qe-notes" placeholder="OPEN-1&#10;&#10;SCRIPT-3&#10;&#10;or type your own note…"></textarea>
+          <textarea id="qe-notes" placeholder="O1&#10;&#10;S3&#10;&#10;or type your own note…"></textarea>
         </div>
         <div class="qe-actions">
           <button class="btn btn-save" id="qeSaveBtn">💾 Save</button>
@@ -241,7 +241,7 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
       <div class="qe-card">
         <div class="qe-field">
           <label>Add Growth Area(s)</label>
-          <textarea id="quickIssueInput" placeholder="Paste a code like OPEN-1, several codes separated by commas, or your own text…" style="min-height:80px;"></textarea>
+          <textarea id="quickIssueInput" placeholder="Paste a code like O1, several codes separated by commas, or your own text…" style="min-height:80px;"></textarea>
         </div>
         <div class="qe-actions">
           <button class="btn btn-save" id="addIssueBtn">+ Add to Profile</button>
@@ -389,23 +389,24 @@ const STRENGTHS=[
 ];
 
 // ── Codes: every growth area & strength gets a short reference code ──
-const CODE_PREFIXES=['OPEN','SCRIPT','PACE','CTRL','REBUT','CLOSE','WORD'];
+const CODE_PREFIXES=['O','S','P','C','R','A','W']; // one letter per category, short & easy to say
 const CODE_MAP={};
 CATEGORIES.forEach((cat,ci)=>{
-  const prefix=CODE_PREFIXES[ci] || ('CAT'+(ci+1));
+  const prefix=CODE_PREFIXES[ci] || ('X'+(ci+1));
   cat.items.forEach((it,ii)=>{
-    const code=`${prefix}-${ii+1}`;
+    const code=`${prefix}${ii+1}`;
     it.code=code;
     CODE_MAP[code]={code, full:`Growth Area: ${it.issue}\nFix: ${it.fix}`};
   });
 });
 STRENGTHS.forEach((s,si)=>{
-  const code=`WIN-${si+1}`;
+  const code=`G${si+1}`; // G = good / strength
   s.code=code;
   CODE_MAP[code]={code, full:`${s.title}: ${s.note}`};
 });
 
 function copyToClipboard(text, btn){
+  const original = btn.textContent;
   const doCopy=async()=>{
     try{ await navigator.clipboard.writeText(text); }
     catch(e){
@@ -414,7 +415,6 @@ function copyToClipboard(text, btn){
       document.execCommand('copy'); document.body.removeChild(ta);
     }
     btn.classList.add('copied');
-    const original=btn.dataset.label||'⧉ Copy';
     btn.textContent='✓ Copied';
     setTimeout(()=>{btn.classList.remove('copied');btn.textContent=original;},1400);
   };
@@ -449,8 +449,7 @@ CATEGORIES.forEach((cat,ci)=>{
       <div class="issue"><span class="lbl">Growth Area <span class="code-badge">${it.code}</span></span>${it.issue}</div>
       <div class="fix"><span class="lbl">Fix</span>${it.fix}</div>
       <div class="item-actions">
-        <button class="copy-btn" type="button" data-copy="code" data-label="⧉ Copy Code">⧉ Copy Code</button>
-        <button class="copy-btn" type="button" data-copy="full" data-label="⧉ Copy Full">⧉ Copy Full</button>
+        <button class="copy-btn" type="button">⧉ Copy</button>
         <button class="add-agent-btn" type="button">+ Add to Agent</button>
       </div>
     </div>`;
@@ -459,10 +458,7 @@ CATEGORIES.forEach((cat,ci)=>{
   div.querySelector('.cat-head').addEventListener('click',()=>div.classList.toggle('open'));
   div.querySelectorAll('.item').forEach((itemEl,ii)=>{
     const it=cat.items[ii];
-    itemEl.querySelectorAll('.copy-btn').forEach(b=>{
-      const text = b.dataset.copy==='code' ? it.code : CODE_MAP[it.code].full;
-      b.addEventListener('click',(e)=>copyToClipboard(text, e.currentTarget));
-    });
+    itemEl.querySelector('.copy-btn').addEventListener('click',(e)=>copyToClipboard(`${it.code}\n${CODE_MAP[it.code].full}`, e.currentTarget));
     itemEl.querySelector('.add-agent-btn').addEventListener('click',(e)=>addTextToAgent(CODE_MAP[it.code].full, e.currentTarget));
   });
   catWrap.appendChild(div);
@@ -477,26 +473,56 @@ STRENGTHS.forEach((s)=>{
   card.dataset.search=(s.code+' '+s.title+' '+s.note).toLowerCase();
   card.innerHTML=`<h3>${s.title} <span class="code-badge">${s.code}</span></h3><p>${s.note}</p>
     <div class="card-actions">
-      <button class="copy-btn" type="button" data-copy="code" data-label="⧉ Copy Code">⧉ Copy Code</button>
-      <button class="copy-btn" type="button" data-copy="full" data-label="⧉ Copy Full">⧉ Copy Full</button>
+      <button class="copy-btn" type="button">⧉ Copy</button>
       <button class="add-agent-btn" type="button">+ Add to Agent</button>
     </div>`;
-  card.querySelectorAll('.copy-btn').forEach(b=>{
-    const text = b.dataset.copy==='code' ? s.code : CODE_MAP[s.code].full;
-    b.addEventListener('click',(e)=>copyToClipboard(text, e.currentTarget));
-  });
+  card.querySelector('.copy-btn').addEventListener('click',(e)=>copyToClipboard(`${s.code}\n${CODE_MAP[s.code].full}`, e.currentTarget));
   card.querySelector('.add-agent-btn').addEventListener('click',(e)=>addTextToAgent(CODE_MAP[s.code].full, e.currentTarget));
   strWrap.appendChild(card);
 });
 
 // ── Guide / Strengths search ───────────────────────────────────
+// ── Fuzzy search — matches close spellings, not just exact substrings ──
+function levenshtein(a,b){
+  if(a===b) return 0;
+  const al=a.length, bl=b.length;
+  if(al===0) return bl;
+  if(bl===0) return al;
+  let prev=new Array(bl+1);
+  for(let j=0;j<=bl;j++) prev[j]=j;
+  for(let i=1;i<=al;i++){
+    const cur=[i];
+    for(let j=1;j<=bl;j++){
+      const cost = a[i-1]===b[j-1] ? 0 : 1;
+      cur[j]=Math.min(prev[j]+1, cur[j-1]+1, prev[j-1]+cost);
+    }
+    prev=cur;
+  }
+  return prev[bl];
+}
+function fuzzyWordMatch(word, textWords){
+  if(!word) return true;
+  const threshold = word.length<=3 ? 0 : (word.length<=6 ? 1 : 2);
+  for(const tw of textWords){
+    if(tw.includes(word) || word.includes(tw)) return true;
+    if(levenshtein(word, tw)<=threshold) return true;
+  }
+  return false;
+}
+function fuzzyMatch(query, blob){
+  const queryWords=query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  if(queryWords.length===0) return true;
+  const textWords=blob.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
+  return queryWords.every(qw=>fuzzyWordMatch(qw, textWords));
+}
+
 function applyGuideSearch(term){
-  term=term.trim().toLowerCase();
+  term=term.trim();
   const cats=[...document.querySelectorAll('#categories .cat')];
   cats.forEach(catEl=>{
     let anyVisible=false;
     catEl.querySelectorAll('.item').forEach(itemEl=>{
-      const match = !term || itemEl.dataset.search.includes(term);
+      const match = !term || fuzzyMatch(term, itemEl.dataset.search);
       itemEl.style.display = match ? '' : 'none';
       if(match) anyVisible=true;
     });
@@ -511,9 +537,9 @@ function applyGuideSearch(term){
 document.getElementById('guideSearch').addEventListener('input',e=>applyGuideSearch(e.target.value));
 
 function applyStrengthsSearch(term){
-  term=term.trim().toLowerCase();
+  term=term.trim();
   document.querySelectorAll('#strengths .strength-card').forEach(cardEl=>{
-    const match = !term || cardEl.dataset.search.includes(term);
+    const match = !term || fuzzyMatch(term, cardEl.dataset.search);
     cardEl.style.display = match ? '' : 'none';
   });
 }
@@ -540,8 +566,8 @@ function todayDefault(){ document.getElementById('qe-date').value=todayStr(); }
 
 // Expand raw pasted text into an array of final growth-area strings.
 // Recognizes:
-//  - a single code on its own ("OPEN-1")
-//  - several codes separated by commas/whitespace on one line ("OPEN-1, PACE-2")
+//  - a single code on its own ("O1")
+//  - several codes separated by commas/whitespace on one line ("O1, P2")
 //  - blocks separated by a blank line (mix of codes and free text)
 function tryExpandCodeBlock(block){
   const trimmed=block.trim();
