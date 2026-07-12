@@ -99,6 +99,10 @@ mark.search-hit{background:#FBE7B2;color:inherit;padding:0 2px;border-radius:2px
 
 .profile-header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:22px 0 4px;}
 .profile-header h2{margin:0;font-size:21px;}
+.progress-wrap{display:flex;align-items:center;gap:8px;}
+.progress-bar{width:110px;height:8px;background:var(--line);border-radius:4px;overflow:hidden;}
+.progress-fill{height:100%;background:var(--green);transition:width .3s ease;}
+.progress-label{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);white-space:nowrap;}
 .profile-stats{font-family:'Courier New',monospace;font-size:11px;color:var(--muted);}
 
 .qe-card{background:var(--panel);border:1px solid var(--line);border-radius:4px;padding:20px 22px 22px;max-width:640px;}
@@ -214,6 +218,10 @@ mark.search-hit{background:#FBE7B2;color:inherit;padding:0 2px;border-radius:2px
     <div id="agentProfile">
       <div class="profile-header">
         <h2 id="profileName"></h2>
+        <div class="progress-wrap">
+          <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%;"></div></div>
+          <span class="progress-label" id="progressLabel"></span>
+        </div>
         <span class="profile-stats" id="profileStats"></span>
         <button class="btn btn-outline" id="printProfileBtn">🖨 Print Profile</button>
       </div>
@@ -755,6 +763,10 @@ function renderProfile(){
   const myIssues=issues.filter(i=>sameName(i.name,activeAgent));
   const pendingCount=myIssues.filter(i=>i.status==='Pending').length;
   const resolvedCount=myIssues.filter(i=>i.status==='Resolved').length;
+  const totalCount=myIssues.length;
+  const pct = totalCount>0 ? Math.round((resolvedCount/totalCount)*100) : 0;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressLabel').textContent = totalCount>0 ? `${pct}% progress (${resolvedCount}/${totalCount})` : 'No growth areas yet';
   const nextFU=mySessions.filter(s=>s.followUpDate && !s.done && s.followUpDate>=todayStr()).sort((a,b)=>a.followUpDate.localeCompare(b.followUpDate))[0];
   document.getElementById('profileStats').textContent =
     `${pendingCount} pending · ${resolvedCount} resolved` + (nextFU ? ` · next follow-up ${mdy(nextFU.followUpDate)}` : '');
@@ -924,6 +936,8 @@ document.getElementById('printProfileBtn').addEventListener('click',()=>{
   const myIssues=issues.filter(i=>sameName(i.name,activeAgent));
   const pending=myIssues.filter(i=>i.status==='Pending');
   const resolved=myIssues.filter(i=>i.status==='Resolved');
+  const totalCount=myIssues.length;
+  const pct = totalCount>0 ? Math.round((resolved.length/totalCount)*100) : 0;
   const printArea=document.getElementById('printArea');
 
   const sessionsHtml = mySessions.map(s=>`<div class="print-session">
@@ -938,7 +952,7 @@ document.getElementById('printProfileBtn').addEventListener('click',()=>{
   printArea.innerHTML = `
     <div class="print-header">
       <h1>Coaching Profile — ${activeAgent}</h1>
-      <span class="mono">Printed ${mdy(todayStr())}</span>
+      <span class="mono">Printed ${mdy(todayStr())} · ${totalCount>0?pct+'% progress ('+resolved.length+'/'+totalCount+')':'No growth areas yet'}</span>
     </div>
     <div class="print-sub">Sessions &amp; Follow-ups</div>
     ${sessionsHtml}
