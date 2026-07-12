@@ -11,6 +11,7 @@
   --green-pale:#e7ede4; --amber:#c08a2e; --muted:#6b6a5e;
 }
 *{box-sizing:border-box;}
+button:disabled{opacity:.5;cursor:progress;}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:'Georgia',serif;-webkit-font-smoothing:antialiased;min-height:100vh;display:flex;flex-direction:column;}
 .mono{font-family:'Courier New',monospace;letter-spacing:.04em;}
 header{padding:22px 28px 16px;border-bottom:3px solid var(--ink);}
@@ -21,7 +22,8 @@ nav.tabs button.active{color:var(--ink);border-bottom-color:var(--rust);font-wei
 nav.tabs button:hover{color:var(--ink);}
 main{padding:22px 28px 40px;max-width:1160px;margin:0 auto;flex:1;width:100%;}
 section.view{display:none;}
-section.view.active{display:block;}
+section.view.active{display:block;animation:fadeIn .25s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
 .section-title{font-size:17px;font-weight:700;margin:30px 0 8px;}
 footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(--muted);border-top:1px solid var(--line);}
 
@@ -30,7 +32,7 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
 .subnav button{font-family:'Courier New',monospace;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:var(--panel);border:1px solid var(--line);padding:8px 14px;border-radius:20px;cursor:pointer;color:var(--muted);}
 .subnav button.active{background:var(--ink);color:var(--paper);border-color:var(--ink);}
 .subview{display:none;}
-.subview.active{display:block;}
+.subview.active{display:block;animation:fadeIn .2s ease;}
 
 /* TOOLBAR / SEARCH / BUTTONS */
 .guide-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
@@ -62,6 +64,7 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
 .lbl{font-family:'Courier New',monospace;font-size:9.5px;letter-spacing:.1em;text-transform:uppercase;display:flex;align-items:center;gap:6px;margin-bottom:2px;}
 .item .issue .lbl{color:var(--rust-dark);}
 .item .fix .lbl{color:var(--green);}
+mark.search-hit{background:#FBE7B2;color:inherit;padding:0 2px;border-radius:2px;}
 .code-badge{font-family:'Courier New',monospace;font-size:9.5px;background:var(--ink);color:var(--paper);border-radius:3px;padding:1px 6px;letter-spacing:.03em;}
 .item-actions{display:flex;flex-direction:column;gap:5px;align-items:flex-end;}
 .copy-btn{font-family:'Courier New',monospace;font-size:10.5px;letter-spacing:.04em;background:var(--paper);border:1px solid var(--line);border-radius:3px;padding:6px 10px;cursor:pointer;color:var(--muted);white-space:nowrap;transition:background .15s,color .15s,border-color .15s;}
@@ -91,6 +94,8 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
 .agent-select-wrap input:focus{outline:2px solid var(--rust);border-color:transparent;}
 .agent-select-msg{font-size:13px;margin-top:8px;color:var(--muted);}
 .agent-select-msg .btn{margin-left:6px;}
+#agentProfile{display:none;}
+#agentProfile.visible{display:block;animation:fadeIn .25s ease;}
 
 .profile-header{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin:22px 0 4px;}
 .profile-header h2{margin:0;font-size:21px;}
@@ -206,7 +211,7 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
     </div>
     <datalist id="agentNamesList"></datalist>
 
-    <div id="agentProfile" style="display:none;">
+    <div id="agentProfile">
       <div class="profile-header">
         <h2 id="profileName"></h2>
         <span class="profile-stats" id="profileStats"></span>
@@ -264,7 +269,7 @@ footer.footer-credit{text-align:center;padding:16px;font-size:10.5px;color:var(-
 
 <script>
 // ── API ──────────────────────────────────────────────────────
-const API_URL = 'https://script.google.com/macros/s/AKfycbwOZtlBAgCdJ6bR5iEkLHX-b4V54wSr2ZfXIb4BtfPyi4TzeVj2JVQtwHyA32qV80HxiQ/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycby1EyRS3VFPbkHKBXwYbEAUy643ymFst_4vdEvb5CmG0Q85laZeadJNT4Ti2Fj7DxjhyA/exec';
 
 async function apiPost(payload){
   await fetch(API_URL, {method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(payload)});
@@ -328,7 +333,10 @@ const CATEGORIES=[
     {issue:"Mic too close to mouth — sounds like shouting.",fix:"Keep consistent mic distance at all times."},
     {issue:"Jumping into the opening line immediately after dialing.",fix:"Take one breath before the patient picks up — starting calm sets the tone for the whole call."},
     {issue:"Energy drops noticeably in the back half of the shift.",fix:"Reset between calls — stand up, breathe, shake it off. Don't carry one bad call's energy into the next."},
-    {issue:"Tone goes monotone during the features/benefits section.",fix:"This is the part that sells — inject the most energy here, not the least."}
+    {issue:"Tone goes monotone during the features/benefits section.",fix:"This is the part that sells — inject the most energy here, not the least."},
+    {issue:"Jumping straight into the next line without acknowledging what the patient said.",fix:"React before you rebut — 2–4 words showing you heard them (\"Oh, no problem at all\"), a short pause, then your line."},
+    {issue:"Every word in a sentence gets the same weight, so it sounds flat and rehearsed.",fix:"Stress one word per line — \"It comes at no cost to you.\" One habit, fixes most of the robotic sound."},
+    {issue:"Answering an objection instantly, every single time.",fix:"Pause about a second first, like you're actually thinking it over — instant replies are what give away a script."}
   ]},
   {name:"Control & Authority",items:[
     {issue:"Too polite / sounds like customer service.",fix:"Be tougher — you're not here for customer service. Hold control of the call."},
@@ -347,7 +355,8 @@ const CATEGORIES=[
     {issue:"Patient asks \"how much is it?\" too early.",fix:"Don't answer the price directly — introduce it gradually."},
     {issue:"Patient says \"let me think about it\" / \"call me back later\".",fix:"Treat it as an objection, not a real answer — use a rebuttal to find out what's actually holding them back before offering a callback."},
     {issue:"Patient brings up a bad experience with a similar product/company.",fix:"Acknowledge it without agreeing or arguing, then differentiate — don't get pulled into defending someone else's product."},
-    {issue:"Patient says a family member handles their decisions.",fix:"Ask if that person can join the call now, or find the best time to reach them — don't let the call just end."}
+    {issue:"Patient says a family member handles their decisions.",fix:"Ask if that person can join the call now, or find the best time to reach them — don't let the call just end."},
+    {issue:"Pushing back directly against what the patient just said.",fix:"Give something to take something — agree with part of it first (\"I totally understand that…\"), then redirect. Agreement lowers the wall before you push."}
   ]},
   {name:"Active Listening & Closing",items:[
     {issue:"Rushing off right after the presentation.",fix:"Be an active listener post-presentation — never rush this part."},
@@ -365,6 +374,19 @@ const CATEGORIES=[
     {issue:"Making medical claims or promises the device can't guarantee.",fix:"Stick to what the device actually does — never promise medical outcomes or response times you can't back up."},
     {issue:"Using jargon or plan terms the patient doesn't recognize.",fix:"Translate benefits into plain, everyday language — assume they've never heard the internal terms."},
     {issue:"Mumbling or rushing the confirmation questions at the end.",fix:"Slow down and speak clearly here — this section holds up the whole sale if it's unclear."}
+  ]},
+  {name:"Sales Techniques",items:[
+    {issue:"Selling the product instead of the feeling.",fix:"Sell the peace of mind, safety, and independence — the device is just how it's delivered. \"Help at the push of a button\" beats a spec list."},
+    {issue:"Listing features instead of painting the outcome.",fix:"Turn every feature into a picture: not \"fall detection\" but \"someone's there even if you can't press the button yourself.\""},
+    {issue:"Talking to the patient like a stranger buying a gadget.",fix:"Talk to them like a person who's scared of being alone and hurt — that's the real conversation underneath the sale."},
+    {issue:"Overloading the patient with every benefit at once.",fix:"Pick the 2–3 that matter most to this specific patient and lean on those — more isn't more convincing."},
+    {issue:"Not tying the product back to something the patient already said.",fix:"Reflect their own words back — \"you mentioned you live alone\" — makes the pitch feel built for them, not generic."},
+    {issue:"Treating every patient's motivation the same way.",fix:"Some patients buy for independence, some for their family's peace of mind — find out which one and sell to that."},
+    {issue:"Closing on logic alone (\"it's a good deal\").",fix:"People buy on emotion and justify with logic — lead with how safe and cared-for they'll feel, then back it up with the facts."},
+    {issue:"Naming the price before value is built.",fix:"Cover the features and peace-of-mind first — fall detection, GPS, monitoring. Let them want it before they hear a number."},
+    {issue:"Stating the price with no anchor, so it sounds arbitrary.",fix:"Set an expectation first — \"most people pay around $40/month for this kind of protection\" — before revealing your actual number."},
+    {issue:"Sounding apologetic or hesitant when finally saying the price.",fix:"State it flat and confident, no cushioning. Hesitation is what makes a price sound expensive, not the number itself."},
+    {issue:"Giving up when the patient hesitates on budget.",fix:"Ask directly: \"what kind of monthly budget are you comfortable with?\" — then match the device to their answer instead of dropping the call."}
   ]}
 ];
 
@@ -389,7 +411,7 @@ const STRENGTHS=[
 ];
 
 // ── Codes: every growth area & strength gets a short reference code ──
-const CODE_PREFIXES=['O','S','P','C','R','A','W']; // one letter per category, short & easy to say
+const CODE_PREFIXES=['O','S','P','C','R','A','W','T']; // one letter per category, short & easy to say
 const CODE_MAP={};
 CATEGORIES.forEach((cat,ci)=>{
   const prefix=CODE_PREFIXES[ci] || ('X'+(ci+1));
@@ -440,14 +462,15 @@ async function addTextToAgent(text, btn){
 }
 
 // ── Render guide categories ────────────────────────────────────
+const GUIDE_ITEMS_FLAT=[];
 const catWrap=document.getElementById('categories');
 CATEGORIES.forEach((cat,ci)=>{
   const div=document.createElement('div');div.className='cat';
   const bodyHtml = cat.items.map((it)=>{
     const searchBlob=(it.code+' '+it.issue+' '+it.fix).toLowerCase();
     return `<div class="item" data-search="${searchBlob.replace(/"/g,'&quot;')}">
-      <div class="issue"><span class="lbl">Growth Area <span class="code-badge">${it.code}</span></span>${it.issue}</div>
-      <div class="fix"><span class="lbl">Fix</span>${it.fix}</div>
+      <div class="issue"><span class="lbl">Growth Area <span class="code-badge">${it.code}</span></span><span class="issue-text">${it.issue}</span></div>
+      <div class="fix"><span class="lbl">Fix</span><span class="fix-text">${it.fix}</span></div>
       <div class="item-actions">
         <button class="copy-btn" type="button">⧉ Copy</button>
         <button class="add-agent-btn" type="button">+ Add to Agent</button>
@@ -460,18 +483,24 @@ CATEGORIES.forEach((cat,ci)=>{
     const it=cat.items[ii];
     itemEl.querySelector('.copy-btn').addEventListener('click',(e)=>copyToClipboard(`${it.code}\n${CODE_MAP[it.code].full}`, e.currentTarget));
     itemEl.querySelector('.add-agent-btn').addEventListener('click',(e)=>addTextToAgent(CODE_MAP[it.code].full, e.currentTarget));
+    GUIDE_ITEMS_FLAT.push({
+      catEl:div, itemEl,
+      issueEl:itemEl.querySelector('.issue-text'), fixEl:itemEl.querySelector('.fix-text'),
+      issueText:it.issue, fixText:it.fix,
+      blob:(it.code+' '+it.issue+' '+it.fix).toLowerCase()
+    });
   });
   catWrap.appendChild(div);
 });
 catWrap.firstElementChild&&catWrap.firstElementChild.classList.add('open');
 
 // ── Render strengths ─────────────────────────────────────────
+const STRENGTH_CARDS_FLAT=[];
 const strWrap=document.getElementById('strengths');
 STRENGTHS.forEach((s)=>{
   const card=document.createElement('div');
   card.className='strength-card';
-  card.dataset.search=(s.code+' '+s.title+' '+s.note).toLowerCase();
-  card.innerHTML=`<h3>${s.title} <span class="code-badge">${s.code}</span></h3><p>${s.note}</p>
+  card.innerHTML=`<h3><span class="title-text">${s.title}</span> <span class="code-badge">${s.code}</span></h3><p class="note-text">${s.note}</p>
     <div class="card-actions">
       <button class="copy-btn" type="button">⧉ Copy</button>
       <button class="add-agent-btn" type="button">+ Add to Agent</button>
@@ -479,10 +508,15 @@ STRENGTHS.forEach((s)=>{
   card.querySelector('.copy-btn').addEventListener('click',(e)=>copyToClipboard(`${s.code}\n${CODE_MAP[s.code].full}`, e.currentTarget));
   card.querySelector('.add-agent-btn').addEventListener('click',(e)=>addTextToAgent(CODE_MAP[s.code].full, e.currentTarget));
   strWrap.appendChild(card);
+  STRENGTH_CARDS_FLAT.push({
+    cardEl:card,
+    titleEl:card.querySelector('.title-text'), noteEl:card.querySelector('.note-text'),
+    titleText:s.title, noteText:s.note,
+    blob:(s.code+' '+s.title+' '+s.note).toLowerCase()
+  });
 });
 
-// ── Guide / Strengths search ───────────────────────────────────
-// ── Fuzzy search — matches close spellings, not just exact substrings ──
+// ── Search: fuzzy matching + relevance ranking + highlighting ──
 function levenshtein(a,b){
   if(a===b) return 0;
   const al=a.length, bl=b.length;
@@ -500,47 +534,109 @@ function levenshtein(a,b){
   }
   return prev[bl];
 }
-function fuzzyWordMatch(word, textWords){
-  if(!word) return true;
-  const threshold = word.length<=3 ? 0 : (word.length<=6 ? 1 : 2);
+// per-word score against a blob: 2 = exact substring, 1 = close typo, 0 = no match
+function wordScore(word, textWords){
+  let best=0;
   for(const tw of textWords){
-    if(tw.includes(word) || word.includes(tw)) return true;
-    if(levenshtein(word, tw)<=threshold) return true;
+    if(tw.includes(word) || word.includes(tw)){ best=2; break; }
+    const threshold = word.length<=3 ? 0 : (word.length<=6 ? 1 : 2);
+    if(levenshtein(word, tw)<=threshold) best=Math.max(best,1);
   }
-  return false;
+  return best;
 }
-function fuzzyMatch(query, blob){
-  const queryWords=query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-  if(queryWords.length===0) return true;
+// total score for a blob; returns -1 if any query word doesn't match at all (excluded)
+function scoreBlob(queryWords, blob){
   const textWords=blob.toLowerCase().split(/[^a-z0-9]+/).filter(Boolean);
-  return queryWords.every(qw=>fuzzyWordMatch(qw, textWords));
+  let total=0;
+  for(const qw of queryWords){
+    const s=wordScore(qw, textWords);
+    if(s===0) return -1;
+    total+=s;
+  }
+  return total;
+}
+function escapeRegex(s){ return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+function highlightText(text, queryWords){
+  let html=text;
+  [...queryWords].sort((a,b)=>b.length-a.length).forEach(w=>{
+    if(!w) return;
+    const re=new RegExp('('+escapeRegex(w)+')','ig');
+    html=html.replace(re,'<mark class="search-hit">$1</mark>');
+  });
+  return html;
 }
 
 function applyGuideSearch(term){
   term=term.trim();
-  const cats=[...document.querySelectorAll('#categories .cat')];
-  cats.forEach(catEl=>{
-    let anyVisible=false;
-    catEl.querySelectorAll('.item').forEach(itemEl=>{
-      const match = !term || fuzzyMatch(term, itemEl.dataset.search);
-      itemEl.style.display = match ? '' : 'none';
-      if(match) anyVisible=true;
-    });
-    catEl.style.display = anyVisible ? '' : 'none';
-    if(term) catEl.classList.toggle('open', anyVisible);
-  });
   if(!term){
-    cats.forEach(c=>c.classList.remove('open'));
-    if(cats[0]) cats[0].classList.add('open');
+    GUIDE_ITEMS_FLAT.forEach(g=>{
+      g.itemEl.style.display='';
+      g.issueEl.innerHTML=g.issueText;
+      g.fixEl.innerHTML=g.fixText;
+    });
+    document.querySelectorAll('#categories .cat').forEach((c,i)=>{
+      c.style.display='';
+      c.classList.toggle('open', i===0);
+    });
+    return;
   }
+  const queryWords=term.toLowerCase().split(/\s+/).filter(Boolean);
+  let maxScore=-1;
+  const scored=GUIDE_ITEMS_FLAT.map(g=>{
+    const score=scoreBlob(queryWords, g.blob);
+    if(score>maxScore) maxScore=score;
+    return {g, score};
+  });
+  const threshold = maxScore>0 ? maxScore*0.6 : 0;
+  const catsWithVisible=new Set();
+  scored.forEach(({g,score})=>{
+    const show = score>=0 && score>=threshold;
+    g.itemEl.style.display = show ? '' : 'none';
+    if(show){
+      g.issueEl.innerHTML=highlightText(g.issueText, queryWords);
+      g.fixEl.innerHTML=highlightText(g.fixText, queryWords);
+      catsWithVisible.add(g.catEl);
+    }else{
+      g.issueEl.innerHTML=g.issueText;
+      g.fixEl.innerHTML=g.fixText;
+    }
+  });
+  document.querySelectorAll('#categories .cat').forEach(c=>{
+    const anyVisible=catsWithVisible.has(c);
+    c.style.display = anyVisible ? '' : 'none';
+    c.classList.toggle('open', anyVisible);
+  });
 }
 document.getElementById('guideSearch').addEventListener('input',e=>applyGuideSearch(e.target.value));
 
 function applyStrengthsSearch(term){
   term=term.trim();
-  document.querySelectorAll('#strengths .strength-card').forEach(cardEl=>{
-    const match = !term || fuzzyMatch(term, cardEl.dataset.search);
-    cardEl.style.display = match ? '' : 'none';
+  if(!term){
+    STRENGTH_CARDS_FLAT.forEach(s=>{
+      s.cardEl.style.display='';
+      s.titleEl.innerHTML=s.titleText;
+      s.noteEl.innerHTML=s.noteText;
+    });
+    return;
+  }
+  const queryWords=term.toLowerCase().split(/\s+/).filter(Boolean);
+  let maxScore=-1;
+  const scored=STRENGTH_CARDS_FLAT.map(s=>{
+    const score=scoreBlob(queryWords, s.blob);
+    if(score>maxScore) maxScore=score;
+    return {s, score};
+  });
+  const threshold = maxScore>0 ? maxScore*0.6 : 0;
+  scored.forEach(({s,score})=>{
+    const show = score>=0 && score>=threshold;
+    s.cardEl.style.display = show ? '' : 'none';
+    if(show){
+      s.titleEl.innerHTML=highlightText(s.titleText, queryWords);
+      s.noteEl.innerHTML=highlightText(s.noteText, queryWords);
+    }else{
+      s.titleEl.innerHTML=s.titleText;
+      s.noteEl.innerHTML=s.noteText;
+    }
   });
 }
 document.getElementById('strengthSearch').addEventListener('input',e=>applyStrengthsSearch(e.target.value));
@@ -622,7 +718,7 @@ function renderDueBanner(){
 function activateAgent(name){
   activeAgent=name;
   document.getElementById('agentSelectMsg').innerHTML='';
-  document.getElementById('agentProfile').style.display='block';
+  document.getElementById('agentProfile').classList.add('visible');
   document.getElementById('profileName').textContent=name;
   todayDefault();
   document.getElementById('qe-followup').value='';
@@ -635,7 +731,7 @@ function handleAgentInput(){
   const val=document.getElementById('agentSelect').value;
   const msg=document.getElementById('agentSelectMsg');
   if(!val.trim()){
-    document.getElementById('agentProfile').style.display='none';
+    document.getElementById('agentProfile').classList.remove('visible');
     msg.innerHTML='';
     activeAgent=null;
     return;
@@ -645,7 +741,7 @@ function handleAgentInput(){
   if(canon){
     activateAgent(canon);
   }else{
-    document.getElementById('agentProfile').style.display='none';
+    document.getElementById('agentProfile').classList.remove('visible');
     activeAgent=null;
     msg.innerHTML=`No profile found for "${val.trim()}" yet.<button type="button" class="btn btn-outline btn-small" id="createAgentBtn">+ Create Profile</button>`;
     document.getElementById('createAgentBtn').addEventListener('click',()=>activateAgent(val.trim()));
