@@ -131,6 +131,8 @@ mark.search-hit{background:#FBE7B2;color:inherit;padding:0 2px;border-radius:2px
 .status-pill.pending{color:#8a611f;border-color:#c9a24d;background:#FBE7B2;}
 .status-pill.resolved{color:#276239;border-color:#4d9169;background:#D4EDDA;}
 .recur-badge{font-family:'Courier New',monospace;font-size:10px;color:var(--rust-dark);}
+.recur-btn{font-family:'Courier New',monospace;font-size:10px;background:none;border:1px solid var(--line);border-radius:20px;padding:4px 9px;cursor:pointer;color:var(--rust-dark);white-space:nowrap;}
+.recur-btn:hover{border-color:var(--rust-dark);background:var(--paper);}
 .remove-btn{font-family:'Courier New',monospace;font-size:10px;background:none;border:none;color:var(--muted);cursor:pointer;margin-left:auto;}
 .remove-btn:hover{color:var(--rust-dark);}
 .iadded{font-family:'Courier New',monospace;font-size:10px;color:var(--muted);margin-left:4px;}
@@ -152,6 +154,7 @@ mark.search-hit{background:#FBE7B2;color:inherit;padding:0 2px;border-radius:2px
 .fu-agent:first-child{border-top:none;}
 .fu-check-btn{font-family:'Courier New',monospace;font-size:10px;background:var(--green);color:#fff;border:none;border-radius:20px;padding:5px 11px;cursor:pointer;margin-left:auto;}
 .fu-check-btn:hover{background:#2d4434;}
+.fu-reschedule-input{font-family:'Courier New',monospace;font-size:11px;border:1px solid var(--line);border-radius:3px;padding:4px 6px;background:var(--paper);}
 
 /* PRINT: agent profile only */
 #printArea{display:none;}
@@ -277,7 +280,7 @@ mark.search-hit{background:#FBE7B2;color:inherit;padding:0 2px;border-radius:2px
 
 <script>
 // ── API ──────────────────────────────────────────────────────
-const API_URL = 'https://script.google.com/macros/s/AKfycby1EyRS3VFPbkHKBXwYbEAUy643ymFst_4vdEvb5CmG0Q85laZeadJNT4Ti2Fj7DxjhyA/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycby8UObxaoQGi2aDoOETZMWAXurHCN9qWuFPOPKGQgkL_6V1KDJja033dYykl69xDws1WA/exec';
 
 async function apiPost(payload){
   await fetch(API_URL, {method:'POST', redirect:'follow', headers:{'Content-Type':'text/plain'}, body:JSON.stringify(payload)});
@@ -452,14 +455,14 @@ function copyToClipboard(text, btn){
 }
 
 // ── "+ Add to Agent" straight from the guide ────────────────────
-async function addTextToAgent(text, btn){
+async function addTextToAgent(text, btn, initialStatus){
   const name = window.prompt('Add this to which agent\'s profile? (type the exact saved name)');
   if(!name || !name.trim()) return;
   const originalLabel = btn.textContent;
   btn.textContent='Adding…';
   btn.disabled=true;
   try{
-    await apiPost({action:'addIssue', agentName:name.trim(), text});
+    await apiPost({action:'addIssue', agentName:name.trim(), text, status: initialStatus||'Pending'});
     btn.textContent='✓ Added';
     btn.classList.add('added');
     setTimeout(()=>{btn.textContent=originalLabel;btn.classList.remove('added');btn.disabled=false;},1600);
@@ -514,7 +517,7 @@ STRENGTHS.forEach((s)=>{
       <button class="add-agent-btn" type="button">+ Add to Agent</button>
     </div>`;
   card.querySelector('.copy-btn').addEventListener('click',(e)=>copyToClipboard(`${s.code}\n${CODE_MAP[s.code].full}`, e.currentTarget));
-  card.querySelector('.add-agent-btn').addEventListener('click',(e)=>addTextToAgent(CODE_MAP[s.code].full, e.currentTarget));
+  card.querySelector('.add-agent-btn').addEventListener('click',(e)=>addTextToAgent(CODE_MAP[s.code].full, e.currentTarget, 'Resolved'));
   strWrap.appendChild(card);
   STRENGTH_CARDS_FLAT.push({
     cardEl:card,
@@ -821,8 +824,9 @@ function renderIssueRow(i){
     <div class="itext">${(i.text||'').replace(/</g,'&lt;')}</div>
     <div class="irow-actions">
       ${isResolved
-        ? `<button type="button" class="status-pill resolved" data-act="recur">✓ Resolved — tap if it happened again</button>`
-        : `<button type="button" class="status-pill pending" data-act="resolve">◌ Pending — tap to resolve</button>`}
+        ? `<button type="button" class="status-pill resolved" data-act="toggle">✓ Resolved</button>`
+        : `<button type="button" class="status-pill pending" data-act="toggle">◌ Pending — tap to resolve</button>`}
+      <button type="button" class="recur-btn" data-act="recur">↻ Happened again</button>
       ${recur}
       <span class="iadded">added ${addedDate}</span>
       <button type="button" class="remove-btn" data-act="remove">🗑 Remove</button>
@@ -836,20 +840,30 @@ function attachIssueHandlers(container){
     const pill=row.querySelector('.status-pill');
     if(pill){
       pill.addEventListener('click', async()=>{
-        const act=pill.dataset.act;
         pill.disabled=true;
-        const newStatus = act==='resolve' ? 'Resolved' : 'Pending';
-        const isRecur = act==='recur';
+        const newStatus = pill.classList.contains('resolved') ? 'Pending' : 'Resolved';
         try{
-          await apiPost({action:'updateIssueStatus', id, newStatus, isRecur});
+          await apiPost({action:'updateIssueStatus', id, newStatus, isRecur:false});
+          const rec=issues.find(x=>x.id===id);
+          if(rec){ rec.status=newStatus; rec.updatedAt=new Date().toISOString(); }
+          renderProfile();
+        }catch(e){ pill.disabled=false; }
+      });
+    }
+    const recurBtn=row.querySelector('[data-act="recur"]');
+    if(recurBtn){
+      recurBtn.addEventListener('click', async()=>{
+        recurBtn.disabled=true;
+        try{
+          await apiPost({action:'updateIssueStatus', id, newStatus:'Pending', isRecur:true});
           const rec=issues.find(x=>x.id===id);
           if(rec){
-            rec.status=newStatus;
-            if(isRecur) rec.recurCount=(rec.recurCount||0)+1;
+            rec.status='Pending';
+            rec.recurCount=(rec.recurCount||0)+1;
             rec.updatedAt=new Date().toISOString();
           }
           renderProfile();
-        }catch(e){ pill.disabled=false; }
+        }catch(e){ recurBtn.disabled=false; }
       });
     }
     const removeBtn=row.querySelector('[data-act="remove"]');
@@ -868,8 +882,10 @@ function attachIssueHandlers(container){
 }
 
 // ── Save a new session (expands codes / splits Notes into growth areas) ──
+let isSavingSession=false;
 document.getElementById('qeSaveBtn').addEventListener('click', async()=>{
-  if(!activeAgent) return;
+  if(!activeAgent || isSavingSession) return;
+  isSavingSession=true;
   const date=document.getElementById('qe-date').value;
   const followUpDate=document.getElementById('qe-followup').value;
   const notes=document.getElementById('qe-notes').value;
@@ -893,6 +909,7 @@ document.getElementById('qeSaveBtn').addEventListener('click', async()=>{
     statusEl.textContent='Save failed — check connection';
   }
   btn.disabled=false; btn.textContent='💾 Save';
+  isSavingSession=false;
 });
 
 document.getElementById('addIssueBtn').addEventListener('click', async()=>{
@@ -983,8 +1000,24 @@ function renderFollowUpsTab(){
     if(date===today){ statusClass='fu-today'; label='TODAY'; }
     else if(diff<0){ statusClass='fu-overdue'; label=`OVERDUE by ${Math.abs(diff)} day${Math.abs(diff)===1?'':'s'}`; }
 
-    const agentsHtml = groups[date].map(s=>{
-      return `<div class="fu-agent"><strong>${s.name}</strong><button type="button" class="fu-check-btn" data-id="${s.id}">✓ Check — session held</button></div>`;
+    // Same agent can end up with more than one open session on the same date
+    // (e.g. logged twice by mistake) — group those together so the name only
+    // shows once, and one Check/Reschedule action clears all of them at once.
+    const byName={};
+    groups[date].forEach(s=>{
+      const key=s.name.trim().toLowerCase();
+      if(!byName[key]) byName[key]={name:s.name, ids:[]};
+      byName[key].ids.push(s.id);
+    });
+
+    const agentsHtml = Object.values(byName).map(entry=>{
+      const idsAttr=entry.ids.join(',');
+      return `<div class="fu-agent">
+        <strong>${entry.name}</strong>
+        <input type="date" class="fu-reschedule-input" data-ids="${idsAttr}" style="display:none;">
+        <button type="button" class="btn btn-outline btn-small fu-reschedule-btn" data-ids="${idsAttr}">📅 Reschedule</button>
+        <button type="button" class="fu-check-btn" data-ids="${idsAttr}">✓ Check — session held</button>
+      </div>`;
     }).join('');
 
     return `<div class="fu-group ${statusClass}">
@@ -995,17 +1028,56 @@ function renderFollowUpsTab(){
 
   container.querySelectorAll('.fu-check-btn').forEach(btn=>{
     btn.addEventListener('click', async()=>{
-      const id=btn.dataset.id;
+      const ids=btn.dataset.ids.split(',');
       btn.disabled=true; btn.textContent='…';
       try{
-        await apiPost({action:'updateFollowUpDone', id, done:true});
-        const rec=sessions.find(s=>s.id===id);
-        if(rec) rec.done=true;
+        for(const id of ids){
+          await apiPost({action:'updateFollowUpDone', id, done:true});
+          const rec=sessions.find(s=>s.id===id);
+          if(rec) rec.done=true;
+        }
         renderFollowUpsTab();
         renderDueBanner();
         if(activeAgent) renderProfile();
       }catch(e){
         btn.disabled=false; btn.textContent='✓ Check — session held';
+      }
+    });
+  });
+
+  container.querySelectorAll('.fu-reschedule-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const input=btn.parentElement.querySelector('.fu-reschedule-input');
+      const showing = input.style.display!=='none';
+      if(showing){
+        input.style.display='none';
+        btn.textContent='📅 Reschedule';
+        return;
+      }
+      input.style.display='inline-block';
+      input.value=todayStr();
+      input.focus();
+      btn.textContent='✕ Cancel';
+    });
+  });
+
+  container.querySelectorAll('.fu-reschedule-input').forEach(input=>{
+    input.addEventListener('change', async()=>{
+      const ids=input.dataset.ids.split(',');
+      const newDate=input.value;
+      if(!newDate) return;
+      input.disabled=true;
+      try{
+        for(const id of ids){
+          await apiPost({action:'updateFollowUpDate', id, newDate});
+          const rec=sessions.find(s=>s.id===id);
+          if(rec) rec.followUpDate=newDate;
+        }
+        renderFollowUpsTab();
+        renderDueBanner();
+        if(activeAgent) renderProfile();
+      }catch(e){
+        input.disabled=false;
       }
     });
   });
